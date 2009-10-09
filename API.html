@@ -268,11 +268,25 @@ might also wish to use it as the basis for your own programs.</p>
 
 <a name="ef_init"><h4>EF_Error ef_init(utf8 *application_name)</h4></a>
 
+<p>Must be called before any other Emerald Frame function.  Initializes all the libraries
+which go with Emerald Frame.</p>
+
 <a name="ef_main"><h4>void ef_main()</h4></a>
+
+<p>Begins processing the event loop.  Does not return until program exit.</p>
 
 <a name="ef_version_string"><h4>utf8 *ef_version_string()</h4></a>
 
-<a name="ef_error_string"><h4>utf8 *ef_error_string()</h4></a>
+<p>Returns a human-readable string describing the version number of Emerald Frame.
+Should not be used to test for the existence of specific capabilities; when such testing
+becomes necessary in a future version, a gestalt-like query interface will be
+implemented.</p>
+
+<a name="ef_error_string"><h4>utf8 *ef_error_string(EF_Error error)</h4></a>
+
+<p>Returns a human-readable string describing the error condition
+<span class="code">error</span>, which should be a code returned by another Emerald
+Frame library function.  Not useful, for example, for OpenGL error codes.</p>
 
 <a name="S_reference_video"><h2>3.2. Video</h2></a>
 
