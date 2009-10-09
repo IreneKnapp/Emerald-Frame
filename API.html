@@ -1,0 +1,467 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<title>Emerald Frame API</title>
+<style type="text/css">
+body {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  text-indent: -4.0em;
+  padding-left: 4.75em;
+}
+
+h1 {
+  background-color: #fcc;
+  border-top: solid red 4px;
+  border-bottom: solid red 4px;
+  margin-top: 1.5em;
+}
+
+h2, h3 {
+  background-color: #ccf;
+  border-top: solid blue 2px;
+  border-bottom: solid blue 2px;
+}
+
+h4 {
+  background-color: #cfc;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+p {
+  margin-left: 1.0em;
+  padding-right: 2.0em;
+  text-indent: 1.5em;
+  line-height: 150%;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0.5em;
+}
+
+ul ul {
+  padding-left: 1.5em;
+}
+
+ul.contents a {
+  text-decoration: none;
+}
+
+.code, h4 {
+  font-family: 'Courier New';
+}
+
+div.code {
+  border: double black 4px;
+  background-color: #afa;
+  color: #080;
+  font-weight: bold;
+  padding: 0.75em;
+  margin-left: 2em;
+  max-width: 60em;
+  white-space: pre;
+  overflow: auto;
+}
+
+div.title {
+  font-size: 200%;
+  text-align: center;
+  margin: 25px;
+}
+</style>
+</head>
+<body>
+
+<div class="title"><img src="logo.png" /><br />Emerald Frame API</div>
+
+<h1>Contents</h1>
+<ul class="contents">
+<li><a href="#S_introduction"><b>1.</b> Introduction</a></li>
+<li><a href="#S_sample"><b>2.</b> Sample Programs</a> <ul>
+<li><a href="#S_sample_skeleton"><b>2.1.</b> The Skeleton</a></li>
+<li><a href="#S_sample_time"><b>2.2.</b> Timed Drawing</a></li>
+</ul></li>
+<li><a href="#S_reference"><b>3.</b> Reference</a> <ul>
+<li><a href="#S_reference_general"><b>3.1.</b> General</a> <ul>
+<li><a href="#ef_init"><span class="code">ef_init</span></a></li>
+<li><a href="#ef_main"><span class="code">ef_main</span></a></li>
+<li><a href="#ef_version_string"><span class="code">ef_version_string</span></a></li>
+<li><a href="#ef_error_string"><span class="code">ef_error_string</span></a></li>
+</ul></li>
+<li><a href="#S_reference_video"><b>3.2.</b> Video</a> <ul>
+<li><a href="#S_reference_video_displays"><b>3.2.1.</b> Displays</a><ul>
+<li><a href="#ef_video_current_display"><span class="code">ef_video_current_display</span></a></li>
+<li><a href="#ef_video_next_display"><span class="code">ef_video_next_display</span></a></li>
+<li><a href="#ef_display_depth"><span class="code">ef_display_depth</span></a></li>
+<li><a href="#ef_display_width"><span class="code">ef_display_width</span></a></li>
+<li><a href="#ef_display_height"><span class="code">ef_display_height</span></a></li>
+</ul></li>
+<li><a href="#S_reference_video_drawables"><b>3.2.2.</b> Drawables</a><ul>
+<li><a href="#ef_video_new_drawable"><span class="code">ef_video_new_drawable</span></a></li>
+<li><a href="#ef_drawable_set_title"><span class="code">ef_drawable_set_title</span></a></li>
+<li><a href="#ef_drawable_set_draw_callback"><span class="code">ef_drawable_set_draw_callback</span></a></li>
+<li><a href="#ef_drawable_make_current"><span class="code">ef_drawable_make_current</span></a></li>
+<li><a href="#ef_drawable_swap_buffers"><span class="code">ef_drawable_swap_buffers</span></a></li>
+</ul></li>
+<li><a href="#S_reference_video_settings"><b>3.2.3.</b> Settings</a><ul>
+<li><a href="#ef_video_set_double_buffer"><span class="code">ef_video_set_double_buffer</span></a></li>
+<li><a href="#ef_video_set_stereo"><span class="code">ef_video_set_stereo</span></a></li>
+<li><a href="#ef_video_set_aux_buffers"><span class="code">ef_video_set_aux_buffers</span></a></li>
+<li><a href="#ef_video_set_color_size"><span class="code">ef_video_set_color_size</span></a></li>
+<li><a href="#ef_video_set_alpha_size"><span class="code">ef_video_set_alpha_size</span></a></li>
+<li><a href="#ef_video_set_depth_size"><span class="code">ef_video_set_depth_size</span></a></li>
+<li><a href="#ef_video_set_stencil_size"><span class="code">ef_video_set_stencil_size</span></a></li>
+<li><a href="#ef_video_set_accumulation_size"><span class="code">ef_video_set_accumulation_size</span></a></li>
+<li><a href="#ef_video_set_samples"><span class="code">ef_video_set_samples</span></a></li>
+<li><a href="#ef_video_set_aux_depth_stencil"><span class="code">ef_video_set_aux_depth_stencil</span></a></li>
+<li><a href="#ef_video_set_color_float"><span class="code">ef_video_set_color_float</span></a></li>
+<li><a href="#ef_video_set_multisample"><span class="code">ef_video_set_multisample</span></a></li>
+<li><a href="#ef_video_set_supersample"><span class="code">ef_video_set_supersample</span></a></li>
+<li><a href="#ef_video_set_sample_alpha"><span class="code">ef_video_set_sample_alpha</span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#S_reference_audio"><b>3.3.</b> Audio</a> <ul>
+</ul></li>
+<li><a href="#S_reference_time"><b>3.4.</b> Time</a> <ul>
+</ul></li>
+<li><a href="#S_reference_input"><b>3.5.</b> Input</a> <ul>
+</ul></li>
+<li><a href="#S_reference_text"><b>3.6.</b> Text</a> <ul>
+</ul></li>
+<li><a href="#S_reference_configuration"><b>3.7.</b> Configuration</a> <ul>
+</ul></li>
+<li><a href="#S_reference_pasteboard"><b>3.8.</b> Pasteboard</a> <ul>
+</ul></li>
+</ul></li>
+</ul>
+
+<a name="S_introduction"><h1>1. Introduction</h1></a>
+
+<p>Emerald Frame is a thin platform-abstraction layer which wraps setup code for OpenGL,
+OpenAL, and several other libraries; it is oriented towards game development.  More
+specifically, Emerald Frame provides functionality that most game programmers want, but
+that they would otherwise have to obtain from platform-specific libraries.  It is
+similar in philosophy to SDL and glfw, but different (and, I believe, improved) from
+those.</p>
+
+<p>Compared to SDL, Emerald Frame's most noticeable difference is its omission:  Nothing
+relating to raw framebuffer access.  In this modern world, framebuffer access is no
+longer the efficiency gain it once was; the new way to program is with OpenGL.  So,
+Emerald Frame focuses on getting your OpenGL code set up and running with the minimal
+amount of fuss.</p>
+
+<p>Another difference from SDL that I'd like to call your attention to is the event
+processing model.  With SDL, your code implements the event loop.  With Emerald Frame,
+the library implements the event loop, invoking callbacks which you have installed as
+appropriate.</p>
+
+<p>Emerald Frame is also larger in scope than SDL, with such features as image processing
+(including the ability to convert an image file directly into an OpenGL texture), text
+processing (including multi-line layout), USB game-controllers, saved preferences,
+and operating system pasteboard access.</p>
+
+<p>Emerald Frame is designed to be easy to bind against from programming languages other
+than C; for example, it does not rely on preprocessor macros, structure layout, or
+statically-allocated variables, all of which are frequent sticking points in
+foreign-function interfaces.</p>
+
+<p>Emerald Frame, lastly, is designed to stay out of your way.  You should be able to
+get in, do what you need to do, and get out, with minimal fuss.</p>
+
+
+<a name="S_sample"><h1>2. Sample Programs</h1></a>
+<a name="S_sample_skeleton"><h2>2.1 The Skeleton</h2></a>
+
+<p>I know this is the only documentation a lot of you will read, so without further
+preamble:</p>
+
+<div class="code">#include "emerald-frame.h"
+
+
+void init_gl(EF_Drawable drawable);
+void draw(EF_Drawable drawable, void *context);
+
+
+int main(int argc, char **argv) {
+    ef_init((utf8 *) "Test Application");
+    
+    ef_video_set_double_buffer(True);
+    ef_video_set_color_size(24);
+    ef_video_set_alpha_size(8);
+    ef_video_set_depth_size(8);
+    ef_video_set_stencil_size(8);
+    ef_video_set_accumulation_size(24);
+    ef_video_set_samples(5);
+    ef_video_set_multisample(True);
+    EF_Drawable drawable = ef_video_new_drawable(640, 480, False, NULL);
+    ef_drawable_set_draw_callback(drawable, draw, NULL);
+    
+    init_gl(drawable);
+    
+    ef_main();
+}
+
+
+void init_gl(EF_Drawable drawable) {
+    ef_drawable_make_current(drawable);
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, 640, 0, 480, -300, 300);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+
+void draw(EF_Drawable drawable, void *context) {
+    glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    ef_drawable_swap_buffers(drawable);
+}
+</div>
+
+<p>Even with this short sample, there are some key things to notice.</p>
+
+<p>First, it <b>is not necessary to #include &lt;GL.h&gt;</b>.  This is because
+the include name of that file differs from system to system; to make your programs
+more portable, Emerald Frame finds it for you.  The same goes for all the other libraries
+Emerald Frame wraps around.  This has a drawback - namespace pollution - but the
+portability gain justifies it.</p>
+
+<p>Second, <b>buffer options are set before creating the drawable</b>.  It has to be
+this way, because these options are used to determine what kind of drawable to create.
+All those calls like <span class="code">ef_video_set_double_buffer(True)</span> must
+come before the call to <span class="code">ef_video_new_drawable(...)</span>.</p>
+
+<p>Third, <b>buffer options default to a minimal set</b>.  There's no way for Emerald
+Frame to know what options you consider standard and normal.  Double-buffering has to
+be explicitly turned on if you want it (you might not).  Bit depth has to be explicitly
+set to 24 bits per pixel.  If you leave out the calls to set the sizes of the depth
+buffer, stencil buffer, and accumulation buffer, those buffers will be left out.</p>
+
+<p>Lastly, <b>call <span class="code">ef_drawable_swap_buffers(...)</span> or
+<span class="code">glFlush()</span></b> at the end of each
+frame.  This has to be explicit, because there is no a priori way of knowing that you
+actually want to draw changes to the screen at all!  If you wanted to leave the screen
+the same, you would leave this call out.  It should be
+ <span class="code">ef_drawable_swap_buffers</span> if your window is double-buffered,
+or <span class="code">glFlush</span> if it is not.  Because these have different
+(but overlapping) behaviors, there is no way for Emerald Frame to know which you
+intended.</p>
+
+<p>This skeleton will serve as the basis for the later examples; each example will start
+from a clean copy of the skeleton, and modify and add to it to make its point.  You
+might also wish to use it as the basis for your own programs.</p>
+
+
+<a name="S_reference"><h1>3. Reference</h1></a>
+
+<a name="S_reference_general"><h2>3.1. General</h2></a>
+
+<a name="ef_init"><h4>EF_Error ef_init(utf8 *application_name)</h4></a>
+
+<a name="ef_main"><h4>void ef_main()</h4></a>
+
+<a name="ef_version_string"><h4>utf8 *ef_version_string()</h4></a>
+
+<a name="ef_error_string"><h4>utf8 *ef_error_string()</h4></a>
+
+<a name="S_reference_video"><h2>3.2. Video</h2></a>
+
+<a name="S_reference_video_displays"><h3>3.2.1. Displays</h3></a>
+
+<p><b>Displays</b> are physical screens attached to the computer.  It is useful to
+work with them whenever the user has multiple screens, whether to identify them all and
+open each one in turn in full-screen mode, or to choose which one to open a window
+on.</p>
+
+<a name="ef_video_current_display"><h4>EF_Display ef_video_current_display()</h4></a>
+
+<p>Returns the display which the user is most likely to be currently interacting with,
+as determined by the operating system.  Different OSes have different preferred
+behavior for this, so it's best to respect their choices.</p>
+
+<a name="ef_video_next_display"><h4>EF_Display ef_video_next_display()</h4></a>
+
+<p>Used to iterate through all displays in some order.  No specific order is
+guaranteed; in particular, use
+<a href="ef_video_current_display">ef_video_current_display()</a>
+if you wish to find the "main" display.  Pass <span class="code">NULL</span> to
+retrieve the first in the list, then on each subsequent call, pass the display you
+received last time to retrieve the one following it.</p>
+
+<a name="ef_display_depth"><h4>int ef_display_depth(EF_Display display)</h4></a>
+
+<p>Returns the number of bits per pixel used by the given display.  This is often 24.</p>
+
+<a name="ef_display_width"><h4>int ef_display_width(EF_Display display)</h4></a>
+
+<p>Returns the width in pixels of the given display.</p>
+
+<a name="ef_display_height"><h4>int ef_display_height(EF_Display display)</h4></a>
+
+<p>Returns the height in pixels of the given display.</p>
+
+</ul>
+
+<a href="S_reference_video_drawables"><h3>3.2.2. Drawables</h3></a>
+
+<p>A <b>drawable</b> is a context into which you can perform graphics commands.  It is
+either a window, or the entire contents of a display.
+
+<a name="#ef_video_new_drawable"><h4>EF_Drawable ef_video_new_drawable(<br />int width,<br />int height,<br />boolean full_screen,<br />EF_Display display)</h4></a>
+
+<p>Creates a new drawable of the specified size.  If
+<span class="code">full_screen</span> is <span class="code">True</span>, enters
+full-screen mode.  If <span class="code">display</span> is provided, the window is
+positioned on the given display (or, in full-screen mode, the given display is used);
+otherwise, it is as if the current display in the sense of
+<a href="#ef_video_current_display">ef_video_current_display()</a>
+has been passed.  The created drawable is immediately displayed to the user.</p>
+
+<a name="ef_drawable_set_title"><h4>void ef_drawable_set_title(EF_Drawable drawable, utf8* title)</h4></a>
+
+<p>For drawables which are windows with titlebars or which otherwise have some
+user-visible title string, sets that string.</p>
+
+<a name="ef_drawable_set_draw_callback"><h4>void ef_drawable_set_draw_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time the drawable is due to be redrawn.  The
+function passed as the <span class="code">callback</span> parameter will be called with
+two parameters: the drawable in question, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<p>Note that, though it is one piece of the task, setting a callback will not by itself
+cause animation to occur; for that, see
+<a href="#S_sample_time">2.2. Timed Drawing</a>.</p>
+
+<a name="ef_drawable_make_current"><h4>void ef_drawable_make_current(EF_Drawable drawable)</h4></a>
+
+<p>Causes the OpenGL context of the given drawable to become the current one, so that
+all future drawing operations will be performed upon it.  Necessary before each set of
+drawing operations even if you have only a single drawable, but can be omitted inside
+draw callbacks.</p>
+
+<a name="ef_drawable_swap_buffers"><h4>void ef_drawable_swap_buffers(EF_Drawable drawable)</h4></a>
+
+<p>Causes OpenGL to copy the back buffer of the drawable to the front buffer; typically,
+this causes any changes since the last call of it to be displayed to the user.</p>
+
+<p>This function implicitly calls <span class="code">glFlush()</span>.</p>
+
+<a href="S_reference_video_settings"><h3>3.2.3. Settings</h3></a>
+
+<a name="#ef_video_set_double_buffer"><h4>void ef_video_set_double_buffer(boolean double_buffer)</h4></a>
+
+<p>Sets the double-buffering attribute to the provided value; this attribute will be
+used for all future drawables that are created (it does not modify existing
+drawables).</p>
+
+<a name="ef_video_set_stereo"><h4>void ef_video_set_stereo(boolean stereo)</h4></a>
+
+<p>Sets the stereo attribute to the provided value; this attribute will be
+used for all future drawables that are created (it does not modify existing
+drawables).</p>
+
+<a name="ef_video_set_aux_buffers"><h4>void ef_video_set_aux_buffers(int aux_buffers)</h4></a>
+
+<p>Sets the number of auxilliary buffers to the provided value; this attribute will be
+used for all future drawables that are created (it does not modify existing
+drawables).</p>
+
+<a name="ef_video_set_color_size"><h4>void ef_video_set_color_size(int color_size)</h4></a>
+
+<p>Sets the number of bits for all color channels combined of each pixel to the provided
+value; this attribute will be used for all future drawables that are created (it does
+not modify existing drawables).  The number of bits is typically 24 for
+red-green-blue-alpha, since the depth of the alpha channel is set separately.</p>
+
+<a name="ef_video_set_alpha_size"><h4>void ef_video_set_alpha_size(int alpha_size)</h4></a>
+
+<p>Sets the number of bits for the alpha channel of each pixel to the provided value;
+this attribute will be used for all future drawables that are created (it does not
+modify existing drawables).  A value of 0 means no alpha channel.</p>
+
+<a name="ef_video_set_depth_size"><h4>void ef_video_set_depth_size(int depth_size)</h4></a>
+
+<p>Sets the number of bits in the depth-buffer for each pixel to the provided value;
+this attribute will be used for all future drawables that are created (it does not
+modify existing drawables).  A value of 0 means no depth buffer.</p>
+
+<a name="ef_video_set_stencil_size"><h4>void ef_video_set_stencil_size(int stencil_size)</h4></a>
+
+<p>Sets the number of bits in the stencil buffer for each pixel to the provided value;
+this attribute will be used for all future drawables that are created (it does not
+modify existing drawables).  A value of 0 means no stencil buffer.</p>
+
+<a name="ef_video_set_accumulation_size"><h4>void ef_video_set_accumulation_size(int accumulation_size)</h4></a>
+
+<p>Sets the number of bits in the accumulation buffer for each pixel to the provided
+value; this attribute will be used for all future drawables that are created (it does
+not modify existing drawables).  A value of 0 means no accumulation buffer.</p>
+
+<a name="ef_video_set_samples"><h4>void ef_video_set_samples(int samples)</h4></a>
+
+<p>Sets the number of samples per pixel when using multisampling or supersampling
+to the provided value; this attribute will be used for all future drawables that are
+created (it does not modify existing drawables).</p>
+
+<a name="ef_video_set_aux_depth_stencil"><h4>void ef_video_set_aux_depth_stencil(boolean aux_depth_stencil)</h4></a>
+
+<p>Sets whether each auxilliary buffer has its own depth and stencil buffers; this
+attribute will be used for all future drawables that are created (it does not modify
+existing drawables).</p>
+
+<a name="ef_video_set_color_float"><h4>void ef_video_set_color_float(boolean color_float)</h4></a>
+
+<p>Sets whether colors are represented as floats; this attribute will be
+used for all future drawables that are created (it does not modify existing
+drawables).</p>
+
+<a name="ef_video_set_multisample"><h4>void ef_video_set_multisample(boolean multisample)</h4></a>
+
+<p>Sets whether to use multisampling; this attribute will be used for all future
+drawables that are created (it does not modify existing drawables).  For there to be
+any effect, it is also necessary to set the number of samples per pixel to some number
+greater than one, using <a href="#ef_video_set_samples">ef_video_set_samples(...)</a>.
+This is a very popular method of doing full-screen antialiasing.</p>
+
+<a name="ef_video_set_supersample"><h4>void ef_video_set_supersample(boolean supersample)</h4></a>
+
+<p>Sets whether to use supersampling; this attribute will be used for all future
+drawables that are created (it does not modify existing drawables).  For there to be
+any effect, it is also necessary to set the number of samples per pixel to some number
+greater than one, using <a href="#ef_video_set_samples">ef_video_set_samples(...)</a>.
+This is a somewhat unpopular method of doing full-screen antialiasing.</p>
+
+<a name="ef_video_set_sample_alpha"><h4>void ef_video_set_sample_alpha(boolean sample_alpha)</h4></a>
+
+<p>Sets whether multisampling, if enabled, affects the alpha channel; this attribute
+will be used for all future drawables that are created (it does not modify existing
+drawables).</p>
+
+<a href="S_reference_audio"><h2>3.3. Audio</h2></a>
+
+<a name="S_reference_time"><h2>3.4. Time</h2></a>
+
+<a name="S_reference_input"><h2>3.5. Input</h2></a>
+
+<a name="S_reference_text"><h2>3.6. Text</h2></a>
+
+<a name="S_reference_configuration"><h2>3.7. Configuration</h2></a>
+
+<a name="S_reference_pasteboard"><h2>3.8. Pasteboard</h2></a>
+
+</body>
+</html>
