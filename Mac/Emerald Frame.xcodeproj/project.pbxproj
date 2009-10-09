@@ -37,6 +37,21 @@
 		E235D777107EFAB000A7BD66 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		E235D7BF107F253C00A7BD66 /* Test.c in Sources */ = {isa = PBXBuildFile; fileRef = E235D7BE107F253C00A7BD66 /* Test.c */; };
 		E235D7EB107F25E200A7BD66 /* Emerald Frame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* Emerald Frame.framework */; };
+		E235D80B107F26F700A7BD66 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D809107F26F700A7BD66 /* Drawable.h */; };
+		E235D80C107F26F700A7BD66 /* Drawable.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D80A107F26F700A7BD66 /* Drawable.m */; };
+		E235D80D107F26F700A7BD66 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D809107F26F700A7BD66 /* Drawable.h */; };
+		E235D80E107F26F700A7BD66 /* Drawable.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D80A107F26F700A7BD66 /* Drawable.m */; };
+		E235D80F107F26F700A7BD66 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D809107F26F700A7BD66 /* Drawable.h */; };
+		E235D810107F26F700A7BD66 /* Drawable.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D80A107F26F700A7BD66 /* Drawable.m */; };
+		E235D81A107F299400A7BD66 /* General.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D819107F299400A7BD66 /* General.m */; };
+		E235D81B107F299400A7BD66 /* General.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D819107F299400A7BD66 /* General.m */; };
+		E235D81C107F299400A7BD66 /* General.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D819107F299400A7BD66 /* General.m */; };
+		E235D89A107F330700A7BD66 /* ApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D898107F330700A7BD66 /* ApplicationDelegate.h */; };
+		E235D89B107F330700A7BD66 /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D899107F330700A7BD66 /* ApplicationDelegate.m */; };
+		E235D89C107F330700A7BD66 /* ApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D898107F330700A7BD66 /* ApplicationDelegate.h */; };
+		E235D89D107F330700A7BD66 /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D899107F330700A7BD66 /* ApplicationDelegate.m */; };
+		E235D89E107F330700A7BD66 /* ApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D898107F330700A7BD66 /* ApplicationDelegate.h */; };
+		E235D89F107F330700A7BD66 /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D899107F330700A7BD66 /* ApplicationDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +101,11 @@
 		E235D7B3107F250600A7BD66 /* Test Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E235D7B5107F250600A7BD66 /* Test Application-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test Application-Info.plist"; sourceTree = "<group>"; };
 		E235D7BE107F253C00A7BD66 /* Test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Test.c; path = ../Test/Test.c; sourceTree = SOURCE_ROOT; };
+		E235D809107F26F700A7BD66 /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawable.h; sourceTree = "<group>"; };
+		E235D80A107F26F700A7BD66 /* Drawable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Drawable.m; sourceTree = "<group>"; };
+		E235D819107F299400A7BD66 /* General.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = General.m; sourceTree = "<group>"; };
+		E235D898107F330700A7BD66 /* ApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationDelegate.h; sourceTree = "<group>"; };
+		E235D899107F330700A7BD66 /* ApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +161,6 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				E235D7B5107F250600A7BD66 /* Test Application-Info.plist */,
 			);
 			name = "Emerald Frame";
 			sourceTree = "<group>";
@@ -160,6 +179,7 @@
 			children = (
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				E235D7B5107F250600A7BD66 /* Test Application-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -189,6 +209,11 @@
 				E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */,
 				E235D71F107EF7C100A7BD66 /* Video.m */,
 				32DBCF5E0370ADEE00C91783 /* Emerald Frame_Prefix.pch */,
+				E235D809107F26F700A7BD66 /* Drawable.h */,
+				E235D80A107F26F700A7BD66 /* Drawable.m */,
+				E235D819107F299400A7BD66 /* General.m */,
+				E235D898107F330700A7BD66 /* ApplicationDelegate.h */,
+				E235D899107F330700A7BD66 /* ApplicationDelegate.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -201,6 +226,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E235D726107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */,
+				E235D80F107F26F700A7BD66 /* Drawable.h in Headers */,
+				E235D89C107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +236,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E235D728107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */,
+				E235D80D107F26F700A7BD66 /* Drawable.h in Headers */,
+				E235D89E107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +246,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E235D72A107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */,
+				E235D80B107F26F700A7BD66 /* Drawable.h in Headers */,
+				E235D89A107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +372,9 @@
 			files = (
 				E235D720107EF7C100A7BD66 /* Video.m in Sources */,
 				E235D725107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */,
+				E235D810107F26F700A7BD66 /* Drawable.m in Sources */,
+				E235D81A107F299400A7BD66 /* General.m in Sources */,
+				E235D89D107F330700A7BD66 /* ApplicationDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +384,9 @@
 			files = (
 				E235D721107EF7C100A7BD66 /* Video.m in Sources */,
 				E235D727107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */,
+				E235D80E107F26F700A7BD66 /* Drawable.m in Sources */,
+				E235D81B107F299400A7BD66 /* General.m in Sources */,
+				E235D89F107F330700A7BD66 /* ApplicationDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +396,9 @@
 			files = (
 				E235D722107EF7C100A7BD66 /* Video.m in Sources */,
 				E235D729107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */,
+				E235D80C107F26F700A7BD66 /* Drawable.m in Sources */,
+				E235D81C107F299400A7BD66 /* General.m in Sources */,
+				E235D89B107F330700A7BD66 /* ApplicationDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +638,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -622,6 +663,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
