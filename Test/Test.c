@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
     ef_video_set_samples(5);
     ef_video_set_multisample(True);
     EF_Drawable drawable = ef_video_new_drawable(640, 480, False, NULL);
-    ef_video_drawable_set_draw_callback(drawable, draw, NULL);
+    ef_drawable_set_draw_callback(drawable, draw, NULL);
     
     ef_main();
     
@@ -37,5 +37,5 @@ void draw(EF_Drawable drawable, void *context) {
     glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    ef_video_drawable_swap_buffers(drawable);
+    ef_drawable_swap_buffers(drawable);
 }

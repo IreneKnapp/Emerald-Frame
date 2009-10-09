@@ -30,12 +30,12 @@ EF_Drawable ef_video_new_drawable(int width,
 				  int height,
 				  boolean full_screen,
 				  EF_Display display);
-void ef_video_drawable_set_title(EF_Drawable drawable, utf8 *title);
-void ef_video_drawable_set_draw_callback(EF_Drawable drawable,
-					 void (*callback)(EF_Drawable drawable,
-							  void *context),
-					 void *context);
-void ef_video_drawable_swap_buffers(EF_Drawable drawable);
+void ef_drawable_set_title(EF_Drawable drawable, utf8 *title);
+void ef_drawable_set_draw_callback(EF_Drawable drawable,
+				   void (*callback)(EF_Drawable drawable,
+						    void *context),
+				   void *context);
+void ef_drawable_swap_buffers(EF_Drawable drawable);
 void ef_video_set_double_buffer(boolean double_buffer);
 void ef_video_set_stereo(boolean stereo);
 void ef_video_set_aux_buffers(int aux_buffers);
