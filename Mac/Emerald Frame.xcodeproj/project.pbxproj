@@ -52,6 +52,7 @@
 		E235D89D107F330700A7BD66 /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D899107F330700A7BD66 /* ApplicationDelegate.m */; };
 		E235D89E107F330700A7BD66 /* ApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D898107F330700A7BD66 /* ApplicationDelegate.h */; };
 		E235D89F107F330700A7BD66 /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D899107F330700A7BD66 /* ApplicationDelegate.m */; };
+		E235DAA0107F951F00A7BD66 /* Emerald Frame.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* Emerald Frame.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,19 @@
 			remoteInfo = Framework;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E235DAAB107F952500A7BD66 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E235DAA0107F951F00A7BD66 /* Emerald Frame.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -312,6 +326,7 @@
 			buildConfigurationList = E235D7B8107F250700A7BD66 /* Build configuration list for PBXNativeTarget "Test Application" */;
 			buildPhases = (
 				E235D7AF107F250600A7BD66 /* Resources */,
+				E235DAAB107F952500A7BD66 /* CopyFiles */,
 				E235D7B0107F250600A7BD66 /* Sources */,
 				E235D7B1107F250600A7BD66 /* Frameworks */,
 			);
@@ -462,7 +477,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "Emerald Frame";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -480,7 +495,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "Emerald Frame";
 				WRAPPER_EXTENSION = framework;
 			};

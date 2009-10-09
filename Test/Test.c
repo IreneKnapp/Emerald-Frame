@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
     ef_video_set_accumulation_size(24);
     ef_video_set_samples(5);
     ef_video_set_multisample(True);
-    EF_Drawable drawable = ef_video_new_drawable(False, 640, 480);
+    EF_Drawable drawable = ef_video_new_drawable(640, 480, False, NULL);
     
     ef_main();
     

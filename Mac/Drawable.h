@@ -10,7 +10,13 @@
 
 
 @interface Drawable : NSWindowController {
-
+    NSWindow *window;
 }
 
+- (id) initWithWidth: (int) width
+	      height: (int) height
+	     display: (NSScreen *) display
+	  fullScreen: (bool) fullScreen
+	 pixelFormat: (NSOpenGLPixelFormat *) pixelFormat;
+- (void) setTitle: (NSString *) title;
 @end
