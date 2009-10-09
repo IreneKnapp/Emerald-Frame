@@ -36,6 +36,6 @@ void draw(EF_Drawable drawable, void *context) {
     
     glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    
+
     ef_drawable_swap_buffers(drawable);
 }

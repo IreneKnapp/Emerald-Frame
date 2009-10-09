@@ -52,9 +52,9 @@ void ef_video_set_supersample(boolean supersample);
 void ef_video_set_sample_alpha(boolean sample_alpha);
 EF_Display ef_video_current_display();
 EF_Display ef_video_next_display(EF_Display previous);
-int ef_video_display_depth(EF_Display display);
-int ef_video_display_width(EF_Display display);
-int ef_video_display_height(EF_Display display);
+int ef_display_depth(EF_Display display);
+int ef_display_width(EF_Display display);
+int ef_display_height(EF_Display display);
 
 // Audio
 
