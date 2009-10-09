@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		E235D720107EF7C100A7BD66 /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D71F107EF7C100A7BD66 /* Video.m */; };
+		E235D721107EF7C100A7BD66 /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D71F107EF7C100A7BD66 /* Video.m */; };
+		E235D722107EF7C100A7BD66 /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = E235D71F107EF7C100A7BD66 /* Video.m */; };
+		E235D725107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */ = {isa = PBXBuildFile; fileRef = E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */; };
+		E235D726107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */; };
+		E235D727107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */ = {isa = PBXBuildFile; fileRef = E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */; };
+		E235D728107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */; };
+		E235D729107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */ = {isa = PBXBuildFile; fileRef = E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */; };
+		E235D72A107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +31,9 @@
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		E235D6EA107EF30C00A7BD66 /* libStatic Library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libStatic Library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E235D6F1107EF31C00A7BD66 /* Dynamic Library.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "Dynamic Library.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E235D71F107EF7C100A7BD66 /* Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Video.m; sourceTree = "<group>"; };
+		E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "Emerald-Frame.c"; path = "../Portable/Emerald-Frame.c"; sourceTree = SOURCE_ROOT; };
+		E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Emerald-Frame.h"; path = "../Portable/Emerald-Frame.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +122,9 @@
 		32C88DFF0371C24200C91783 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */,
+				E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */,
+				E235D71F107EF7C100A7BD66 /* Video.m */,
 				32DBCF5E0370ADEE00C91783 /* Emerald Frame_Prefix.pch */,
 			);
 			name = Sources;
@@ -122,6 +137,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D726107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +145,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D728107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +153,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D72A107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +249,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D720107EF7C100A7BD66 /* Video.m in Sources */,
+				E235D725107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +258,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D721107EF7C100A7BD66 /* Video.m in Sources */,
+				E235D727107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +267,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D722107EF7C100A7BD66 /* Video.m in Sources */,
+				E235D729107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

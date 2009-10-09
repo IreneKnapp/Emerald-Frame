@@ -3,6 +3,11 @@
 	0867D690FE84028FC02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeTarget = 8DC2EF4F0486A6940098B216 /* Framework */;
+		addToTargets = (
+			8DC2EF4F0486A6940098B216 /* Framework */,
+			E235D6E9107EF30C00A7BD66 /* Static Library */,
+			E235D6F0107EF31C00A7BD66 /* Dynamic Library */,
+		);
 		codeSenseManager = E235D6D0107EF2B900A7BD66 /* Code sense */;
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
@@ -66,12 +71,33 @@
 			PBXPerProjectTemplateStateSaveDate = 276755313;
 			PBXWorkspaceStateSaveDate = 276755313;
 		};
+		perUserProjectItems = {
+			E235D72E107EF7E200A7BD66 /* PBXTextBookmark */ = E235D72E107EF7E200A7BD66 /* PBXTextBookmark */;
+			E235D72F107EF7E200A7BD66 /* PlistBookmark */ = E235D72F107EF7E200A7BD66 /* PlistBookmark */;
+			E235D730107EF7E200A7BD66 /* PBXBookmark */ = E235D730107EF7E200A7BD66 /* PBXBookmark */;
+			E235D731107EF7E200A7BD66 /* PBXTextBookmark */ = E235D731107EF7E200A7BD66 /* PBXTextBookmark */;
+			E235D736107EF80300A7BD66 /* XCBuildMessageTextBookmark */ = E235D736107EF80300A7BD66 /* XCBuildMessageTextBookmark */;
+			E235D737107EF80300A7BD66 /* PBXTextBookmark */ = E235D737107EF80300A7BD66 /* PBXTextBookmark */;
+			E235D738107EF80800A7BD66 /* PBXTextBookmark */ = E235D738107EF80800A7BD66 /* PBXTextBookmark */;
+		};
 		sourceControlManager = E235D6CF107EF2B900A7BD66 /* Source Control */;
 		userBuildSettings = {
 		};
 	};
+	089C1667FE841158C02AAC07 /* English */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {519, 237}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 45}";
+		};
+	};
 	8DC2EF4F0486A6940098B216 /* Framework */ = {
 		activeExec = 0;
+	};
+	8DC2EF5A0486A6940098B216 /* Info.plist */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{61, 53}, {1016, 778}}";
+		};
 	};
 	E235D6CF107EF2B900A7BD66 /* Source Control */ = {
 		isa = PBXSourceControlManager;
@@ -92,5 +118,76 @@
 	};
 	E235D6F0107EF31C00A7BD66 /* Dynamic Library */ = {
 		activeExec = 0;
+	};
+	E235D71F107EF7C100A7BD66 /* Video.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {519, 1599}}";
+			sepNavSelRange = "{2752, 0}";
+			sepNavVisRange = "{0, 387}";
+		};
+	};
+	E235D72E107EF7E200A7BD66 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C1667FE841158C02AAC07 /* English */;
+		name = "InfoPlist.strings: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 45;
+		vrLoc = 0;
+	};
+	E235D72F107EF7E200A7BD66 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8DC2EF5A0486A6940098B216 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/dankna/Projects/Emerald-Frame/Mac/Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	E235D730107EF7E200A7BD66 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = E235D71F107EF7C100A7BD66 /* Video.m */;
+	};
+	E235D731107EF7E200A7BD66 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E235D71F107EF7C100A7BD66 /* Video.m */;
+		name = "Video.m: 119";
+		rLen = 0;
+		rLoc = 2752;
+		rType = 0;
+		vrLen = 387;
+		vrLoc = 0;
+	};
+	E235D736107EF80300A7BD66 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Control reaches end of non-void function";
+		fRef = E235D71F107EF7C100A7BD66 /* Video.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 47;
+		rType = 1;
+	};
+	E235D737107EF80300A7BD66 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E235D71F107EF7C100A7BD66 /* Video.m */;
+		name = "Video.m: 48";
+		rLen = 0;
+		rLoc = 1250;
+		rType = 0;
+		vrLen = 251;
+		vrLoc = 1119;
+	};
+	E235D738107EF80800A7BD66 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E235D71F107EF7C100A7BD66 /* Video.m */;
+		name = "Video.m: 119";
+		rLen = 0;
+		rLoc = 2752;
+		rType = 0;
+		vrLen = 387;
+		vrLoc = 0;
 	};
 }

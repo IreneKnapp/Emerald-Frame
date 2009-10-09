@@ -44,7 +44,7 @@ EF_Error ef_internal_video_init() {
 
 
 EF_Drawable ef_video_new_drawable(boolean full_screen, int width, int height) {
-    
+    return (EF_Drawable) 0;
 }
 
 

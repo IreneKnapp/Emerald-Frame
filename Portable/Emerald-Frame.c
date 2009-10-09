@@ -28,13 +28,13 @@ EF_Error ef_quit() {
 
 
 utf8 *ef_version_string() {
-    return "Emerald Frame prerelease";
+    return (utf8 *) "Emerald Frame prerelease";
 }
 
 
 utf8 *ef_error_string(EF_Error error) {
     switch(error) {
-    case 0: return "No error.";
-    default: return "Unknown error.";
+    case 0: return (utf8 *) "No error.";
+    default: return (utf8 *) "Unknown error.";
     }
 }
