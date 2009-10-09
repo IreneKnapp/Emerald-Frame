@@ -30,12 +30,6 @@ EF_Error ef_init(utf8 *new_application_name) {
 }
 
 
-EF_Error ef_quit() {
-    free(application_name);
-    return 0;
-}
-
-
 utf8 *ef_version_string() {
     return (utf8 *) "Emerald Frame prerelease";
 }

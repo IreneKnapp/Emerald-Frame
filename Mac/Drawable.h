@@ -8,9 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "Emerald-Frame.h"
 
+
+@class DrawableOpenGLView;
 @interface Drawable : NSWindowController {
     NSWindow *window;
+    DrawableOpenGLView *openGLView;
+    void (*drawCallback)(EF_Drawable drawable, void *context);
+    void *drawCallbackContext;
 }
 
 - (id) initWithWidth: (int) width
@@ -19,4 +25,8 @@
 	  fullScreen: (bool) fullScreen
 	 pixelFormat: (NSOpenGLPixelFormat *) pixelFormat;
 - (void) setTitle: (NSString *) title;
+- (void) setDrawCallback: (void (*)(EF_Drawable drawable, void *context)) callback
+		 context: (void *) context;
+- (void) draw;
+- (void) swapBuffers;
 @end

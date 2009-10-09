@@ -7,8 +7,7 @@
 //
 
 #import "Drawable.h"
-
-#include "Emerald-Frame.h"
+#import "DrawableOpenGLView.h"
 
 
 @implementation Drawable
@@ -20,6 +19,9 @@
 	  fullScreen: (bool) fullScreen
 	 pixelFormat: (NSOpenGLPixelFormat *) pixelFormat
 {
+    drawCallback = NULL;
+    drawCallbackContext = NULL;
+    
     if(!display)
 	display = [NSScreen mainScreen];
 
@@ -41,6 +43,14 @@
     NSString *applicationName
 	= [NSString stringWithUTF8String: (char *) ef_internal_application_name()];
     [window setTitle: applicationName];
+
+    NSRect contentFrame = [window frame];
+    contentFrame.origin = NSMakePoint(0.0, 0.0);
+    
+    openGLView = [[DrawableOpenGLView alloc] initWithFrame: contentFrame
+					     pixelFormat: pixelFormat
+					     drawable: self];
+    [window setContentView: openGLView];
     
     [window makeKeyAndOrderFront: self];
     
@@ -50,12 +60,34 @@
 
 - (void) release {
     [window release];
+    [openGLView release];
     [super release];
 }
 
 
 - (void) setTitle: (NSString *) title {
     [window setTitle: title];
+}
+
+
+- (void) setDrawCallback: (void (*)(EF_Drawable drawable, void *context)) callback
+		 context: (void *) context
+{
+    drawCallback = callback;
+    drawCallbackContext = context;
+    [openGLView setNeedsDisplay: YES];
+}
+
+
+- (void) draw {
+    if(drawCallback) {
+	drawCallback((EF_Drawable) self, drawCallbackContext);
+    }
+}
+
+
+- (void) swapBuffers {
+    [[openGLView openGLContext] flushBuffer];
 }
 
 @end

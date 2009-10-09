@@ -159,6 +159,20 @@ void ef_video_drawable_set_title(EF_Drawable drawable, utf8 *title) {
 }
 
 
+void ef_video_drawable_set_draw_callback(EF_Drawable drawable,
+					 void (*callback)(EF_Drawable drawable,
+							  void *context),
+					 void *context)
+{
+    [(Drawable *) drawable setDrawCallback: callback context: context];
+}
+
+
+void ef_video_drawable_swap_buffers(EF_Drawable drawable) {
+    [(Drawable*) drawable swapBuffers];
+}
+
+
 void ef_video_set_double_buffer(boolean double_buffer) {
     drawable_parameters.double_buffer = double_buffer;
 }

@@ -1,5 +1,10 @@
 #include <stdint.h>
 
+#ifdef __APPLE__
+#include <OpenGL/OpenGL.h>
+#endif
+
+
 typedef int EF_Error;
 typedef void *EF_Drawable;
 typedef void *EF_Display;
@@ -14,7 +19,6 @@ typedef uint32_t utf32;
 
 // General
 EF_Error ef_init(utf8 *application_name);
-EF_Error ef_quit();
 utf8 *ef_version_string();
 utf8 *ef_error_string(EF_Error error);
 utf8 *ef_internal_application_name();
@@ -27,6 +31,11 @@ EF_Drawable ef_video_new_drawable(int width,
 				  boolean full_screen,
 				  EF_Display display);
 void ef_video_drawable_set_title(EF_Drawable drawable, utf8 *title);
+void ef_video_drawable_set_draw_callback(EF_Drawable drawable,
+					 void (*callback)(EF_Drawable drawable,
+							  void *context),
+					 void *context);
+void ef_video_drawable_swap_buffers(EF_Drawable drawable);
 void ef_video_set_double_buffer(boolean double_buffer);
 void ef_video_set_stereo(boolean stereo);
 void ef_video_set_aux_buffers(int aux_buffers);
