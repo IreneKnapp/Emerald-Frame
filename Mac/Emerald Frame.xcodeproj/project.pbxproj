@@ -6,6 +6,22 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E235D78F107EFBA000A7BD66 /* All Library Types */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E235D7AE107EFBDD00A7BD66 /* Build configuration list for PBXAggregateTarget "All Library Types" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E235D793107EFBB600A7BD66 /* PBXTargetDependency */,
+				E235D795107EFBB600A7BD66 /* PBXTargetDependency */,
+				E235D797107EFBB600A7BD66 /* PBXTargetDependency */,
+			);
+			name = "All Library Types";
+			productName = "All Library Types";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -18,7 +34,41 @@
 		E235D728107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */; };
 		E235D729107EF7CF00A7BD66 /* Emerald-Frame.c in Sources */ = {isa = PBXBuildFile; fileRef = E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */; };
 		E235D72A107EF7CF00A7BD66 /* Emerald-Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */; };
+		E235D777107EFAB000A7BD66 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		E235D7BF107F253C00A7BD66 /* Test.c in Sources */ = {isa = PBXBuildFile; fileRef = E235D7BE107F253C00A7BD66 /* Test.c */; };
+		E235D7EB107F25E200A7BD66 /* Emerald Frame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* Emerald Frame.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E235D792107EFBB600A7BD66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Framework;
+		};
+		E235D794107EFBB600A7BD66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E235D6E9107EF30C00A7BD66;
+			remoteInfo = "Static Library";
+		};
+		E235D796107EFBB600A7BD66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E235D6F0107EF31C00A7BD66;
+			remoteInfo = "Dynamic Library";
+		};
+		E235D7D3107F255E00A7BD66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Framework;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -28,12 +78,14 @@
 		32DBCF5E0370ADEE00C91783 /* Emerald Frame_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Emerald Frame_Prefix.pch"; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* Emerald Frame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Emerald Frame.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		E235D6EA107EF30C00A7BD66 /* libStatic Library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libStatic Library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E235D6F1107EF31C00A7BD66 /* Dynamic Library.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "Dynamic Library.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E235D6EA107EF30C00A7BD66 /* libemerald-frame.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libemerald-frame.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E235D6F1107EF31C00A7BD66 /* emerald-frame.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "emerald-frame.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E235D71F107EF7C100A7BD66 /* Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Video.m; sourceTree = "<group>"; };
 		E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "Emerald-Frame.c"; path = "../Portable/Emerald-Frame.c"; sourceTree = SOURCE_ROOT; };
 		E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Emerald-Frame.h"; path = "../Portable/Emerald-Frame.h"; sourceTree = SOURCE_ROOT; };
+		E235D7B3107F250600A7BD66 /* Test Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E235D7B5107F250600A7BD66 /* Test Application-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test Application-Info.plist"; sourceTree = "<group>"; };
+		E235D7BE107F253C00A7BD66 /* Test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Test.c; path = ../Test/Test.c; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235D777107EFAB000A7BD66 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +112,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E235D7B1107F250600A7BD66 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E235D7EB107F25E200A7BD66 /* Emerald Frame.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -66,8 +127,9 @@
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* Emerald Frame.framework */,
-				E235D6EA107EF30C00A7BD66 /* libStatic Library.a */,
-				E235D6F1107EF31C00A7BD66 /* Dynamic Library.dylib */,
+				E235D6EA107EF30C00A7BD66 /* libemerald-frame.a */,
+				E235D6F1107EF31C00A7BD66 /* emerald-frame.dylib */,
+				E235D7B3107F250600A7BD66 /* Test Application.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,6 +141,7 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				E235D7B5107F250600A7BD66 /* Test Application-Info.plist */,
 			);
 			name = "Emerald Frame";
 			sourceTree = "<group>";
@@ -113,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				D2F7E79907B2D74100F64583 /* CoreData.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
@@ -122,6 +184,7 @@
 		32C88DFF0371C24200C91783 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E235D7BE107F253C00A7BD66 /* Test.c */,
 				E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */,
 				E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */,
 				E235D71F107EF7C100A7BD66 /* Video.m */,
@@ -193,7 +256,7 @@
 			);
 			name = "Static Library";
 			productName = "Static Library";
-			productReference = E235D6EA107EF30C00A7BD66 /* libStatic Library.a */;
+			productReference = E235D6EA107EF30C00A7BD66 /* libemerald-frame.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		E235D6F0107EF31C00A7BD66 /* Dynamic Library */ = {
@@ -210,8 +273,26 @@
 			);
 			name = "Dynamic Library";
 			productName = "Dynamic Library";
-			productReference = E235D6F1107EF31C00A7BD66 /* Dynamic Library.dylib */;
+			productReference = E235D6F1107EF31C00A7BD66 /* emerald-frame.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
+		};
+		E235D7B2107F250600A7BD66 /* Test Application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E235D7B8107F250700A7BD66 /* Build configuration list for PBXNativeTarget "Test Application" */;
+			buildPhases = (
+				E235D7AF107F250600A7BD66 /* Resources */,
+				E235D7B0107F250600A7BD66 /* Sources */,
+				E235D7B1107F250600A7BD66 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E235D7D4107F255E00A7BD66 /* PBXTargetDependency */,
+			);
+			name = "Test Application";
+			productName = "Test Application";
+			productReference = E235D7B3107F250600A7BD66 /* Test Application.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -226,9 +307,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E235D78F107EFBA000A7BD66 /* All Library Types */,
 				8DC2EF4F0486A6940098B216 /* Framework */,
 				E235D6E9107EF30C00A7BD66 /* Static Library */,
 				E235D6F0107EF31C00A7BD66 /* Dynamic Library */,
+				E235D7B2107F250600A7BD66 /* Test Application */,
 			);
 		};
 /* End PBXProject section */
@@ -239,6 +322,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E235D7AF107F250600A7BD66 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,7 +362,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E235D7B0107F250600A7BD66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E235D7BF107F253C00A7BD66 /* Test.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E235D793107EFBB600A7BD66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* Framework */;
+			targetProxy = E235D792107EFBB600A7BD66 /* PBXContainerItemProxy */;
+		};
+		E235D795107EFBB600A7BD66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E235D6E9107EF30C00A7BD66 /* Static Library */;
+			targetProxy = E235D794107EFBB600A7BD66 /* PBXContainerItemProxy */;
+		};
+		E235D797107EFBB600A7BD66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E235D6F0107EF31C00A7BD66 /* Dynamic Library */;
+			targetProxy = E235D796107EFBB600A7BD66 /* PBXContainerItemProxy */;
+		};
+		E235D7D4107F255E00A7BD66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* Framework */;
+			targetProxy = E235D7D3107F255E00A7BD66 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
@@ -330,6 +451,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -344,6 +466,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -361,7 +484,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -370,7 +493,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = "Static Library";
+				PRODUCT_NAME = "emerald-frame";
 			};
 			name = Debug;
 		};
@@ -383,7 +506,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -392,7 +515,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = "Static Library";
+				PRODUCT_NAME = "emerald-frame";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -409,7 +532,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -418,7 +541,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = "Dynamic Library";
+				PRODUCT_NAME = "emerald-frame";
 			};
 			name = Debug;
 		};
@@ -433,7 +556,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -442,7 +565,76 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = "Dynamic Library";
+				PRODUCT_NAME = "emerald-frame";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		E235D790107EFBA000A7BD66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "All Library Types";
+			};
+			name = Debug;
+		};
+		E235D791107EFBA000A7BD66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "All Library Types";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		E235D7B6107F250700A7BD66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
+				INFOPLIST_FILE = "Test Application-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Test Application";
+			};
+			name = Debug;
+		};
+		E235D7B7107F250700A7BD66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Emerald Frame_Prefix.pch";
+				INFOPLIST_FILE = "Test Application-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Test Application";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -482,6 +674,24 @@
 			buildConfigurations = (
 				E235D6F2107EF31C00A7BD66 /* Debug */,
 				E235D6F3107EF31C00A7BD66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E235D7AE107EFBDD00A7BD66 /* Build configuration list for PBXAggregateTarget "All Library Types" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E235D790107EFBA000A7BD66 /* Debug */,
+				E235D791107EFBA000A7BD66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E235D7B8107F250700A7BD66 /* Build configuration list for PBXNativeTarget "Test Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E235D7B6107F250700A7BD66 /* Debug */,
+				E235D7B7107F250700A7BD66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
