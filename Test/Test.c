@@ -4,7 +4,7 @@
 
 
 int main(int argc, char **argv) {
-    ef_init();
+    ef_init((utf8 *) "Test Application");
     printf("%s\n", ef_version_string());
     
     ef_video_set_double_buffer(True);
@@ -16,6 +16,8 @@ int main(int argc, char **argv) {
     ef_video_set_samples(5);
     ef_video_set_multisample(True);
     EF_Drawable drawable = ef_video_new_drawable(False, 640, 480);
+    
+    ef_main();
     
     sleep(5);
     

@@ -1,19 +1,23 @@
 #include <stdint.h>
 
-#define False 0
-#define True 1
-
 typedef int EF_Error;
 typedef uint32_t EF_Drawable;
 typedef int boolean;
 typedef uint8_t utf8;
 typedef uint32_t utf32;
 
+#define False 0
+#define True 1
+
+#define EF_ERROR_PARAM 1
+
 // General
-EF_Error ef_init();
+EF_Error ef_init(utf8 *application_name);
 EF_Error ef_quit();
 utf8 *ef_version_string();
 utf8 *ef_error_string(EF_Error error);
+utf8 *ef_internal_application_name();
+void ef_main();
 
 // Video
 EF_Error ef_internal_video_init();
