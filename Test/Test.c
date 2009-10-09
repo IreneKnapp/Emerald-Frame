@@ -1,14 +1,12 @@
 #include "emerald-frame.h"
-#include <stdio.h>
-#include <unistd.h>
 
 
+void init_gl(EF_Drawable drawable);
 void draw(EF_Drawable drawable, void *context);
 
 
 int main(int argc, char **argv) {
     ef_init((utf8 *) "Test Application");
-    printf("%s\n", ef_version_string());
     
     ef_video_set_double_buffer(True);
     ef_video_set_color_size(24);
@@ -21,19 +19,25 @@ int main(int argc, char **argv) {
     EF_Drawable drawable = ef_video_new_drawable(640, 480, False, NULL);
     ef_drawable_set_draw_callback(drawable, draw, NULL);
     
-    ef_main();
+    init_gl(drawable);
     
-    sleep(5);
+    ef_main();
+}
+
+
+void init_gl(EF_Drawable drawable) {
+    ef_drawable_make_current(drawable);
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, 640, 0, 480, -300, 300);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 
 void draw(EF_Drawable drawable, void *context) {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, 640, 0, 480, -300, 300);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
     glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 

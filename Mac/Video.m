@@ -168,6 +168,11 @@ void ef_drawable_set_draw_callback(EF_Drawable drawable,
 }
 
 
+void ef_drawable_make_current(EF_Drawable drawable) {
+    [(Drawable *) drawable makeCurrent];
+}
+
+
 void ef_drawable_swap_buffers(EF_Drawable drawable) {
     [(Drawable*) drawable swapBuffers];
 }

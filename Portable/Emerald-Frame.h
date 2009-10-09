@@ -4,13 +4,16 @@
 #include <OpenGL/OpenGL.h>
 #endif
 
-
 typedef int EF_Error;
 typedef void *EF_Drawable;
 typedef void *EF_Display;
 typedef int boolean;
 typedef uint8_t utf8;
 typedef uint32_t utf32;
+
+#ifndef NULL
+#define NULL ((void *) 0)
+#endif
 
 #define False 0
 #define True 1
@@ -35,6 +38,7 @@ void ef_drawable_set_draw_callback(EF_Drawable drawable,
 				   void (*callback)(EF_Drawable drawable,
 						    void *context),
 				   void *context);
+void ef_drawable_make_current(EF_Drawable drawable);
 void ef_drawable_swap_buffers(EF_Drawable drawable);
 void ef_video_set_double_buffer(boolean double_buffer);
 void ef_video_set_stereo(boolean stereo);
@@ -65,3 +69,5 @@ int ef_display_height(EF_Display display);
 // Text
 
 // Configuration
+
+// Pasteboard

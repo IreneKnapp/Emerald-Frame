@@ -86,6 +86,11 @@
 }
 
 
+- (void) makeCurrent {
+    [[openGLView openGLContext] makeCurrentContext];
+}
+
+
 - (void) swapBuffers {
     [[openGLView openGLContext] flushBuffer];
 }
