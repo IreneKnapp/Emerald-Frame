@@ -1,0 +1,140 @@
+TFramework
+v7
+r0
+t276755636.721443
+cCheck dependencies
+cSymLink "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/Current" A
+cSymLink "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Resources" Versions/Current/Resources
+cProcessInfoPlistFile "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist" Info.plist
+cCopyStringsFile "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj/InfoPlist.strings" English.lproj/InfoPlist.strings
+cTouch "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework"
+
+N/Users/dankna/Projects/Emerald-Frame/Emerald Frame/English.lproj/InfoPlist.strings
+c000000004ACEBB190000000000000030
+t1255062297
+s48
+
+N/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework
+t1255062352
+s136
+
+N/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Resources
+t3
+s26
+
+N/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj/InfoPlist.strings
+t1255062352
+s92
+
+N/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist
+t1255062352
+s732
+
+N/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/Current
+t3
+s1
+
+N/Users/dankna/Projects/Emerald-Frame/Mac/English.lproj/InfoPlist.strings
+c000000004ACEBB190000000000000030
+t1255062297
+s48
+
+N/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework
+t1255062830
+s136
+
+N/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Resources
+t3
+s26
+
+N/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj/InfoPlist.strings
+t1255062352
+s92
+
+N/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist
+t1255062830
+s732
+
+N/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/Current
+t3
+s1
+
+NInfo.plist
+c000000004ACEBB650000000000000357
+t1255062373
+s855
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies276755636#276755636#0(0"0(0#1#0"4300882208#0"0#
+
+CCopyStringsFile "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj/InfoPlist.strings" English.lproj/InfoPlist.strings
+s276755152.247647
+e276755152.383221
+r1
+xCopyStringsFile
+x/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj/InfoPlist.strings
+xEnglish.lproj/InfoPlist.strings
+lSLF07#2@36"Copy English.lproj/InfoPlist.strings276755152#276755152#0(0"0(0#0#82"/Users/dankna/Projects/Emerald-Frame/Emerald Frame/English.lproj/InfoPlist.strings4300882208#407"    cd "/Users/dankna/Projects/Emerald-Frame/Emerald Frame"    setenv ICONV /usr/bin/iconv    /Developer/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copystrings --validate --inputencoding utf-8 --outputencoding UTF-16 English.lproj/InfoPlist.strings --outdir "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj"0#
+
+CCopyStringsFile "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/English.lproj/InfoPlist.strings" English.lproj/InfoPlist.strings
+r0
+
+CProcessInfoPlistFile "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist" Info.plist
+s276755152.243481
+e276755152.247560
+r1
+xProcessInfoPlistFile
+x/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist
+xInfo.plist
+lSLF07#2@18"Process Info.plist276755152#276755152#0(0"0(0#0#61"/Users/dankna/Projects/Emerald-Frame/Emerald Frame/Info.plist4300882208#262"    cd "/Users/dankna/Projects/Emerald-Frame/Emerald Frame"    builtin-infoPlistUtility Info.plist -expandbuildsettings -platform macosx -o "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist"0#
+
+CProcessInfoPlistFile "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist" Info.plist
+s276755630.856982
+e276755630.861900
+r1
+xProcessInfoPlistFile
+x/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist
+xInfo.plist
+lSLF07#2@18"Process Info.plist276755630#276755630#0(0"0(0#0#51"/Users/dankna/Projects/Emerald-Frame/Mac/Info.plist4300882208#240"    cd /Users/dankna/Projects/Emerald-Frame/Mac    builtin-infoPlistUtility Info.plist -expandbuildsettings -platform macosx -o "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/A/Resources/Info.plist"0#
+
+CSymLink "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Resources" Versions/Current/Resources
+s276755152.094780
+e276755152.242219
+r1
+xSymLink
+x/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Resources
+xVersions/Current/Resources
+lSLF07#2@104"Process /Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Resources276755152#276755152#0(0"0(0#0#0"4300882208#202"    cd "/Users/dankna/Projects/Emerald-Frame/Emerald Frame"    /bin/ln -sf Versions/Current/Resources "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Resources"0#
+
+CSymLink "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/Current" A
+s276755152.092649
+e276755152.243401
+r1
+xSymLink
+x/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/Current
+xA
+lSLF07#2@111"Process /Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/Current276755152#276755152#0(0"0(0#0#0"4300882208#184"    cd "/Users/dankna/Projects/Emerald-Frame/Emerald Frame"    /bin/ln -sf A "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework/Versions/Current"0#
+
+CSymLink "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Resources" Versions/Current/Resources
+r0
+
+CSymLink "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework/Versions/Current" A
+r0
+
+CTouch "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework"
+s276755152.383369
+e276755152.386463
+r1
+xTouch
+x/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework
+lSLF07#2@92"Touch /Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework276755152#276755152#0(0"0(0#0#0"4300882208#171"    cd "/Users/dankna/Projects/Emerald-Frame/Emerald Frame"    /usr/bin/touch -c "/Users/dankna/Projects/Emerald-Frame/Emerald Frame/build/Debug/Emerald Frame.framework"0#
+
+CTouch "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework"
+s276755630.862040
+e276755630.865652
+r1
+xTouch
+x/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework
+lSLF07#2@82"Touch /Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework276755630#276755630#0(0"0(0#0#0"4300882208#149"    cd /Users/dankna/Projects/Emerald-Frame/Mac    /usr/bin/touch -c "/Users/dankna/Projects/Emerald-Frame/Mac/build/Debug/Emerald Frame.framework"0#
+
