@@ -127,12 +127,6 @@ static void populate_window_menu(NSMenu *menu) {
 
 
 void ef_main() {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSApplication *application = [NSApplication sharedApplication];
-    ApplicationDelegate *delegate = [[ApplicationDelegate alloc] init];
-    [application setDelegate: delegate];
-    [pool drain];
     [application run];
-    [application setDelegate: nil];
-    [delegate release];
 }

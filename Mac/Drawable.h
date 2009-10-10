@@ -28,6 +28,7 @@
 - (void) setDrawCallback: (void (*)(EF_Drawable drawable, void *context)) callback
 		 context: (void *) context;
 - (void) draw;
+- (void) redraw;
 - (void) makeCurrent;
 - (void) swapBuffers;
 @end

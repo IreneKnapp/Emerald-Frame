@@ -86,6 +86,11 @@
 }
 
 
+- (void) redraw {
+    [openGLView setNeedsDisplay: YES];
+}
+
+
 - (void) makeCurrent {
     [[openGLView openGLContext] makeCurrentContext];
 }

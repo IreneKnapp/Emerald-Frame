@@ -106,6 +106,7 @@ div.title {
 <li><a href="#ef_video_new_drawable"><span class="code">ef_video_new_drawable</span></a></li>
 <li><a href="#ef_drawable_set_title"><span class="code">ef_drawable_set_title</span></a></li>
 <li><a href="#ef_drawable_set_draw_callback"><span class="code">ef_drawable_set_draw_callback</span></a></li>
+<li><a href="#ef_drawable_redraw"><span class="code">ef_drawable_redraw</span></a></li>
 <li><a href="#ef_drawable_make_current"><span class="code">ef_drawable_make_current</span></a></li>
 <li><a href="#ef_drawable_swap_buffers"><span class="code">ef_drawable_swap_buffers</span></a></li>
 </ul></li>
@@ -129,6 +130,10 @@ div.title {
 <li><a href="#S_reference_audio"><b>3.3.</b> Audio</a> <ul>
 </ul></li>
 <li><a href="#S_reference_time"><b>3.4.</b> Time</a> <ul>
+<li><a href="#ef_time_new_oneshot_timer"><span class="code">ef_time_new_oneshot_timer</span></a></li>
+<li><a href="#ef_time_new_repeating_timer"><span class="code">ef_time_new_repeating_timer</span></a></li>
+<li><a href="#ef_timer_cancel"><span class="code">ef_timer_cancel</span></a></li>
+<li><a href="#ef_time_unix_epoch"><span class="code">ef_time_unix_epoch</span></a></li>
 </ul></li>
 <li><a href="#S_reference_input"><b>3.5.</b> Input</a> <ul>
 </ul></li>
@@ -262,6 +267,95 @@ from a clean copy of the skeleton, and modify and add to it to make its point.  
 might also wish to use it as the basis for your own programs.</p>
 
 
+<a name="S_sample_time"><h2>2.2. Timed Drawing</h2></a>
+
+<p>The program isn't very interesting with no motion.  We will add a timer that fires
+50 times a second, redrawing the screen each time.  We'll use this to animate a spinning
+triangle.</p>
+
+<p>Our program will have a new function, <span class="code">frame</span>, which is
+registered as a timer callback and invoked every frame.  Add the following to the
+function declarations at the top of the file:</p>
+
+<div class="code">void frame(EF_Timer timer, void *context);</div>
+
+<p>In order to ensure smooth animation, the program won't just rely on the assumption
+that exactly one frame has passed since the last time it drew - it will actually keep
+a counter and check how much time has elapsed.  To do this it requires a "zero time".
+Add the following to a new section right after the function declarations at the
+top of the file, and before the definition of <span class="code">main</span>:</p>
+
+<div class="code">static uint64_t startup_time;</div>
+
+<p>We need to initialize the "zero time" when the program starts up.  We also need to
+create the timer that will call <span class="code">frame</span>.  Add the following
+between the call to <span class="code">init_gl</span> and the call to
+<span class="code">ef_main</span>:</p>
+
+<div class="code">    startup_time = ef_time_unix_epoch();
+
+    ef_time_new_repeating_timer(20, frame, (void *) drawable);
+</div>
+
+<p>We want 50 fps, so we specify that the timer should fire every 20 milliseconds;
+1000 / 50 = 20.</p>
+
+<p>The function <span class="code">frame</span> needs a definition.  It does very little
+work, just triggering a redraw, and offloading all the actual work to
+<span class="code">draw</span>.  In a complicated program, you would likely put the
+simulation code in <span class="code">frame</span> to ensure that it runs no more often
+than it's supposed to - the draw callback can be invoked for other reasons as well.
+Add the following function definition at the end of the file:</p>
+
+<div class="code">void frame(EF_Timer timer, void *context) {
+    EF_Drawable drawable = (EF_Drawable) context;
+    ef_drawable_redraw(drawable);
+}
+</div>
+
+<p>Notice how we used the <span class="code">context</span> parameter.  This is an
+opaque value as far as Emerald Frame is concerned - it can hold anything you find
+useful.  The callback needs to know what drawable to update, so we use the drawable as
+our context parameter.  We pass it in to
+<span class="code">ef_time_new_repeating_timer</span>, and each invocation of
+<span class="code">frame</span> receives it.  We have to do some typecasting because,
+for versatility, the context parameter is a void pointer.</p>
+
+<p>Finally, we need to actually draw our triangle.  Replace the definition of the
+<span class="code">draw</span> function with the following:</p>
+
+<div class="code">void draw(EF_Drawable drawable, void *context) {
+    uint64_t current_time = ef_time_unix_epoch();
+    uint64_t elapsed_frames = (current_time - startup_time) / 20;
+    
+    glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glPushMatrix();
+
+    glTranslatef(320.0f, 240.0f, 0.0f);
+    glRotatef(elapsed_frames * (90.0f / 100.0f), 0.0f, 0.0f, 1.0f);
+
+    glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2s(0, 120);
+    glVertex2s(60, -60);
+    glVertex2s(-60, -60);
+    glEnd();
+    
+    glPopMatrix();
+
+    ef_drawable_swap_buffers(drawable);
+}
+</div>
+
+<p>The first two lines check the elapsed time since "zero" to determine what frame
+we're at, and therefore what state the animation is in.  The call to
+<span class="code">glRotatef</span> is what actually produces the animation, feeding
+the elapsed number of frames into the parameter that determines what angle to rotate
+by.  This code is set to rotate 90 degrees in 100 frames, which, since we are running
+at 50 fps, is a full circle every eight seconds.  Like clockwork!</p>
+
 <a name="S_reference"><h1>3. Reference</h1></a>
 
 <a name="S_reference_general"><h2>3.1. General</h2></a>
@@ -359,6 +453,11 @@ two parameters: the drawable in question, and the user-supplied
 <p>Note that, though it is one piece of the task, setting a callback will not by itself
 cause animation to occur; for that, see
 <a href="#S_sample_time">2.2. Timed Drawing</a>.</p>
+
+<a name="ef_drawable_redraw"><h4>void ef_drawable_redraw(EF_Drawable drawable)</h4></a>
+
+<p>Causes the given drawable to redraw, triggering a draw callback, as soon as
+possible.  This is useful from a timer, for example, to produce animation.</p>
 
 <a name="ef_drawable_make_current"><h4>void ef_drawable_make_current(EF_Drawable drawable)</h4></a>
 
@@ -468,6 +567,30 @@ drawables).</p>
 <a name="S_reference_audio"><h2>3.3. Audio</h2></a>
 
 <a name="S_reference_time"><h2>3.4. Time</h2></a>
+
+<a name="ef_time_new_oneshot_timer"><h4>EF_Timer ef_time_new_oneshot_timer(<br />int milliseconds,<br />void (*callback)(EF_Timer timer, void *context),<br />void *context)</h4></a>
+
+<p>Creates a new timer which will fire <span class="code">milliseconds</span>
+milliseconds after the current time, calling the given callback with itself and the
+given context function.  The timer will fire once and then expire.  After firing, the
+timer is automatically disposed of.</p>
+
+<a name="ef_time_new_repeating_timer"><h4>ef_time_new_repeating_timer(<br />int milliseconds,<br />void (*callback)(EF_Timer timer, void *context),<br />void *context)</h4></a>
+
+<p>Creates a new timer which will fire <span class="code">milliseconds</span>
+milliseconds after the current time, calling the given callback with itself and the
+given context function.  The timer will fire repeatedly, every time the same time
+interval has passed again..</p>
+
+<a name="ef_timer_cancel"><h4>void ef_timer_cancel(EF_Timer timer)</h4></a>
+
+<p>Cancels a oneshot timer which has not yet fired, or a repeating timer.  After being
+cancelled, the timer is automatically disposed of and will not fire.</p>
+
+<a name="ef_time_unix_epoch"><h4>uint64_t ef_time_unix_epoch()</h4></a>
+
+<p>Returns the current time, expressed as milliseconds since January 1st, 1970 - the
+"unix epoch".</p>
 
 <a name="S_reference_input"><h2>3.5. Input</h2></a>
 

@@ -302,6 +302,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -338,6 +340,11 @@
 							<array>
 								<string>0867D691FE84028FC02AAC07</string>
 								<string>32C88DFF0371C24200C91783</string>
+								<string>E235DD241080068200A7BD66</string>
+								<string>E235DD261080072E00A7BD66</string>
+								<string>E235DD251080069900A7BD66</string>
+								<string>E235DD2C1080077C00A7BD66</string>
+								<string>E235DD231080066F00A7BD66</string>
 								<string>0867D69AFE84028FC02AAC07</string>
 								<string>034768DFFF38A50411DB9C8B</string>
 								<string>8DC2EF5B0486A6940098B216</string>
@@ -351,13 +358,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>17</integer>
 									<integer>16</integer>
-									<integer>15</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 80}, {186, 445}}</string>
+							<string>{{0, 0}, {186, 445}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -392,7 +400,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Test.c</string>
+								<string>Video.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -400,28 +408,31 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Test.c</string>
+										<string>Video.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E235DD1F107FCAEC00A7BD66</string>
+										<string>E235DE3A1080241600A7BD66</string>
 										<key>history</key>
 										<array>
 											<string>E235D82E107F2A1800A7BD66</string>
 											<string>E235D82F107F2A1800A7BD66</string>
-											<string>E235D830107F2A1800A7BD66</string>
 											<string>E235D832107F2A1800A7BD66</string>
-											<string>E235D8A6107F331800A7BD66</string>
-											<string>E235D8AD107F363F00A7BD66</string>
-											<string>E235D8DC107F36EE00A7BD66</string>
 											<string>E235D915107F37FF00A7BD66</string>
-											<string>E235DA3E107F93A700A7BD66</string>
-											<string>E235DB0F107F98F000A7BD66</string>
-											<string>E235DB38107F99D100A7BD66</string>
 											<string>E235DB4B107F9A8F00A7BD66</string>
 											<string>E235DBBB107F9C5A00A7BD66</string>
 											<string>E235DBFD107F9F3500A7BD66</string>
-											<string>E235DD18107FCAE700A7BD66</string>
+											<string>E235DD271080073600A7BD66</string>
+											<string>E235DD281080073600A7BD66</string>
+											<string>E235DD291080073600A7BD66</string>
+											<string>E235DD2D1080078400A7BD66</string>
+											<string>E235DD2E1080078400A7BD66</string>
+											<string>E235DD4310800D8E00A7BD66</string>
+											<string>E235DD4510800D8E00A7BD66</string>
+											<string>E235DD4B10800D9E00A7BD66</string>
+											<string>E235DD5710800DE700A7BD66</string>
+											<string>E235DDBF1080109B00A7BD66</string>
+											<string>E235DDBA1080109A00A7BD66</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -443,8 +454,6 @@
 							<string>260pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -604,7 +613,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>276810476.87775999</real>
+	<real>276833302.254861</real>
 	<key>ToolbarConfigUserDefaultsMinorVersion</key>
 	<string>2</string>
 	<key>ToolbarDisplayMode</key>
@@ -621,7 +630,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E235DD20107FCAEC00A7BD66</string>
+		<string>E235DE3B1080241600A7BD66</string>
 		<string>E235D7FC107F260100A7BD66</string>
 		<string>E235D7FD107F260100A7BD66</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -651,7 +660,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Test.c</string>
+								<string>Video.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>

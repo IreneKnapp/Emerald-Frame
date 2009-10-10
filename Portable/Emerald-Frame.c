@@ -11,7 +11,7 @@ EF_Error ef_init(utf8 *new_application_name) {
     application_name = (utf8 *) strdup((char *) new_application_name);
     
     EF_Error error;
-    
+
     // Video
     error = ef_internal_video_init();
     if(error) return error;
@@ -19,6 +19,8 @@ EF_Error ef_init(utf8 *new_application_name) {
     // Audio
     
     // Time
+    error = ef_internal_time_init();
+    if(error) return error;
     
     // Input
     

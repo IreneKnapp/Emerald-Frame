@@ -13,4 +13,5 @@
 
 }
 
+- (void) timer: (NSTimer *) timer;
 @end

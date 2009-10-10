@@ -7,6 +7,7 @@
 typedef int EF_Error;
 typedef void *EF_Drawable;
 typedef void *EF_Display;
+typedef void *EF_Timer;
 typedef int boolean;
 typedef uint8_t utf8;
 typedef uint32_t utf32;
@@ -38,6 +39,7 @@ void ef_drawable_set_draw_callback(EF_Drawable drawable,
 				   void (*callback)(EF_Drawable drawable,
 						    void *context),
 				   void *context);
+void ef_drawable_redraw(EF_Drawable drawable);
 void ef_drawable_make_current(EF_Drawable drawable);
 void ef_drawable_swap_buffers(EF_Drawable drawable);
 void ef_video_set_double_buffer(boolean double_buffer);
@@ -63,6 +65,15 @@ int ef_display_height(EF_Display display);
 // Audio
 
 // Time
+EF_Error ef_internal_time_init();
+EF_Timer ef_time_new_oneshot_timer(int milliseconds,
+				   void (*callback)(EF_Timer timer, void *context),
+				   void *context);
+EF_Timer ef_time_new_repeating_timer(int milliseconds,
+				     void (*callback)(EF_Timer timer, void *context),
+				     void *context);
+void ef_timer_cancel(EF_Timer timer);
+uint64_t ef_time_unix_epoch();
 
 // Input
 

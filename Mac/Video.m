@@ -1,9 +1,8 @@
-#include <math.h>
 #import <Cocoa/Cocoa.h>
 
+#import "Emerald-Frame.h"
 #import "Drawable.h"
-
-#include "emerald-frame.h"
+#import "ApplicationDelegate.h"
 
 
 struct ef_drawable_parameters {
@@ -41,6 +40,12 @@ EF_Error ef_internal_video_init() {
     drawable_parameters.multisample = False;
     drawable_parameters.supersample = False;
     drawable_parameters.sample_alpha = False;
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSApplication *application = [NSApplication sharedApplication];
+    ApplicationDelegate *delegate = [[ApplicationDelegate alloc] init];
+    [application setDelegate: delegate];
+    [pool drain];
     
     return 0;
 }
@@ -165,6 +170,11 @@ void ef_drawable_set_draw_callback(EF_Drawable drawable,
 				   void *context)
 {
     [(Drawable *) drawable setDrawCallback: callback context: context];
+}
+
+
+void ef_drawable_redraw(EF_Drawable drawable) {
+    [(Drawable *) drawable redraw];
 }
 
 

@@ -63,6 +63,15 @@
 		E235DC07107F9F7400A7BD66 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E235DC02107F9F6D00A7BD66 /* OpenGL.framework */; };
 		E235DC08107F9F7500A7BD66 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E235DC02107F9F6D00A7BD66 /* OpenGL.framework */; };
 		E235DC0D107F9F8400A7BD66 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E235DC02107F9F6D00A7BD66 /* OpenGL.framework */; };
+		E235DD321080080400A7BD66 /* Time.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD311080080400A7BD66 /* Time.m */; };
+		E235DD331080080400A7BD66 /* Time.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD311080080400A7BD66 /* Time.m */; };
+		E235DD341080080400A7BD66 /* Time.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD311080080400A7BD66 /* Time.m */; };
+		E235DD3810800AF700A7BD66 /* TimerData.h in Headers */ = {isa = PBXBuildFile; fileRef = E235DD3610800AF700A7BD66 /* TimerData.h */; };
+		E235DD3910800AF700A7BD66 /* TimerData.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD3710800AF700A7BD66 /* TimerData.m */; };
+		E235DD3A10800AF700A7BD66 /* TimerData.h in Headers */ = {isa = PBXBuildFile; fileRef = E235DD3610800AF700A7BD66 /* TimerData.h */; };
+		E235DD3B10800AF700A7BD66 /* TimerData.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD3710800AF700A7BD66 /* TimerData.m */; };
+		E235DD3C10800AF700A7BD66 /* TimerData.h in Headers */ = {isa = PBXBuildFile; fileRef = E235DD3610800AF700A7BD66 /* TimerData.h */; };
+		E235DD3D10800AF700A7BD66 /* TimerData.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD3710800AF700A7BD66 /* TimerData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +142,9 @@
 		E235DB3B107F99EE00A7BD66 /* DrawableOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawableOpenGLView.h; sourceTree = "<group>"; };
 		E235DB3C107F99EE00A7BD66 /* DrawableOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawableOpenGLView.m; sourceTree = "<group>"; };
 		E235DC02107F9F6D00A7BD66 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		E235DD311080080400A7BD66 /* Time.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Time.m; sourceTree = "<group>"; };
+		E235DD3610800AF700A7BD66 /* TimerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerData.h; sourceTree = "<group>"; };
+		E235DD3710800AF700A7BD66 /* TimerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,20 +248,63 @@
 		32C88DFF0371C24200C91783 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E235DD241080068200A7BD66 /* Portable */,
+				E235DD261080072E00A7BD66 /* General */,
+				E235DD251080069900A7BD66 /* Video */,
+				E235DD2C1080077C00A7BD66 /* Time */,
+				E235DD231080066F00A7BD66 /* Test Application */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		E235DD231080066F00A7BD66 /* Test Application */ = {
+			isa = PBXGroup;
+			children = (
 				E235D7BE107F253C00A7BD66 /* Test.c */,
+			);
+			name = "Test Application";
+			sourceTree = "<group>";
+		};
+		E235DD241080068200A7BD66 /* Portable */ = {
+			isa = PBXGroup;
+			children = (
 				E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */,
 				E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */,
+			);
+			name = Portable;
+			sourceTree = "<group>";
+		};
+		E235DD251080069900A7BD66 /* Video */ = {
+			isa = PBXGroup;
+			children = (
 				E235D71F107EF7C100A7BD66 /* Video.m */,
-				32DBCF5E0370ADEE00C91783 /* Emerald Frame_Prefix.pch */,
 				E235D809107F26F700A7BD66 /* Drawable.h */,
 				E235D80A107F26F700A7BD66 /* Drawable.m */,
-				E235D819107F299400A7BD66 /* General.m */,
-				E235D898107F330700A7BD66 /* ApplicationDelegate.h */,
-				E235D899107F330700A7BD66 /* ApplicationDelegate.m */,
 				E235DB3B107F99EE00A7BD66 /* DrawableOpenGLView.h */,
 				E235DB3C107F99EE00A7BD66 /* DrawableOpenGLView.m */,
 			);
-			name = Sources;
+			name = Video;
+			sourceTree = "<group>";
+		};
+		E235DD261080072E00A7BD66 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* Emerald Frame_Prefix.pch */,
+				E235D819107F299400A7BD66 /* General.m */,
+				E235D898107F330700A7BD66 /* ApplicationDelegate.h */,
+				E235D899107F330700A7BD66 /* ApplicationDelegate.m */,
+			);
+			name = General;
+			sourceTree = "<group>";
+		};
+		E235DD2C1080077C00A7BD66 /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				E235DD311080080400A7BD66 /* Time.m */,
+				E235DD3610800AF700A7BD66 /* TimerData.h */,
+				E235DD3710800AF700A7BD66 /* TimerData.m */,
+			);
+			name = Time;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +318,7 @@
 				E235D80F107F26F700A7BD66 /* Drawable.h in Headers */,
 				E235D89C107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 				E235DB3F107F99EE00A7BD66 /* DrawableOpenGLView.h in Headers */,
+				E235DD3C10800AF700A7BD66 /* TimerData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +330,7 @@
 				E235D80D107F26F700A7BD66 /* Drawable.h in Headers */,
 				E235D89E107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 				E235DB41107F99EE00A7BD66 /* DrawableOpenGLView.h in Headers */,
+				E235DD3810800AF700A7BD66 /* TimerData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +342,7 @@
 				E235D80B107F26F700A7BD66 /* Drawable.h in Headers */,
 				E235D89A107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 				E235DB3D107F99EE00A7BD66 /* DrawableOpenGLView.h in Headers */,
+				E235DD3A10800AF700A7BD66 /* TimerData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +472,8 @@
 				E235D81A107F299400A7BD66 /* General.m in Sources */,
 				E235D89D107F330700A7BD66 /* ApplicationDelegate.m in Sources */,
 				E235DB40107F99EE00A7BD66 /* DrawableOpenGLView.m in Sources */,
+				E235DD341080080400A7BD66 /* Time.m in Sources */,
+				E235DD3D10800AF700A7BD66 /* TimerData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +487,8 @@
 				E235D81B107F299400A7BD66 /* General.m in Sources */,
 				E235D89F107F330700A7BD66 /* ApplicationDelegate.m in Sources */,
 				E235DB42107F99EE00A7BD66 /* DrawableOpenGLView.m in Sources */,
+				E235DD321080080400A7BD66 /* Time.m in Sources */,
+				E235DD3910800AF700A7BD66 /* TimerData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +502,8 @@
 				E235D81C107F299400A7BD66 /* General.m in Sources */,
 				E235D89B107F330700A7BD66 /* ApplicationDelegate.m in Sources */,
 				E235DB3E107F99EE00A7BD66 /* DrawableOpenGLView.m in Sources */,
+				E235DD331080080400A7BD66 /* Time.m in Sources */,
+				E235DD3B10800AF700A7BD66 /* TimerData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
