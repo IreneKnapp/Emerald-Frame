@@ -64,6 +64,9 @@ void ef_timer_cancel(EF_Timer timer) {
 
 
 uint64_t ef_time_unix_epoch() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
-    return floor(interval * 1000.0);
+    uint64_t result = floor(interval * 1000.0);
+    [pool drain];
+    return result;
 }
