@@ -1,3 +1,4 @@
+#import <math.h>
 #import <Cocoa/Cocoa.h>
 
 #import "Emerald-Frame.h"
@@ -23,6 +24,11 @@ struct ef_drawable_parameters {
 };
 
 static struct ef_drawable_parameters drawable_parameters;
+
+
+static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
+						       GLuint id,
+						       boolean build_mipmaps);
 
 
 EF_Error ef_internal_video_init() {
@@ -301,3 +307,148 @@ int ef_display_height(EF_Display display) {
     return floorf(frame.size.height);
 }
 
+
+EF_Error ef_video_load_texture_file(utf8 *filename,
+				    GLuint id,
+				    boolean build_mipmaps)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSString *filenameString = [NSString stringWithUTF8String: (char *) filename];
+    NSImage *image = [[NSImage alloc] initWithContentsOfFile: filenameString];
+    if(!image) {
+	[pool drain];
+	return EF_ERROR_FILE;
+    }
+    EF_Error result = ef_internal_video_load_texture_nsimage(image, id, build_mipmaps);
+    [image release];
+    [pool drain];
+    return result;
+}
+
+
+EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
+				      GLuint id,
+				      boolean build_mipmaps)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSData *data = [NSData dataWithBytes: (void *) bytes length: (NSUInteger) size];
+    NSImage *image = [[NSImage alloc] initWithData: data];
+    EF_Error result = ef_internal_video_load_texture_nsimage(image, id, build_mipmaps);
+    [image release];
+    [pool drain];
+    return result;
+}
+
+
+static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
+						       GLuint id,
+						       boolean build_mipmaps)
+{
+    NSBitmapImageRep *imageRepresentation = nil;
+    for(NSImageRep *possibleRepresentation in [image representations]) {
+	if([possibleRepresentation isKindOfClass: [NSBitmapImageRep class]]) {
+	    imageRepresentation = (NSBitmapImageRep *) possibleRepresentation;
+	    break;
+	}
+    }
+    if(!imageRepresentation) {
+	NSLog(@"No bitmap representation for the given image.");
+	return EF_ERROR_IMAGE_DATA;
+    }
+    
+    GLint pixel_format;
+    GLint component_format;
+    GLsizei size;
+    boolean swap_bytes = False;
+    uint8_t *data;
+    
+    int width = [imageRepresentation pixelsWide];
+    int height = [imageRepresentation pixelsHigh];
+    int widthLog2 = ceil(log2(width));
+    int heightLog2 = ceil(log2(height));
+    int sizeLog2 = widthLog2 > heightLog2 ? widthLog2 : heightLog2;
+    size = 1;
+    for(int i = 0; i < sizeLog2; i++)
+	size *= 2;
+
+    NSBitmapFormat format = [imageRepresentation bitmapFormat];
+    if(format & NSAlphaFirstBitmapFormat) {
+	NSLog(@"Bitmap image representation has alpha first.");
+	return EF_ERROR_IMAGE_DATA;
+    } else if(!(format & NSAlphaNonpremultipliedBitmapFormat)) {
+	NSLog(@"Bitmap image representation has alpha premultiplied.");
+	return EF_ERROR_IMAGE_DATA;
+    } else if(format & NSFloatingPointSamplesBitmapFormat) {
+	NSLog(@"Bitmap image representation has floating-point samples.");
+	return EF_ERROR_IMAGE_DATA;
+    }
+    
+    if([imageRepresentation isPlanar]) {
+	NSLog(@"Bitmap image representation is planar.");
+	return EF_ERROR_IMAGE_DATA;
+    }
+    
+    // Indicates the packed size, so for example for 24-bit RGB but word-aligned,
+    // this is 32.
+    if([imageRepresentation bitsPerPixel] != 32) {
+	NSLog(@"Bitmap image representation has %i bits per pixel.",
+	      [imageRepresentation bitsPerPixel]);
+	return EF_ERROR_IMAGE_DATA;
+    }
+
+    switch([imageRepresentation samplesPerPixel]) {
+    case 3:
+	pixel_format = GL_RGB;
+	break;
+    case 4:
+	pixel_format = GL_RGBA;
+	break;
+    default:
+	NSLog(@"Bitmap image representation has %i samples per pixel.",
+	      [imageRepresentation samplesPerPixel]);
+	return EF_ERROR_IMAGE_DATA;
+    }
+
+    switch([imageRepresentation bitsPerPixel] / [imageRepresentation samplesPerPixel]) {
+    case 8:
+	component_format = GL_UNSIGNED_BYTE;
+	break;
+    default:
+	NSLog(@"Bitmap image representation has %i bits per sample.",
+	      [imageRepresentation bitsPerPixel] / [imageRepresentation samplesPerPixel]);
+	return EF_ERROR_IMAGE_DATA;
+    }
+    
+    GLsizei packedWidth
+	= [imageRepresentation bytesPerRow] / ([imageRepresentation bitsPerPixel] / 8);
+    
+    data = [imageRepresentation bitmapData];
+    
+    glBindTexture(GL_TEXTURE_2D, id);
+	
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, packedWidth);
+    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, height);
+    glPixelStorei(GL_UNPACK_SWAP_BYTES, swap_bytes);
+    
+    if(build_mipmaps) {
+	gluBuild2DMipmaps(GL_TEXTURE_2D,
+			  pixel_format,
+			  size, size,
+			  pixel_format,
+			  component_format,
+			  data);
+    } else {
+	glTexImage2D(GL_TEXTURE_2D,
+		     0,
+		     pixel_format,
+		     size, size,
+		     0,
+		     pixel_format,
+		     component_format,
+		     data);
+    }
+    
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return 0;
+}

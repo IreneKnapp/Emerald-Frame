@@ -4,6 +4,8 @@
 #import "ApplicationDelegate.h"
 
 
+extern utf8 *ef_internal_application_name();
+
 static void populate_application_menu(NSMenu *menu);
 static void populate_edit_menu(NSMenu *menu);
 static void populate_window_menu(NSMenu *menu);

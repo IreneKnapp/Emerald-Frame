@@ -1,7 +1,9 @@
 #include <stdint.h>
+#include <stdlib.h>
 
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
+#include <OpenGL/glu.h>
 #endif
 
 typedef int EF_Error;
@@ -20,16 +22,16 @@ typedef uint32_t utf32;
 #define True 1
 
 #define EF_ERROR_PARAM 1
+#define EF_ERROR_FILE 2
+#define EF_ERROR_IMAGE_DATA 3
 
 // General
 EF_Error ef_init(utf8 *application_name);
 utf8 *ef_version_string();
 utf8 *ef_error_string(EF_Error error);
-utf8 *ef_internal_application_name();
 void ef_main();
 
 // Video
-EF_Error ef_internal_video_init();
 EF_Drawable ef_video_new_drawable(int width,
 				  int height,
 				  boolean full_screen,
@@ -61,11 +63,12 @@ EF_Display ef_video_next_display(EF_Display previous);
 int ef_display_depth(EF_Display display);
 int ef_display_width(EF_Display display);
 int ef_display_height(EF_Display display);
+EF_Error ef_video_load_texture_file(utf8 *filename, GLuint id, boolean build_mipmaps);
+EF_Error ef_video_load_texture_memory(uint8_t *data, size_t size, GLuint id, boolean build_mipmaps);
 
 // Audio
 
 // Time
-EF_Error ef_internal_time_init();
 EF_Timer ef_time_new_oneshot_timer(int milliseconds,
 				   void (*callback)(EF_Timer timer, void *context),
 				   void *context);

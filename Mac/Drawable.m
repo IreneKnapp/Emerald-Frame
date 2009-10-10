@@ -10,6 +10,9 @@
 #import "DrawableOpenGLView.h"
 
 
+extern utf8 *ef_internal_application_name();
+
+
 @implementation Drawable
 
 
