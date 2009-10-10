@@ -126,6 +126,8 @@ div.title {
 <li><a href="#ef_video_set_supersample"><span class="code">ef_video_set_supersample</span></a></li>
 <li><a href="#ef_video_set_sample_alpha"><span class="code">ef_video_set_sample_alpha</span></a></li>
 </ul></li>
+<li><a href="#S_reference_video_images"><b>3.2.4.</b> Images</a><ul>
+</ul></li>
 </ul></li>
 <li><a href="#S_reference_audio"><b>3.3.</b> Audio</a> <ul>
 </ul></li>
@@ -420,12 +422,12 @@ received last time to retrieve the one following it.</p>
 
 </ul>
 
-<a href="S_reference_video_drawables"><h3>3.2.2. Drawables</h3></a>
+<a name="S_reference_video_drawables"><h3>3.2.2. Drawables</h3></a>
 
 <p>A <b>drawable</b> is a context into which you can perform graphics commands.  It is
 either a window, or the entire contents of a display.
 
-<a name="#ef_video_new_drawable"><h4>EF_Drawable ef_video_new_drawable(<br />int width,<br />int height,<br />boolean full_screen,<br />EF_Display display)</h4></a>
+<a name="ef_video_new_drawable"><h4>EF_Drawable ef_video_new_drawable(<br />int width,<br />int height,<br />boolean full_screen,<br />EF_Display display)</h4></a>
 
 <p>Creates a new drawable of the specified size.  If
 <span class="code">full_screen</span> is <span class="code">True</span>, enters
@@ -452,7 +454,7 @@ two parameters: the drawable in question, and the user-supplied
 
 <p>Note that, though it is one piece of the task, setting a callback will not by itself
 cause animation to occur; for that, see
-<a href="#S_sample_time">2.2. Timed Drawing</a>.</p>
+<a name="S_sample_time">2.2. Timed Drawing</a>.</p>
 
 <a name="ef_drawable_redraw"><h4>void ef_drawable_redraw(EF_Drawable drawable)</h4></a>
 
@@ -473,9 +475,9 @@ this causes any changes since the last call of it to be displayed to the user.</
 
 <p>This function implicitly calls <span class="code">glFlush()</span>.</p>
 
-<a href="S_reference_video_settings"><h3>3.2.3. Settings</h3></a>
+<a name="S_reference_video_settings"><h3>3.2.3. Settings</h3></a>
 
-<a name="#ef_video_set_double_buffer"><h4>void ef_video_set_double_buffer(boolean double_buffer)</h4></a>
+<a name="ef_video_set_double_buffer"><h4>void ef_video_set_double_buffer(boolean double_buffer)</h4></a>
 
 <p>Sets the double-buffering attribute to the provided value; this attribute will be
 used for all future drawables that are created (it does not modify existing
@@ -563,6 +565,8 @@ This is a somewhat unpopular method of doing full-screen antialiasing.</p>
 <p>Sets whether multisampling, if enabled, affects the alpha channel; this attribute
 will be used for all future drawables that are created (it does not modify existing
 drawables).</p>
+
+<a name="S_reference_video_images"><h3>3.2.4. Images</h3></a>
 
 <a name="S_reference_audio"><h2>3.3. Audio</h2></a>
 
