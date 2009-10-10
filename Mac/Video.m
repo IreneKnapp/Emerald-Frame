@@ -359,7 +359,7 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
     GLint pixel_format;
     GLint component_format;
     GLsizei size;
-    boolean swap_bytes = False;
+    boolean word_aligned;
     uint8_t *data;
     
     int width = [imageRepresentation pixelsWide];
@@ -375,13 +375,14 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
     if(format & NSAlphaFirstBitmapFormat) {
 	NSLog(@"Bitmap image representation has alpha first.");
 	return EF_ERROR_IMAGE_DATA;
-    } else if(!(format & NSAlphaNonpremultipliedBitmapFormat)) {
-	NSLog(@"Bitmap image representation has alpha premultiplied.");
-	return EF_ERROR_IMAGE_DATA;
     } else if(format & NSFloatingPointSamplesBitmapFormat) {
 	NSLog(@"Bitmap image representation has floating-point samples.");
 	return EF_ERROR_IMAGE_DATA;
     }
+    // There's no need to worry about NSAlphaNonPremultipliedBitmapFormat; it will be
+    // set for images without alpha, where it's irrelevant, but for images with alpha
+    // it will match what the file does - which means, for typical file formats, that
+    // it will not be set.
     
     if([imageRepresentation isPlanar]) {
 	NSLog(@"Bitmap image representation is planar.");
@@ -390,7 +391,14 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
     
     // Indicates the packed size, so for example for 24-bit RGB but word-aligned,
     // this is 32.
-    if([imageRepresentation bitsPerPixel] != 32) {
+    switch([imageRepresentation bitsPerPixel]) {
+    case 24:
+	word_aligned = False;
+	break;
+    case 32:
+	word_aligned = True;
+	break;
+    default:
 	NSLog(@"Bitmap image representation has %i bits per pixel.",
 	      [imageRepresentation bitsPerPixel]);
 	return EF_ERROR_IMAGE_DATA;
@@ -428,12 +436,16 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 	
     glPixelStorei(GL_UNPACK_ROW_LENGTH, packedWidth);
     glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, height);
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, swap_bytes);
+    //glPixelStorei(GL_UNPACK_SWAP_BYTES, swap_bytes);
+    if(word_aligned)
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    else
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     
     if(build_mipmaps) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D,
 			  pixel_format,
-			  size, size,
+			  width, height,
 			  pixel_format,
 			  component_format,
 			  data);
@@ -441,7 +453,7 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 	glTexImage2D(GL_TEXTURE_2D,
 		     0,
 		     pixel_format,
-		     size, size,
+		     width, height,
 		     0,
 		     pixel_format,
 		     component_format,

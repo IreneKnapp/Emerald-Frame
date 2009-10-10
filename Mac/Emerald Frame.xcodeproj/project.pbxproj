@@ -72,6 +72,12 @@
 		E235DD3B10800AF700A7BD66 /* TimerData.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD3710800AF700A7BD66 /* TimerData.m */; };
 		E235DD3C10800AF700A7BD66 /* TimerData.h in Headers */ = {isa = PBXBuildFile; fileRef = E235DD3610800AF700A7BD66 /* TimerData.h */; };
 		E235DD3D10800AF700A7BD66 /* TimerData.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DD3710800AF700A7BD66 /* TimerData.m */; };
+		E235DED21080D57000A7BD66 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DED11080D57000A7BD66 /* Configuration.m */; };
+		E235DED31080D57000A7BD66 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DED11080D57000A7BD66 /* Configuration.m */; };
+		E235DED41080D57000A7BD66 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = E235DED11080D57000A7BD66 /* Configuration.m */; };
+		E235DF4F1080DDC900A7BD66 /* test-color.png in Resources */ = {isa = PBXBuildFile; fileRef = E235DF4D1080DDC400A7BD66 /* test-color.png */; };
+		E235E09E1080E9A700A7BD66 /* test-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = E235E09C1080E99F00A7BD66 /* test-transparent.png */; };
+		E235E0FA1080ECD100A7BD66 /* test-partial-alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = E235E0F81080ECCB00A7BD66 /* test-partial-alpha.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +151,10 @@
 		E235DD311080080400A7BD66 /* Time.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Time.m; sourceTree = "<group>"; };
 		E235DD3610800AF700A7BD66 /* TimerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerData.h; sourceTree = "<group>"; };
 		E235DD3710800AF700A7BD66 /* TimerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerData.m; sourceTree = "<group>"; };
+		E235DED11080D57000A7BD66 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
+		E235DF4D1080DDC400A7BD66 /* test-color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "test-color.png"; path = "../Test/test-color.png"; sourceTree = SOURCE_ROOT; };
+		E235E09C1080E99F00A7BD66 /* test-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "test-transparent.png"; path = "../Test/test-transparent.png"; sourceTree = SOURCE_ROOT; };
+		E235E0F81080ECCB00A7BD66 /* test-partial-alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "test-partial-alpha.png"; path = "../Test/test-partial-alpha.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +230,9 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E235E0F81080ECCB00A7BD66 /* test-partial-alpha.png */,
+				E235E09C1080E99F00A7BD66 /* test-transparent.png */,
+				E235DF4D1080DDC400A7BD66 /* test-color.png */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				E235D7B5107F250600A7BD66 /* Test Application-Info.plist */,
@@ -252,6 +265,7 @@
 				E235DD261080072E00A7BD66 /* General */,
 				E235DD251080069900A7BD66 /* Video */,
 				E235DD2C1080077C00A7BD66 /* Time */,
+				E235DED01080D55A00A7BD66 /* Configuration */,
 				E235DD231080066F00A7BD66 /* Test Application */,
 			);
 			name = Sources;
@@ -305,6 +319,14 @@
 				E235DD3710800AF700A7BD66 /* TimerData.m */,
 			);
 			name = Time;
+			sourceTree = "<group>";
+		};
+		E235DED01080D55A00A7BD66 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				E235DED11080D57000A7BD66 /* Configuration.m */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,6 +478,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E235DF4F1080DDC900A7BD66 /* test-color.png in Resources */,
+				E235E09E1080E9A700A7BD66 /* test-transparent.png in Resources */,
+				E235E0FA1080ECD100A7BD66 /* test-partial-alpha.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +499,7 @@
 				E235DB40107F99EE00A7BD66 /* DrawableOpenGLView.m in Sources */,
 				E235DD341080080400A7BD66 /* Time.m in Sources */,
 				E235DD3D10800AF700A7BD66 /* TimerData.m in Sources */,
+				E235DED21080D57000A7BD66 /* Configuration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +515,7 @@
 				E235DB42107F99EE00A7BD66 /* DrawableOpenGLView.m in Sources */,
 				E235DD321080080400A7BD66 /* Time.m in Sources */,
 				E235DD3910800AF700A7BD66 /* TimerData.m in Sources */,
+				E235DED31080D57000A7BD66 /* Configuration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +531,7 @@
 				E235DB3E107F99EE00A7BD66 /* DrawableOpenGLView.m in Sources */,
 				E235DD331080080400A7BD66 /* Time.m in Sources */,
 				E235DD3B10800AF700A7BD66 /* TimerData.m in Sources */,
+				E235DED41080D57000A7BD66 /* Configuration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

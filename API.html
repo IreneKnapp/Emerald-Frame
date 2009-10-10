@@ -83,9 +83,11 @@ div.title {
 <h1>Contents</h1>
 <ul class="contents">
 <li><a href="#S_introduction"><b>1.</b> Introduction</a></li>
+<li><a href="#S_introduction_downloads"><b>1.1</b> Downloads</a></li>
 <li><a href="#S_sample"><b>2.</b> Sample Programs</a> <ul>
 <li><a href="#S_sample_skeleton"><b>2.1.</b> The Skeleton</a></li>
 <li><a href="#S_sample_time"><b>2.2.</b> Timed Drawing</a></li>
+<li><a href="#S_sample_textures"><b>2.3.</b> Loading Textures</a></li>
 </ul></li>
 <li><a href="#S_reference"><b>3.</b> Reference</a> <ul>
 <li><a href="#S_reference_general"><b>3.1.</b> General</a> <ul>
@@ -127,6 +129,8 @@ div.title {
 <li><a href="#ef_video_set_sample_alpha"><span class="code">ef_video_set_sample_alpha</span></a></li>
 </ul></li>
 <li><a href="#S_reference_video_images"><b>3.2.4.</b> Image Files</a><ul>
+<li><a href="#ef_video_load_texture_file"><span class="code">ef_video_load_texture_file</span></a></li>
+<li><a href="#ef_video_load_texture_memory"><span class="code">ef_video_load_texture_memory</span></a></li>
 </ul></li>
 </ul></li>
 <li><a href="#S_reference_audio"><b>3.3.</b> Audio</a> <ul>
@@ -142,6 +146,7 @@ div.title {
 <li><a href="#S_reference_text"><b>3.6.</b> Text</a> <ul>
 </ul></li>
 <li><a href="#S_reference_configuration"><b>3.7.</b> Configuration</a> <ul>
+<li><a href="#ef_configuration_resource_directory"><span class="code">ef_configuration_resource_directory</span></a></li>
 </ul></li>
 <li><a href="#S_reference_pasteboard"><b>3.8.</b> Pasteboard</a> <ul>
 </ul></li>
@@ -180,6 +185,9 @@ foreign-function interfaces.</p>
 
 <p>Emerald Frame, lastly, is designed to stay out of your way.  You should be able to
 get in, do what you need to do, and get out, with minimal fuss.</p>
+
+
+<a name="S_introduction_downloads"><h2>1.1. Downloads</h2></a>
 
 
 <a name="S_sample"><h1>2. Sample Programs</h1></a>
@@ -264,9 +272,10 @@ or <span class="code">glFlush</span> if it is not.  Because these have different
 (but overlapping) behaviors, there is no way for Emerald Frame to know which you
 intended.</p>
 
-<p>This skeleton will serve as the basis for the later examples; each example will start
-from a clean copy of the skeleton, and modify and add to it to make its point.  You
-might also wish to use it as the basis for your own programs.</p>
+<p>Each example will serve as the basis for the later examples, adding on to the ones
+that have come before.  For your convenience, you can get the full working versions of
+the examples in <a href="#S_introduction_downloads">the downloads section</a>, but I
+recommend you actually read the chapters so that you will understand how they work.</p>
 
 
 <a name="S_sample_time"><h2>2.2. Timed Drawing</h2></a>
@@ -357,6 +366,206 @@ we're at, and therefore what state the animation is in.  The call to
 the elapsed number of frames into the parameter that determines what angle to rotate
 by.  This code is set to rotate 90 degrees in 100 frames, which, since we are running
 at 50 fps, is a full circle every eight seconds.  Like clockwork!</p>
+
+
+<a name="S_sample_textures"><h2>2.3. Loading Textures</h2></a>
+
+<p>Although it is certainly possible to have a program which uses only vector graphics,
+it's often desirable to include bitmapped images.  In OpenGL, this is accomplished using
+textures; but the problem you may be having is converting a file on disk into a
+texture in video memory.  Emerald Frame has a facility to do this for you.</p>
+
+<p>Start from the completed example from <a href="#S_sample_time">section two</a>.</p>
+
+<p>We're going to be using some memory-management functions, so add the following at
+the end of the includes section:</p>
+
+<div class="code">#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</div>
+
+<p>We're going to create a new function that loads the textures, so add the following at
+the start of the function prototypes:</p>
+
+<div class="code">void load_textures(EF_Drawable drawable);
+</div>
+
+<p>In OpenGL, to access a texture you need to know its texture ID.  For simplicity, we
+will keep texture IDs in a global array; add the following at the end of the global
+variables:</p>
+
+<div class="code">static GLuint texture_ids[3];
+</div>
+
+<p>Since textures are loaded into OpenGL contexts, and the context isn't created until
+the drawable is, we have to put the call to <span class="code">load_textures</span>
+after the call to <span class="code">ef_drawable_set_drawable_callback</span>.  Because
+we also need to call <span class="code">glEnable(GL_TEXTURE_2D)</span> somewhere before
+this call, and the most logical place for that call is inside
+<span class="code">init_gl</span> with the other initialization, we will put the new
+call after that call, as well.  Place the following immediately below the call to
+<span class="code">init_gl</span> inside <span class="code">main</span>:</p>
+
+<div class="code">    load_textures(drawable);
+</div>
+
+<p>As mentioned above, we need to enable the texture feature before we can use it.  Add
+the following to the end of <span class="code">init_gl</span>:</p>
+
+<div class="code">    glEnable(GL_TEXTURE_2D);
+</div>
+
+<p>Add the following function definition immediately after the end of
+<span class="code">main</span>:</p>
+
+<div class="code">void load_textures(EF_Drawable drawable) {
+    ef_drawable_make_current(drawable);
+    
+    glGenTextures(3, texture_ids);
+    
+    utf8 *resource_path = ef_configuration_resource_directory();
+    
+    utf8 *test_texture_path;
+    
+    test_texture_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
+    strcpy((char *) test_texture_path, (char *) resource_path);
+    strcat((char *) test_texture_path, "test-color.png");
+    ef_video_load_texture_file(test_texture_path, texture_ids[0], True);
+    free(test_texture_path);
+    
+    test_texture_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
+    strcpy((char *) test_texture_path, (char *) resource_path);
+    strcat((char *) test_texture_path, "test-transparent.png");
+    ef_video_load_texture_file(test_texture_path, texture_ids[1], True);
+    free(test_texture_path);
+    
+    test_texture_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
+    strcpy((char *) test_texture_path, (char *) resource_path);
+    strcat((char *) test_texture_path, "test-partial-alpha.png");
+    ef_video_load_texture_file(test_texture_path, texture_ids[2], True);
+    free(test_texture_path);
+}
+</div>
+
+<p>In order to load textures, we need to allocate IDs for them; the call to
+<span class="code">glGenTextures</span> does that, generating three IDs that we can
+use in later calls.  These IDs will remain allocated even if you unload the textures
+themselves, unless you explicitly deallocate them.  Since
+<span class="code">glGenTextures</span> needs there to be a current OpenGL context,
+we have to call <span class="code">ef_drawable_make_current</span> before it, so we
+do that, too.</p>
+
+<p>We can't perform the actual loading quite yet; we have another problem - how do we
+find the files which we are distributing with the application?  It can be nontrivial to
+install things such that you can find them later.  Emerald Frame recommends that you
+follow the most common practices for your platform:  On Windows, place them in the same
+directory as the executable.  On the Mac, place them in the Resources directory inside
+the application bundle (XCode will do this for you if you add them to the project).
+In either case, the same Emerald Frame library function will tell you the appropriate
+path to find them at:
+<a href="ef_configuration_resource_directory">ef_configuration_resource_directory</a>.</p>
+
+<p>Now we have some relatively boring string-manipulation code.  If you're used to a
+language with advanced string processing, this may look arcane to you, but it's the C
+way to concatenate two strings.  The meat of these three stanzas is the call in each
+one to <span class="code">ef_video_load_texture_file</span>; this library call fetches
+the image from the filename it's given, and loads it into the texture with the ID it's
+also given.  The <span class="code">True</span> parameter instructs it to generate
+mipmaps automatically, so that the image will be scaled smoothly up and down if it's
+drawn at different sizes.</p>
+
+<p>So much for loading the textures; let's move on to drawing them.  I've provided
+three sample images; the first is opaque, the second has a transparent background, and
+the third illustrates partial transparency with blending.  For the blending to work,
+we need to turn it on first, so add the following to the end of
+<span class="code">init_gl</span>:</p>
+
+<div class="code">    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+</div>
+
+<p>It's not my purpose in this tutorial to teach OpenGL, so I'm simply going to
+present the <span class="code">draw</span> function in its entirety.  If you know
+OpenGL, it should be clear how it works.  Replace the definition of the
+<span class="code">draw</span> function with the following:</p>
+
+<div class="code">void draw(EF_Drawable drawable, void *context) {
+    uint64_t current_time = ef_time_unix_epoch();
+    uint64_t elapsed_frames = (current_time - startup_time) / 20;
+    
+    glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+    
+    glPushMatrix();
+    
+    glTranslatef(320.0f, 240.0f, 0.0f);
+    glRotatef(elapsed_frames * (90.0f / 100.0f), 0.0f, 0.0f, 1.0f);
+
+    glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2s(0, 120);
+    glVertex2s(60, -60);
+    glVertex2s(-60, -60);
+    glEnd();
+
+    glPopMatrix();
+    
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glEnable(GL_BLEND);
+    
+    glBindTexture(GL_TEXTURE_2D, texture_ids[0]);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2s(0, 0);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2s(128, 0);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2s(128, 128);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2s(0, 128);
+    glEnd();
+    
+    glBindTexture(GL_TEXTURE_2D, texture_ids[1]);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2s(128, 0);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2s(256, 0);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2s(256, 128);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2s(128, 128);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, texture_ids[2]);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2s(256, 0);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2s(384, 0);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2s(384, 128);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2s(256, 128);
+    glEnd();
+        
+    ef_drawable_swap_buffers(drawable);
+}
+</div>
+
+<p>There is one subtlety I would like to call your attention to:  The two coordinate
+systems.  Emerald Frame loads images such that the top-left corner is at (0.0, 0.0) in
+texture space.  However, we set up a coordinate system for the window which - per the
+usual convention for OpenGL, though it's by no means universal - has (0, 0) at the
+lower-left corner.  This means that images need to be flipped vertically in order to
+appear properly.  We accomplish this by matching texture coordinates (0.0, 0.0) to
+the bottom-left of the square we're drawing, (0.0, 1.0) to the top-left, and so on.</p>
+
+<p>Now we have three images displaying, along with the rotating triangle.  Nice, huh?</p>
+
 
 <a name="S_reference"><h1>3. Reference</h1></a>
 
@@ -568,6 +777,36 @@ drawables).</p>
 
 <a name="S_reference_video_images"><h3>3.2.4. Image Files</h3></a>
 
+<a name="ef_video_load_texture_file"><h4>EF_Error ef_video_load_texture_file(utf8 *filename, GLuint id, boolean build_mipmaps)</h4></a>
+
+<p>Loads a bitmap image from an external file into an OpenGL texture.  The application
+must have already allocated the texture ID, as with
+<span class="code">glGenTextures</span>.
+If the image data is not a square image with a power-of-two size, the created texture is
+the next larger such size that completely contains the image.
+What file formats are supported depends upon operating-system support, but will include
+PNG, GIF, and JPEG.
+Returns <span class="code">EF_ERROR_FILE</span> if the file cannot be found or cannot be
+read.  Returns <span class="code">EF_ERROR_IMAGE_DATA</span> if the file cannot be
+interpreted as a valid image with a supported pixel format.</p>
+
+<!--
+(It actually isn't, but this text is here in case things change.)
+<p>The image's alpha channel, if present, is premultiplied with the color channels; this
+means that it should be composited with
+<span class="code">glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)</span>,
+<b>not</b> with
+<span class="code">glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)</span>.</p>
+-->
+
+<a name="ef_video_load_texture_memory"><h4>EF_Error ef_video_load_texture_memory(uint8_t *data, size_t size, GLuint id, boolean build_mipmaps)</h4></a>
+
+<p>As <a href="#ef_video_load_texture_file">ef_video_load_texture_file</a>, but for
+the case where the data is already in memory (perhaps it came from a database or from
+an application-specific wrapper file).  Returns
+<span class="code">EF_ERROR_IMAGE_DATA</span>
+if the data cannot be interpreted as a valid image with a supported pixel format.</p>
+
 <a name="S_reference_audio"><h2>3.3. Audio</h2></a>
 
 <a name="S_reference_time"><h2>3.4. Time</h2></a>
@@ -601,6 +840,14 @@ cancelled, the timer is automatically disposed of and will not fire.</p>
 <a name="S_reference_text"><h2>3.6. Text</h2></a>
 
 <a name="S_reference_configuration"><h2>3.7. Configuration</h2></a>
+
+<a name="ef_configuration_resource_directory"><h4>utf8 *ef_configuration_resource_directory()</h4></a>
+
+<p>Returns the path to a platform-specific directory where resource files bundled as part of the application may be found.  The path is returned with a trailing slash (or operating-system-appropriate path component separator).  The path is in memory managed by the library and is valid only until the next call to this function; therefore, this function is not thread-safe.</p>
+
+<p>On the Mac, this is the <span class="code">Resources</span> directory inside the application bundle.</p>
+
+<p>On Windows, this is the directory containing the executable.</p>
 
 <a name="S_reference_pasteboard"><h2>3.8. Pasteboard</h2></a>
 

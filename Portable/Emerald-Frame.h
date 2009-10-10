@@ -83,5 +83,6 @@ uint64_t ef_time_unix_epoch();
 // Text
 
 // Configuration
+utf8 *ef_configuration_resource_directory();
 
 // Pasteboard
