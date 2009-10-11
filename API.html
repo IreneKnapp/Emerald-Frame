@@ -399,11 +399,8 @@ variables:</p>
 
 <p>Since textures are loaded into OpenGL contexts, and the context isn't created until
 the drawable is, we have to put the call to <span class="code">load_textures</span>
-after the call to <span class="code">ef_drawable_set_drawable_callback</span>.  Because
-we also need to call <span class="code">glEnable(GL_TEXTURE_2D)</span> somewhere before
-this call, and the most logical place for that call is inside
-<span class="code">init_gl</span> with the other initialization, we will put the new
-call after that call, as well.  Place the following immediately below the call to
+after the call to <span class="code">ef_drawable_set_drawable_callback</span>.
+Place the following immediately above the call to
 <span class="code">init_gl</span> inside <span class="code">main</span>:</p>
 
 <div class="code">    load_textures(drawable);
@@ -420,6 +417,8 @@ the following to the end of <span class="code">init_gl</span>:</p>
 
 <div class="code">void load_textures(EF_Drawable drawable) {
     ef_drawable_make_current(drawable);
+    
+    glEnable(GL_TEXTURE_2D);
     
     glGenTextures(3, texture_ids);
     
@@ -447,13 +446,16 @@ the following to the end of <span class="code">init_gl</span>:</p>
 }
 </div>
 
+<p>Before we can work with textures, we have to turn on the texture facility; we do this
+with the call to <span class="code">glEnable(GL_TEXTURE_2D)</span>.</p>
+
 <p>In order to load textures, we need to allocate IDs for them; the call to
 <span class="code">glGenTextures</span> does that, generating three IDs that we can
 use in later calls.  These IDs will remain allocated even if you unload the textures
 themselves, unless you explicitly deallocate them.  Since
-<span class="code">glGenTextures</span> needs there to be a current OpenGL context,
-we have to call <span class="code">ef_drawable_make_current</span> before it, so we
-do that, too.</p>
+<span class="code">glGenTextures</span> and <span class="code">glEnable</span> need
+there to be a current OpenGL context, we have to call
+<span class="code">ef_drawable_make_current</span> first, so we do that, too.</p>
 
 <p>We can't perform the actual loading quite yet; we have another problem - how do we
 find the files which we are distributing with the application?  It can be nontrivial to

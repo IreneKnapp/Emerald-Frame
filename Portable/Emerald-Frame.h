@@ -2,8 +2,22 @@
 #include <stdlib.h>
 
 #ifdef __APPLE__
+
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/glu.h>
+
+#else
+
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alu.h>
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 #endif
 
 typedef int EF_Error;
@@ -24,6 +38,8 @@ typedef uint32_t utf32;
 #define EF_ERROR_PARAM 1
 #define EF_ERROR_FILE 2
 #define EF_ERROR_IMAGE_DATA 3
+#define EF_ERROR_SOUND_DATA 4
+#define EF_ERROR_INTERNAL 100
 
 // General
 EF_Error ef_init(utf8 *application_name);
@@ -67,6 +83,8 @@ EF_Error ef_video_load_texture_file(utf8 *filename, GLuint id, boolean build_mip
 EF_Error ef_video_load_texture_memory(uint8_t *data, size_t size, GLuint id, boolean build_mipmaps);
 
 // Audio
+EF_Error ef_audio_load_sound_file(utf8 *filename, ALuint id);
+EF_Error ef_audio_load_sound_memory(uint8_t *data, size_t size, ALuint id);
 
 // Time
 EF_Timer ef_time_new_oneshot_timer(int milliseconds,

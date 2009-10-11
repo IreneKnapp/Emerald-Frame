@@ -4,6 +4,7 @@
 #include "Emerald-Frame.h"
 
 extern EF_Error ef_internal_video_init();
+extern EF_Error ef_internal_audio_init();
 extern EF_Error ef_internal_time_init();
 
 
@@ -21,6 +22,8 @@ EF_Error ef_init(utf8 *new_application_name) {
     if(error) return error;
     
     // Audio
+    error = ef_internal_audio_init();
+    if(error) return error;
     
     // Time
     error = ef_internal_time_init();
@@ -48,6 +51,10 @@ utf8 *ef_error_string(EF_Error error) {
     case EF_ERROR_FILE: return (utf8 *) "Missing or unreadable file.";
     case EF_ERROR_IMAGE_DATA:
 	return (utf8 *) "Invalid image or no supported pixel format.";
+    case EF_ERROR_SOUND_DATA:
+	return (utf8 *) "Invalid sound or unsupported encoding.";
+    case EF_ERROR_INTERNAL:
+	return (utf8 *) "Internal error - this is a bug in Emerald Frame.";
     default: return (utf8 *) "Unknown error.";
     }
 }

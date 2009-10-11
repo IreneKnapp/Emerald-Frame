@@ -26,8 +26,8 @@ int main(int argc, char **argv) {
     EF_Drawable drawable = ef_video_new_drawable(640, 480, False, NULL);
     ef_drawable_set_draw_callback(drawable, draw, NULL);
 
-    init_gl(drawable);
     load_textures(drawable);
+    init_gl(drawable);
 
     startup_time = ef_time_unix_epoch();
 
@@ -39,6 +39,8 @@ int main(int argc, char **argv) {
 
 void load_textures(EF_Drawable drawable) {
     ef_drawable_make_current(drawable);
+    
+    glEnable(GL_TEXTURE_2D);
     
     glGenTextures(3, texture_ids);
     
@@ -75,8 +77,6 @@ void init_gl(EF_Drawable drawable) {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    glEnable(GL_TEXTURE_2D);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
