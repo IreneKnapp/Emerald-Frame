@@ -1,6 +1,4 @@
 #include "emerald-frame.h"
-#include <OpenAL/alc.h>
-#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
