@@ -88,6 +88,7 @@ div.title {
 <li><a href="#S_sample_skeleton"><b>2.1.</b> The Skeleton</a></li>
 <li><a href="#S_sample_time"><b>2.2.</b> Timed Drawing</a></li>
 <li><a href="#S_sample_textures"><b>2.3.</b> Loading Textures</a></li>
+<li><a href="#S_sample_audio"><b>2.4.</b> Audio</a></li>
 </ul></li>
 <li><a href="#S_reference"><b>3.</b> Reference</a> <ul>
 <li><a href="#S_reference_general"><b>3.1.</b> General</a> <ul>
@@ -134,6 +135,8 @@ div.title {
 </ul></li>
 </ul></li>
 <li><a href="#S_reference_audio"><b>3.3.</b> Audio</a> <ul>
+<li><a href="#ef_audio_load_sound_file"><span class="code">ef_audio_load_sound_file</span></a></li>
+<li><a href="#ef_audio_load_sound_memory"><span class="code">ef_audio_load_sound_memory</span></a></li>
 </ul></li>
 <li><a href="#S_reference_time"><b>3.4.</b> Time</a> <ul>
 <li><a href="#ef_time_new_oneshot_timer"><span class="code">ef_time_new_oneshot_timer</span></a></li>
@@ -569,6 +572,139 @@ the bottom-left of the square we're drawing, (0.0, 1.0) to the top-left, and so 
 <p>Now we have three images displaying, along with the rotating triangle.  Nice, huh?</p>
 
 
+<a name="S_sample_audio"><h2>2.4. Audio</h2></a>
+
+<p>Let's modify our sample to play some sounds!</p>
+
+<p>Start from the completed example from
+<a href="#S_sample_textures">section three</a>.</p>
+
+<p>We're going to define two new functions to initialize sound data; they will be
+analogous to <span class="code">load_textures</span> and
+<span class="code">init_gl</span>.  Add the following at the top of the function
+prototypes section:</p>
+
+<div class="code">void load_sounds();
+void init_al();
+</div>
+
+<p>We will be needing one variable for the "game" logic that determines when to play
+the sound, and two more for the mechanics of actually playing it.  Add the following at
+the bottom of the global variables section:</p>
+
+<div class="code">static int last_played_blip_at_frame;
+static ALuint audio_buffer_ids[2];
+static ALuint audio_source_ids[1];
+</div>
+
+<p>Like OpenGL, all OpenAL actions take place in a "context" which must be created
+first thing.  Unlike OpenGL, OpenAL provides a portable way to create that context.
+Therefore, rather than have a trivial wrapper around it, Emerald Frame simply lets you
+use the existing OpenAL mechanism for creating a context.  Add the following to the
+definition of <span class="code">main</span>, right after
+the call to <span class="code">ef_init</span>:</p>
+
+<div class="code">    ALCdevice *device = alcOpenDevice(NULL);
+    ALCcontext *context = alcCreateContext(device, NULL);
+    alcMakeContextCurrent(context);
+</div>
+
+<p>We need to actually call those initialization functions.  They need to come sometime
+after the OpenAL context has been created; just for ease of reading, let's put them
+near the other similar initialization functions.  Add the following to the definition
+of <span class="code">main</span>, right before
+the call to <span class="code">load_textures</span>:</p>
+
+<div class="code">    load_sounds();
+    init_al();
+</div>
+
+<p>We now have some actual "game" logic to implement!  We need to initialize its state.
+If there were more of it, we'd do that in a new function, but since it's just one
+line...  Add the following to the definition of <span class="code">main</span>, right
+before the call to <span class="code">ef_time_new_repeating_timer</span>:</p>
+
+<div class="code">    last_played_blip_at_frame = -1;
+</div>
+
+<p>Now for the meat of our new functions.  Add the following function definitions
+between the definition of
+<span class="code">main</span> and the definition of
+<span class="code">load_textures</span>:</p>
+
+<div class="code">void load_sounds() {
+    alGenBuffers(2, audio_buffer_ids);
+    
+    utf8 *resource_path = ef_configuration_resource_directory();
+
+    utf8 *test_sound_path;
+    
+    test_sound_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
+    strcpy((char *) test_sound_path, (char *) resource_path);
+    strcat((char *) test_sound_path, "blip.wav");
+    ef_audio_load_sound_file(test_sound_path, audio_buffer_ids[0]);
+    free(test_sound_path);
+    
+    test_sound_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
+    strcpy((char *) test_sound_path, (char *) resource_path);
+    strcat((char *) test_sound_path, "pulse.wav");
+    ef_audio_load_sound_file(test_sound_path, audio_buffer_ids[1]);
+    free(test_sound_path);
+}
+
+
+void init_al() {
+    alGenSources(1, audio_source_ids);
+    alSourceQueueBuffers(audio_source_ids[0], 1, &audio_buffer_ids[0]);
+}
+</div>
+
+<p>The first, <span class="code">load_sounds</span>, is very similar in its structure
+to <span class="code">load_textures</span>.  The audio context is already current -
+unlike the graphics context, it will remain set once we set it the first time - so
+there's nothing analogous to <span class="code">ef_drawable_make_current</span>.
+There is a strong analogy between <span class="code">glGenTextures</span> and
+<span class="code">alGenBuffers</span>, and between
+<span class="code">ef_video_load_texture_file</span> and
+<span class="code">ef_audio_load_sound_file</span>.  Here, we allocate several sound
+buffers which will persist through the entire life of the program.</p>
+
+<p>The second, <span class="code">init_al</span>, is almost trivial.  In OpenAL, a
+buffer is the actual audio data, while a source abstracts the mechanics of playback.
+A source can have zero or more buffers associated with it, in a queue.  Once we've
+allocated a single source, which we will reuse every time we wish to play this
+particular sound (but it needn't be that way), we push a buffer onto its queue.  This
+by itself does not start playback, merely determines what will happen when playback
+does start.</p>
+
+<p>Finally, the fun stuff.  We need some game logic, and earlier we said we would add
+that to <span class="code">frame</span> when we had any.  Add the following to the end
+of the definition of <span class="code">frame</span>:</p>
+
+<div class="code">    uint64_t current_time = ef_time_unix_epoch();
+    uint64_t elapsed_frames = (current_time - startup_time) / 20;
+    
+    int next_blip_frame;
+    if(last_played_blip_at_frame == -1)
+	next_blip_frame = 0;
+    else
+	next_blip_frame = last_played_blip_at_frame + 100;
+    
+    if(elapsed_frames >= next_blip_frame) {
+	alSourcePlay(audio_source_ids[0]);
+	last_played_blip_at_frame = next_blip_frame;
+    }
+</div>
+
+<p>The only interesting thing here from a learner's perspective is the call to
+<span class="code">alSourcePlay</span> on the source we created earlier, which simply
+puts the source into the playing state.  This triggers the sound to fire
+immediately.</p>
+
+<p>Now our rotating triangle is starting to seem like a clock, being as it blips every
+time it's pointing in one of the four cardinal directions.  Easy for you, a lot of work
+for me behind the scenes!</p>
+
 <a name="S_reference"><h1>3. Reference</h1></a>
 
 <a name="S_reference_general"><h2>3.1. General</h2></a>
@@ -810,6 +946,25 @@ an application-specific wrapper file).  Returns
 if the data cannot be interpreted as a valid image with a supported pixel format.</p>
 
 <a name="S_reference_audio"><h2>3.3. Audio</h2></a>
+
+<a name="ef_audio_load_sound_file"><h4>EF_Error ef_audio_load_sound_file(utf8 *filename, ALuint id)</h4></a>
+
+<p>Loads a sound from an external file into an OpenAL buffer.  The application
+must have already allocated the buffer ID, as with
+<span class="code">alGenBuffers</span>.
+What file formats are supported depends upon operating-system support, but will include
+WAV and MP3.
+Returns <span class="code">EF_ERROR_FILE</span> if the file cannot be found or cannot be
+read.  Returns <span class="code">EF_ERROR_SOUND_DATA</span> if the file cannot be
+interpreted as a valid sound with a supported codec.</p>
+
+<a name="ef_audio_load_sound_memory"><h4>EF_Error ef_audio_load_sound_memory(uint8_t *data, size_t size, ALuint id)</h4></a>
+
+<p>As <a href="#ef_audio_load_sound_file">ef_audio_load_sound_file</a>, but for
+the case where the data is already in memory (perhaps it came from a database or from
+an application-specific wrapper file).  Returns
+<span class="code">EF_ERROR_SOUND_DATA</span>
+if the data cannot be interpreted as a valid sound with a supported codec.</p>
 
 <a name="S_reference_time"><h2>3.4. Time</h2></a>
 
