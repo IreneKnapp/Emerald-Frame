@@ -39,6 +39,7 @@ utf8 *ef_configuration_resource_directory() {
 	  options: 0
 	  range: NSMakeRange(0, [path length])
 	  remainingRange: NULL];
+    result_buffer[usedLength] = '\0';
     
     [pool drain];
     
