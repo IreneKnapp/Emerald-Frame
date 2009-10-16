@@ -9,7 +9,8 @@ Build-Type:	Simple
 Cabal-Version:	>=1.2
 
 Library
-  Build-Depends:	base >= 3 && < 5, bytestring >= 0.9, utf8-string >= 0.3.5
+  Build-Depends:        base >= 3 && < 5, bytestring >= 0.9, utf8-string >= 0.3.5,
+                        OpenAL >= 1.4.0.0, OpenGL >= 2.4.0.1
   Exposed-modules:	Graphics.UI.EmeraldFrame
 --  extra-libraries:	emerald-frame
 --  extra-lib-dirs:	../Mac/build/Release/
