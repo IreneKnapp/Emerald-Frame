@@ -1,6 +1,7 @@
 #include "emerald-frame.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 
 void load_sounds();
@@ -9,6 +10,13 @@ void load_textures(EF_Drawable drawable);
 void init_gl(EF_Drawable drawable);
 void draw(EF_Drawable drawable, void *context);
 void frame(EF_Timer timer, void *context);
+void key_down(EF_Drawable drawable, EF_Event event, void *context);
+void key_up(EF_Drawable drawable, EF_Event event, void *context);
+void mouse_down(EF_Drawable drawable, EF_Event event, void *context);
+void mouse_up(EF_Drawable drawable, EF_Event event, void *context);
+void mouse_move(EF_Drawable drawable, EF_Event event, void *context);
+void mouse_enter(EF_Drawable drawable, EF_Event event, void *context);
+void mouse_exit(EF_Drawable drawable, EF_Event event, void *context);
 
 static uint64_t startup_time;
 static GLuint texture_ids[3];
@@ -34,17 +42,24 @@ int main(int argc, char **argv) {
     ef_video_set_multisample(True);
     EF_Drawable drawable = ef_video_new_drawable(640, 480, False, NULL);
     ef_drawable_set_draw_callback(drawable, draw, NULL);
+    ef_input_set_key_down_callback(drawable, key_down, NULL);
+    ef_input_set_key_up_callback(drawable, key_up, NULL);
+    ef_input_set_mouse_down_callback(drawable, mouse_down, NULL);
+    ef_input_set_mouse_up_callback(drawable, mouse_up, NULL);
+    ef_input_set_mouse_move_callback(drawable, mouse_move, NULL);
+    ef_input_set_mouse_enter_callback(drawable, mouse_enter, NULL);
+    ef_input_set_mouse_exit_callback(drawable, mouse_exit, NULL);
     
     load_sounds();
     init_al();
     
     load_textures(drawable);
     init_gl(drawable);
-
+    
     startup_time = ef_time_unix_epoch();
-
+    
     last_played_blip_at_frame = -1;
-
+    
     ef_time_new_repeating_timer(20, frame, (void *) drawable);
     
     ef_main();
@@ -225,4 +240,63 @@ void frame(EF_Timer timer, void *context) {
 	alSourcePlay(audio_source_ids[0]);
 	last_played_blip_at_frame = next_blip_frame;
     }
+}
+
+
+void key_down(EF_Drawable drawable, EF_Event event, void *context) {
+    printf("%lli Key down; keycode %li; key name '%s'; string '%s'.\n",
+	   ef_event_timestamp(event),
+	   (long int) ef_event_keycode(event),
+	   (char *) ef_input_key_name(ef_event_keycode(event)),
+	   ef_event_string(event));
+}
+
+
+void key_up(EF_Drawable drawable, EF_Event event, void *context) {
+    /*
+    printf("%lli Key up; keycode %li; string '%s'.\n",
+	   ef_event_timestamp(event),
+	   (long int) ef_event_keycode(event),
+	   ef_event_string(event));
+    */
+}
+
+
+void mouse_down(EF_Drawable drawable, EF_Event event, void *context) {
+    printf("%lli Mouse down; button %i; click count %i; location (%i, %i).\n",
+	   ef_event_timestamp(event),
+	   ef_event_button_number(event),
+	   ef_event_click_count(event),
+	   ef_event_mouse_x(event),
+	   ef_event_mouse_y(event));
+}
+
+
+void mouse_up(EF_Drawable drawable, EF_Event event, void *context) {
+    /*
+    printf("%lli Mouse up; button %i; click count %i.\n",
+	   ef_event_timestamp(event),
+	   ef_event_button_number(event),
+	   ef_event_click_count(event));
+    */
+}
+
+
+void mouse_move(EF_Drawable drawable, EF_Event event, void *context) {
+    /*
+    printf("%lli Mouse move; location (%i, %i).\n",
+	   ef_event_timestamp(event),
+	   ef_event_mouse_x(event),
+	   ef_event_mouse_y(event));
+    */
+}
+
+
+void mouse_enter(EF_Drawable drawable, EF_Event event, void *context) {
+    //printf("%lli Mouse enter.\n", ef_event_timestamp(event));
+}
+
+
+void mouse_exit(EF_Drawable drawable, EF_Event event, void *context) {
+    //printf("%lli Mouse exit.\n", ef_event_timestamp(event));
 }

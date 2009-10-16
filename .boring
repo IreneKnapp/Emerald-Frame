@@ -55,3 +55,4 @@
 (^|/)\.lock-wscript$
 ^\.darcs-temp-mail$
 ^Mac/build/.
+^Haskell/dist($|/)

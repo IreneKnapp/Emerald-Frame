@@ -24,6 +24,10 @@ typedef int EF_Error;
 typedef void *EF_Drawable;
 typedef void *EF_Display;
 typedef void *EF_Timer;
+typedef void *EF_Event;
+typedef uint32_t EF_Keycode;
+typedef uint32_t EF_Modifiers;
+typedef uint32_t EF_Dead_Key_State;
 typedef int boolean;
 typedef uint8_t utf8;
 typedef uint32_t utf32;
@@ -40,6 +44,12 @@ typedef uint32_t utf32;
 #define EF_ERROR_IMAGE_DATA 3
 #define EF_ERROR_SOUND_DATA 4
 #define EF_ERROR_INTERNAL 100
+
+#define EF_MODIFIER_CAPS_LOCK 1
+#define EF_MODIFIER_SHIFT 2
+#define EF_MODIFIER_CONTROL 4
+#define EF_MODIFIER_ALT 8
+#define EF_MODIFIER_COMMAND 16
 
 // General
 EF_Error ef_init(utf8 *application_name);
@@ -97,6 +107,54 @@ void ef_timer_cancel(EF_Timer timer);
 uint64_t ef_time_unix_epoch();
 
 // Input
+void ef_input_set_key_down_callback(EF_Drawable drawable,
+				    void (*callback)(EF_Drawable drawable,
+						     EF_Event event,
+						     void *context),
+				    void *context);
+void ef_input_set_key_up_callback(EF_Drawable drawable,
+				  void (*callback)(EF_Drawable drawable,
+						   EF_Event event,
+						   void *context),
+				  void *context);
+void ef_input_set_mouse_down_callback(EF_Drawable drawable,
+				      void (*callback)(EF_Drawable drawable,
+						       EF_Event event,
+						       void *context),
+				      void *context);
+void ef_input_set_mouse_up_callback(EF_Drawable drawable,
+				    void (*callback)(EF_Drawable drawable,
+						     EF_Event event,
+						     void *context),
+				    void *context);
+void ef_input_set_mouse_move_callback(EF_Drawable drawable,
+				      void (*callback)(EF_Drawable drawable,
+						       EF_Event event,
+						       void *context),
+				      void *context);
+void ef_input_set_mouse_enter_callback(EF_Drawable drawable,
+				       void (*callback)(EF_Drawable drawable,
+							EF_Event event,
+							void *context),
+				       void *context);
+void ef_input_set_mouse_exit_callback(EF_Drawable drawable,
+				      void (*callback)(EF_Drawable drawable,
+						       EF_Event event,
+						       void *context),
+				      void *context);
+uint64_t ef_event_timestamp(EF_Event event);
+EF_Modifiers ef_event_modifiers(EF_Event event);
+EF_Keycode ef_event_keycode(EF_Event event);
+utf8 *ef_event_string(EF_Event event);
+int ef_event_button_number(EF_Event event);
+int ef_event_click_count(EF_Event event);
+utf8 *ef_input_key_name(EF_Keycode keycode);
+EF_Keycode ef_input_keycode_by_name(utf8 *name);
+utf8 *ef_input_keycode_string(EF_Keycode keycode,
+			      EF_Modifiers modifiers,
+			      EF_Dead_Key_State *dead_key_state);
+int32_t ef_event_mouse_x(EF_Event event);
+int32_t ef_event_mouse_y(EF_Event event);
 
 // Text
 

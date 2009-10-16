@@ -343,25 +343,27 @@
 								<string>E235DD251080069900A7BD66</string>
 								<string>E235E3811081149000A7BD66</string>
 								<string>E235DD2C1080077C00A7BD66</string>
+								<string>E24BE3E71083AF4E00257F89</string>
 								<string>E235DED01080D55A00A7BD66</string>
 								<string>E235DD231080066F00A7BD66</string>
 								<string>089C1665FE841158C02AAC07</string>
 								<string>0867D69AFE84028FC02AAC07</string>
 								<string>034768DFFF38A50411DB9C8B</string>
-								<string>8DC2EF5B0486A6940098B216</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>E24BE08D10811F8300257F89</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>36</integer>
-									<integer>35</integer>
+									<integer>23</integer>
+									<integer>22</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 432}, {186, 445}}</string>
+							<string>{{0, 39}, {186, 445}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -408,22 +410,17 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E24BE1CD10818B7600257F89</string>
+										<string>E24BE5AE10880F4200257F89</string>
 										<key>history</key>
 										<array>
 											<string>E235D82E107F2A1800A7BD66</string>
-											<string>E235D82F107F2A1800A7BD66</string>
 											<string>E235D832107F2A1800A7BD66</string>
 											<string>E235D915107F37FF00A7BD66</string>
-											<string>E235DB4B107F9A8F00A7BD66</string>
-											<string>E235DBBB107F9C5A00A7BD66</string>
-											<string>E235DBFD107F9F3500A7BD66</string>
 											<string>E235DD291080073600A7BD66</string>
 											<string>E235DD2D1080078400A7BD66</string>
 											<string>E235DD4310800D8E00A7BD66</string>
 											<string>E235DD4510800D8E00A7BD66</string>
 											<string>E235DD4B10800D9E00A7BD66</string>
-											<string>E235DD5710800DE700A7BD66</string>
 											<string>E235DDBF1080109B00A7BD66</string>
 											<string>E235DEB01080D48000A7BD66</string>
 											<string>E235DEE01080D66A00A7BD66</string>
@@ -431,9 +428,15 @@
 											<string>E235E0D51080EA8600A7BD66</string>
 											<string>E235E1011080ECD400A7BD66</string>
 											<string>E235E1BB108109C400A7BD66</string>
-											<string>E235E38E108114F000A7BD66</string>
 											<string>E235E38F108114F000A7BD66</string>
-											<string>E24BE1781081870300257F89</string>
+											<string>E24BE2221082D89000257F89</string>
+											<string>E24BE3EC1083AF6900257F89</string>
+											<string>E24BE40A1083B30700257F89</string>
+											<string>E24BE45F1083B7A400257F89</string>
+											<string>E24BE4831083B9BB00257F89</string>
+											<string>E24BE56410857A7C00257F89</string>
+											<string>E24BE5AD10880F4200257F89</string>
+											<string>E24BE5AB10880F4000257F89</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -616,7 +619,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>276925302.52582401</real>
+	<real>277352258.44524401</real>
 	<key>ToolbarConfigUserDefaultsMinorVersion</key>
 	<string>2</string>
 	<key>ToolbarDisplayMode</key>
@@ -633,13 +636,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E24BE1CE10818B7600257F89</string>
 		<string>E24BE0A610811FA400257F89</string>
 		<string>E24BE0A710811FA400257F89</string>
-		<string>E235D6D5107EF2D000A7BD66</string>
-		<string>/Users/dankna/Projects/Emerald-Frame/Mac/Emerald Frame.xcodeproj</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>E235D6D5107EF2D000A7BD66</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>/Users/dankna/Projects/Emerald-Frame/Mac/Emerald Frame.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>506 353 788 504 0 0 1440 878 </string>
@@ -858,7 +860,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
@@ -990,7 +992,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {650, 209}}</string>
 								<key>RubberWindowFrame</key>
-								<string>341 97 650 250 0 0 1440 878 </string>
+								<string>340 97 650 250 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -1019,7 +1021,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>341 97 650 250 0 0 1440 878 </string>
+			<string>340 97 650 250 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>

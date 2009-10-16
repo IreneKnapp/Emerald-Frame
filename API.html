@@ -42,11 +42,15 @@ p {
 
 ul {
   list-style: none;
-  padding-left: 0.5em;
+  padding-left: 2.5em;
 }
 
 ul ul {
   padding-left: 1.5em;
+}
+
+ul.contents {
+  padding-left: 0.5em;
 }
 
 ul.contents a {
@@ -145,6 +149,30 @@ div.title {
 <li><a href="#ef_time_unix_epoch"><span class="code">ef_time_unix_epoch</span></a></li>
 </ul></li>
 <li><a href="#S_reference_input"><b>3.5.</b> Input</a> <ul>
+<li><a href="#S_reference_input_general"><b>3.5.1.</b> General</a> <ul>
+<li><a href="#ef_event_timestamp"><span class="code">ef_event_timestamp</span></a></li>
+<li><a href="#ef_event_modifiers"><span class="code">ef_event_modifiers</span></a></li>
+</ul></li>
+<li><a href="#S_reference_input_keyboard"><b>3.5.2.</b> Keyboard</a> <ul>
+<li><a href="#ef_input_set_key_down_callback"><span class="code">ef_input_set_key_down_callback</span></a></li>
+<li><a href="#ef_input_set_key_up_callback"><span class="code">ef_input_set_key_up_callback</span></a></li>
+<li><a href="#ef_event_keycode"><span class="code">ef_event_keycode</span></a></li>
+<li><a href="#ef_event_string"><span class="code">ef_event_string</span></a></li>
+<li><a href="#ef_input_key_name"><span class="code">ef_input_key_name</span></a></li>
+<li><a href="#ef_input_keycode_by_name"><span class="code">ef_input_keycode_by_name</span></a></li>
+<li><a href="#ef_input_keycode_string"><span class="code">ef_input_keycode_string</span></a></li>
+</ul></li>
+<li><a href="#S_reference_input_mouse"><b>3.5.3.</b> Mouse</a> <ul>
+<li><a href="#ef_input_set_mouse_down_callback"><span class="code">ef_input_set_mouse_down_callback</span></a></li>
+<li><a href="#ef_input_set_mouse_up_callback"><span class="code">ef_input_set_mouse_up_callback</span></a></li>
+<li><a href="#ef_input_set_mouse_move_callback"><span class="code">ef_input_set_mouse_move_callback</span></a></li>
+<li><a href="#ef_input_set_mouse_enter_callback"><span class="code">ef_input_set_mouse_enter_callback</span></a></li>
+<li><a href="#ef_input_set_mouse_exit_callback"><span class="code">ef_input_set_mouse_exit_callback</span></a></li>
+<li><a href="#ef_event_button_number"><span class="code">ef_event_button_number</span></a></li>
+<li><a href="#ef_event_click_count"><span class="code">ef_event_click_count</span></a></li>
+<li><a href="#ef_event_mouse_x"><span class="code">ef_event_mouse_x</span></a></li>
+<li><a href="#ef_event_mouse_y"><span class="code">ef_event_mouse_y</span></a></li>
+</ul></li>
 </ul></li>
 <li><a href="#S_reference_text"><b>3.6.</b> Text</a> <ul>
 </ul></li>
@@ -993,6 +1021,265 @@ cancelled, the timer is automatically disposed of and will not fire.</p>
 "unix epoch".</p>
 
 <a name="S_reference_input"><h2>3.5. Input</h2></a>
+
+<a name="S_reference_input_general"><h3>3.5.1. General</h3></a>
+
+<a name="ef_event_timestamp"><h4>uint64_t ef_event_timestamp(EF_Event event)</h4></a>
+
+<p>Returns the time the given event occurred, expressed in the same format as that
+returned by <a href="#ef_time_unix_epoch">ef_time_unix_epoch</a>.</p>
+
+<p>This function is valid on all types of events.</p>
+
+<a name="ef_event_modifiers"><h4>EF_Modifiers ef_event_modifiers(EF_Event event)</h4></a>
+
+<p>Returns a bitmask indicating which modifier keys were held down during the given
+event.  The bits for each modifier key are platform-independent and will not change in
+future releases of Emerald Frame.  They are:</p>
+
+<ul>
+<li><span class="code">EF_MODIFIER_CAPS_LOCK = 1</span> &mdash; The caps-lock key.</li>
+<li><span class="code">EF_MODIFIER_SHIFT = 2</span> &mdash; The shift key.</li>
+<li><span class="code">EF_MODIFIER_CONTROL = 4</span> &mdash; The control key.</li>
+<li><span class="code">EF_MODIFIER_ALT = 8</span> &mdash; The alt key, or the Macintosh option key (on the Mac, these keys are synonymous).</li>
+<li><span class="code">EF_MODIFIER_COMMAND = 16</span> &mdash; The Macintosh command key.</li>
+</ul>
+
+<p>This function is valid on all types of events.</p>
+
+<a name="S_reference_input_keyboard"><h3>3.5.2. Keyboard</h3></a>
+
+<a name="ef_input_set_key_down_callback"><h4>void ef_input_set_key_down_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time a key is pressed.  The function passed
+as the <span class="code">callback</span> parameter will be called with three parameters:
+the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<a name="ef_input_set_key_up_callback"><h4>void ef_input_set_key_up_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time a key is released.  The function passed
+as the <span class="code">callback</span> parameter will be called with three parameters:
+the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<a name="ef_event_keycode"><h4>EF_Keycode ef_event_keycode(EF_Event event)</h4></a>
+
+<p>Returns a code indicating which key was pressed or released for the given event.
+This code is <b>platform-dependent</b> and values for it should not be hardcoded into
+the application; instead, <a href="#ef_input_key_name">ef_input_key_name</a> and
+<a href="#ef_input_keycode_by_name">ef_input_keycode_by_name</a> should be used.
+This should also not be used to determine what characters were typed in an attempt to
+enter text; for that, use <a href="#ef_event_string">ef_event_string</a>.  Finally,
+the keycode is bound to the location of the key on the keyboard, so for example the
+same keycode might correspond to the key physically labeled "Q" on a US keyboard and
+"A" on a French keyboard.</p>
+
+<p>This function is valid on key-down and key-up events only.  If it is called on other
+types of events, the behavior is undefined.</p>
+
+<a name="ef_event_string"><h4>utf8 *ef_event_string(EF_Event event)</h4></a>
+
+<p>Returns a string which is the character or sequence of characters that the given
+event corresponds to if considered as an attempt to enter text.  For example, this
+may be an accented character, and if shift is pressed it may be an uppercase letter.
+This should not be used for play controls bound to a specific key; for that, use
+<a href="#ef_event_keycode">ef_event_keycode</a>.
+
+<p>This function is valid on key-down and key-up events only.  If it is called on other
+types of events, the behavior is undefined.</p>
+
+<a name="ef_input_key_name"><h4>utf8 *ef_input_key_name(EF_Keycode keycode)</h4></a>
+
+<p>Returns a platform-independent key name for the given platform-dependent keycode, if
+there is one, or <span class="code">NULL</span> if there is not.  Not all keys have
+names.  See <a href="#ef_input_keycode_by_name">ef_input_keycode_by_name</a> for a list
+of some specific key names.</p>
+
+<p>The strings returned by this function are statically allocated and do not need to be
+freed.</p>
+
+<a name="ef_input_keycode_by_name"><h4>EF_Keycode ef_input_keycode_by_name(utf8 *name)</h4></a>
+
+<p>Returns a platform-dependent keycode for the given platform-independent key name,
+if the name maps to a known key, or <span class="code">-1</span> if it does not.</p>
+
+<p>The following is a subset of the key names that exist:</p>
+
+<ul>
+<li><span class="code">"cursor up"</span></li>
+<li><span class="code">"cursor down"</span></li>
+<li><span class="code">"cursor left"</span></li>
+<li><span class="code">"cursor right"</span></li>
+<li><span class="code">"backspace"</span> <b>(note 1)</b></li>
+<li><span class="code">"tab"</span></li>
+<li><span class="code">"return"</span></li>
+<li><span class="code">"escape"</span></li>
+<li><span class="code">"space"</span></li>
+<li><span class="code">"tab"</span></li>
+<li><span class="code">"home"</span></li>
+<li><span class="code">"end"</span></li>
+<li><span class="code">"page up"</span></li>
+<li><span class="code">"page down"</span></li>
+<li><span class="code">"a"</span> through <span class="code">"z"</span> <b>(note 2)</b></li>
+<li><span class="code">"0"</span> through <span class="code">"9"</span></li>
+<li><span class="code">"F1"</span> through <span class="code">"F12"</span> <b>(note 3)</b></li>
+</ul>
+
+<p><b>Note 1:</b> On the Macintosh, this key is physically labeled "delete";
+Emerald Frame maps it to the name <span class="code">"backspace"</span> because that
+is both the standard mapping and the way it behaves.</p>
+
+<p><b>Note 2:</b> Key codes are bound to the locations of keys on the keyboard, not to
+the characters produced by the keys (for that, see
+<a href="#ef_event_string">ef_event_string</a>), so on many keyboards these alphabetic
+names may not correspond to the physical label of the key.  The alphabetic names
+reflect the US/Qwerty layout, so for example the keys named "w", "a", "s", and "d" will
+always form a cursor-like layout.</p>
+
+<p><b>Note 3:</b> For Macintosh users, the function keys are difficult or in some
+cases impossible to type, because they are reserved for operating-system commands.
+Therefore, I recommend that you not use them for important controls!</p>
+
+<a name="ef_input_keycode_string"><h4>utf8 *ef_input_keycode_string(EF_Keycode keycode, EF_Modifiers modifiers, EF_Dead_Key_State *dead_key_state)</h4></a>
+
+<p>Returns the string of characters which would be produced by a press of the key with
+the given keycode, with the given modifier keys pressed, in the given dead-key state.
+Also modifies the given dead-key state as the keypress would modify it.  Dead-key state
+is an opaque value; your code should set it to 0 to indicate the default state, or to
+a value previously given by this function.  Returns NULL if the keypress would produce
+no immediate output.  The string returned by this function is in statically-allocated
+memory and does not need to be freed; it remains valid until the next call to this
+function.</p>
+
+<a name="S_reference_input_mouse"><h3>3.5.3. Mouse</h3></a>
+
+<a name="ef_input_set_mouse_down_callback"><h4>void ef_input_set_mouse_down_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time any mouse button is pressed.  The function
+passed as the <span class="code">callback</span> parameter will be called with three
+parameters: the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<a name="ef_input_set_mouse_up_callback"><h4>void ef_input_set_mouse_up_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time any mouse button is released.  The function
+passed as the <span class="code">callback</span> parameter will be called with three
+parameters: the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<a name="ef_input_set_mouse_move_callback"><h4>void ef_input_set_mouse_move_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time the mouse is moved.  The function passed
+as the <span class="code">callback</span> parameter will be called with three parameters:
+the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<p>The mouse-move callback is called regardless of whether there are any mouse buttons
+held down; if you need to do processing based on whether buttons are held down, you must
+save that information in the mouse-down callback.</p>
+
+<a name="ef_input_set_mouse_enter_callback"><h4>void ef_input_set_mouse_enter_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time the mouse moves to enter the drawable's
+window.  The function passed
+as the <span class="code">callback</span> parameter will be called with three parameters:
+the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<a name="ef_input_set_mouse_exit_callback"><h4>void ef_input_set_mouse_exit_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
+
+<p>Sets a callback to be invoked every time the mouse moves to exit the drawable's
+window.  The function passed
+as the <span class="code">callback</span> parameter will be called with three parameters:
+the drawable in question, an event object, and the user-supplied
+<span class="code">context</span> parameter given when this function is called.  The
+memory for the event object is managed by Emerald Frame and does not need to be
+explicitly freed; it is valid for the duration of the callback's execution.</p>
+
+<p>If there is an existing callback, the new one replaces it.  If
+<span class="code">NULL</span> is passed, any existing callback is removed.</p>
+
+<a name="ef_event_button_number"><h4>int ef_event_button_number(EF_Event event)</h4></a>
+
+<p>Returns an integer indicating which mouse button was pressed or released to trigger
+the given event.  The left mouse button is 0, the right mouse button is 1, and the
+middle mouse button is 2; other mouse buttons have platform-dependent numbers.</p>
+
+<p>Note that for Macintosh users, the middle mouse button is often absent and should
+therefore not be used for important commands.</p>
+
+<p>Also note that on the Macintosh, it is conventional for control-left-click to be
+synonymous with right-click; if you wish to implement this synonym, you must do it at
+the application layer.  Emerald Frame will return control-left-click as a left click
+with the control modifier, for maximum application flexibility.</p>
+
+<p>This function is valid on mouse-down and mouse-up events only.  If it is called on
+other types of events, the behavior is undefined.</p>
+
+<a name="ef_event_click_count"><h4>int ef_event_click_count(EF_Event event)</h4></a>
+
+<p>Returns an integer indicating how many times in rapid succession the mouse button
+was pressed (and, for mouse-up events, released).  A sequence of mouse-up and mouse-down
+events is only regarded as a click or multiple click if there is no mouse-move event
+any time after the first mouse-down event in the sequence.  The first mouse-down and
+the first mouse-up event will both have a click count of 1; the second will have a
+click count of 2; and so on.  However, if at any time the mouse is moved, the click
+count resets to 0.  Therefore, in addition to double-clicking, this function can be
+used to implement a no-slip-clicking feature by checking it on mouse-up.</p.
+
+<p>This function is valid on mouse-down and mouse-up events only.  If it is called on
+other types of events, the behavior is undefined.</p>
+
+<a name="ef_event_mouse_x"><h4>uint32_t ef_event_mouse_x(EF_Event event)</h4></a>
+
+<p>Returns the X position of the mouse for the given event.  The coordinate system used
+has the point (0, 0) as the lower-left corner of the window.  For mouse-move events,
+this may return a location outside the window, either negative or greater than its
+width.</p>
+
+<p>This function is valid on mouse-down, mouse-up, and mouse-move events only.  If it
+is called on other types of events, the behavior is undefined.</p>
+
+<a name="ef_event_mouse_y"><h4>uint32_t ef_event_mouse_y(EF_Event event)</h4></a>
+
+<p>Returns the Y position of the mouse for the given event.  The coordinate system used
+has the point (0, 0) as the lower-left corner of the window.  For mouse-move events,
+this may return a location outside the window, either negative or greater than its
+height.</p>
+
+<p>This function is valid on mouse-down, mouse-up, and mouse-move events only.  If it
+is called on other types of events, the behavior is undefined.</p>
 
 <a name="S_reference_text"><h2>3.6. Text</h2></a>
 
