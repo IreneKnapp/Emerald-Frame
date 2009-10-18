@@ -238,10 +238,10 @@ audioLoadSoundMemory pointer size bufferObject = do
   theID <- return $ fromIntegral $ marshalBuffer $ Just bufferObject
   audioLoadSoundMemory' pointer size theID
 
-foreign import ccall safe "ef_time_new_oneshot_timer" newOneshotTimer
+foreign import ccall safe "ef_time_new_oneshot_timer" timeNewOneshotTimer
     :: CInt -> FunPtr TimerCallback -> Ptr () -> IO Timer
 
-foreign import ccall safe "ef_time_new_repeating_timer" newRepeatingTimer
+foreign import ccall safe "ef_time_new_repeating_timer" timeNewRepeatingTimer
     :: CInt -> FunPtr TimerCallback -> Ptr () -> IO Timer
 
 foreign import ccall safe "ef_timer_cancel" timerCancel
@@ -302,6 +302,13 @@ inputKeyName keycode = do
   cString <- inputKeyName' keycode
   byteString <- packCString cString
   return $ toString byteString
+
+foreign import ccall safe "ef_input_keycode_by_name" inputKeycodeByName'
+    :: Ptr UTF8 -> IO Keycode
+inputKeycodeByName :: String -> IO Keycode
+inputKeycodeByName string = do
+  byteString <- return $ fromString string
+  useAsCString byteString (\cString -> inputKeycodeByName' cString)
 
 foreign import ccall safe "ef_input_keycode_string" inputKeycodeString'
     :: Keycode -> Modifiers -> Ptr DeadKeyState -> IO (Ptr UTF8)
