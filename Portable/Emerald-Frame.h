@@ -10,6 +10,15 @@
 #include <OpenGL/glu.h>
 
 #else
+#ifdef __WIN32__
+
+#include <al.h>
+#include <alc.h>
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+#else
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -18,6 +27,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#endif
 #endif
 
 typedef int EF_Error;
