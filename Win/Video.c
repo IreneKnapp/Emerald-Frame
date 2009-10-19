@@ -319,14 +319,19 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	return 0;
 	
     case WM_PAINT:
-	if(drawable) {
-	    if(drawable->draw_callback) {
+	{
+	    PAINTSTRUCT paint;
+	    BeginPaint(window, &paint);
+	    if(drawable) {
+		if(drawable->draw_callback) {
 		ef_drawable_make_current((EF_Drawable) drawable);
 		drawable->draw_callback((EF_Drawable) drawable,
 					drawable->draw_callback_context);
+		}
 	    }
+	    EndPaint(window, &paint);
+	    return 0;
 	}
-	return 0;
 	
     case WM_KEYDOWN:
 	return 0;
