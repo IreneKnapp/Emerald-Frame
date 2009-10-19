@@ -1,11 +1,10 @@
-#import <math.h>
-
 #import "Emerald-Frame.h"
+#import <windows.h>
 
 
 struct ef_drawable_parameters {
-    boolean double_buffer;
-    boolean stereo;
+    int double_buffer;
+    int stereo;
     int aux_buffers;
     int color_size;
     int alpha_size;
@@ -13,14 +12,35 @@ struct ef_drawable_parameters {
     int stencil_size;
     int accumulation_size;
     int samples;
-    boolean aux_depth_stencil;
-    boolean color_float;
-    boolean multisample;
-    boolean supersample;
-    boolean sample_alpha;
+    int aux_depth_stencil;
+    int color_float;
+    int multisample;
+    int supersample;
+    int sample_alpha;
 };
 
+struct drawable {
+    HWND window;
+    HDC device_context;
+    HGLRC rendering_context;
+    void (*draw_callback)(EF_Drawable drawable, void *context);
+    void *draw_callback_context;
+};
+
+
 static struct ef_drawable_parameters drawable_parameters;
+static HINSTANCE hInstance;
+static size_t n_drawables;
+static struct drawable **all_drawables;
+
+
+extern utf8 *ef_internal_application_name();
+
+
+static LRESULT CALLBACK window_procedure(HWND window,
+					 UINT message,
+					 WPARAM wParam,
+					 LPARAM lParam);
 
 
 EF_Error ef_internal_video_init() {
@@ -38,6 +58,24 @@ EF_Error ef_internal_video_init() {
     drawable_parameters.multisample = False;
     drawable_parameters.supersample = False;
     drawable_parameters.sample_alpha = False;
+
+    n_drawables = 0;
+    all_drawables = NULL;
+    
+    hInstance = GetModuleHandle(NULL);
+    
+    WNDCLASS window_class;
+    window_class.style = CS_OWNDC;
+    window_class.lpfnWndProc = window_procedure;
+    window_class.cbClsExtra = 0;
+    window_class.cbWndExtra = 0;
+    window_class.hInstance = hInstance;
+    window_class.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
+    window_class.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
+    window_class.lpszMenuName = NULL;
+    window_class.lpszClassName = "Emerald Frame";
+    RegisterClass(&window_class);
     
     return 0;
 }
@@ -45,10 +83,64 @@ EF_Error ef_internal_video_init() {
 
 EF_Drawable ef_video_new_drawable(int width,
 				  int height,
-				  boolean full_screen,
+				  int full_screen,
 				  EF_Display display)
 {
-    // TODO
+    struct drawable *drawable = malloc(sizeof(struct drawable));
+    
+    drawable->window = CreateWindow("Emerald Frame",
+				    ef_internal_application_name(),
+				    WS_CAPTION | WS_POPUPWINDOW | WS_VISIBLE,
+				    CW_USEDEFAULT, CW_USEDEFAULT,
+				    width, height,
+				    NULL, NULL, hInstance, NULL);
+    
+    drawable->device_context = GetDC(drawable->window);
+    
+    PIXELFORMATDESCRIPTOR pixel_format;
+    ZeroMemory(&pixel_format, sizeof(pixel_format));
+    pixel_format.nSize = sizeof(pixel_format);
+    pixel_format.nVersion = 1;
+    pixel_format.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pixel_format.iPixelType = PFD_TYPE_RGBA;
+    pixel_format.cColorBits = 24;
+    pixel_format.cDepthBits = 16;
+    pixel_format.iLayerType = PFD_MAIN_PLANE;
+    int internal_pixel_format = ChoosePixelFormat(drawable->device_context,
+						  &pixel_format);
+    SetPixelFormat(drawable->device_context, internal_pixel_format, &pixel_format);
+    
+    drawable->rendering_context = wglCreateContext(drawable->device_context);
+
+    n_drawables++;
+    all_drawables = realloc(all_drawables, sizeof(struct drawable *) * n_drawables);
+    all_drawables[n_drawables-1] = drawable;
+    
+    return (EF_Drawable) drawable;
+}
+
+
+void ef_drawable_delete(EF_Drawable ef_drawable) {
+    struct drawable *drawable = (struct drawable *) ef_drawable;
+    
+    wglMakeCurrent(NULL, NULL);
+    wglDeleteContext(drawable->rendering_context);
+    ReleaseDC(drawable->window, drawable->device_context);
+    DestroyWindow(drawable->window);
+    free(drawable);
+
+    for(size_t i = 0; i < n_drawables; i++) {
+	if(all_drawables[i] == drawable) {
+	    for(size_t j = i; j < n_drawables; j++)
+		all_drawables[j] = all_drawables[j+1];
+	    
+	    n_drawables--;
+	    all_drawables = realloc(all_drawables,
+				    sizeof(struct drawable *) * n_drawables);
+	    
+	    break;
+	}
+    }
 }
 
 
@@ -57,12 +149,14 @@ void ef_drawable_set_title(EF_Drawable drawable, utf8 *title) {
 }
 
 
-void ef_drawable_set_draw_callback(EF_Drawable drawable,
+void ef_drawable_set_draw_callback(EF_Drawable ef_drawable,
 				   void (*callback)(EF_Drawable drawable,
 						    void *context),
 				   void *context)
 {
-    // TODO
+    struct drawable *drawable = (struct drawable *) ef_drawable;
+    drawable->draw_callback = callback;
+    drawable->draw_callback_context = context;
 }
 
 
@@ -71,22 +165,27 @@ void ef_drawable_redraw(EF_Drawable drawable) {
 }
 
 
-void ef_drawable_make_current(EF_Drawable drawable) {
-    // TODO
+void ef_drawable_make_current(EF_Drawable ef_drawable) {
+    struct drawable *drawable = (struct drawable *) ef_drawable;
+    
+    wglMakeCurrent(drawable->device_context, drawable->rendering_context);
 }
 
 
-void ef_drawable_swap_buffers(EF_Drawable drawable) {
-    // TODO
+void ef_drawable_swap_buffers(EF_Drawable ef_drawable) {
+    ef_drawable_make_current(ef_drawable);
+    glFlush();
+    struct drawable *drawable = (struct drawable *) ef_drawable;
+    SwapBuffers(drawable->device_context);
 }
 
 
-void ef_video_set_double_buffer(boolean double_buffer) {
+void ef_video_set_double_buffer(int double_buffer) {
     drawable_parameters.double_buffer = double_buffer;
 }
 
 
-void ef_video_set_stereo(boolean stereo) {
+void ef_video_set_stereo(int stereo) {
     drawable_parameters.stereo = stereo;
 }
 
@@ -126,27 +225,27 @@ void ef_video_set_samples(int samples) {
 }
 
 
-void ef_video_set_aux_depth_stencil(boolean aux_depth_stencil) {
+void ef_video_set_aux_depth_stencil(int aux_depth_stencil) {
     drawable_parameters.aux_depth_stencil = aux_depth_stencil;
 }
 
 
-void ef_video_set_color_float(boolean color_float) {
+void ef_video_set_color_float(int color_float) {
     drawable_parameters.color_float = color_float;
 }
 
 
-void ef_video_set_multisample(boolean multisample) {
+void ef_video_set_multisample(int multisample) {
     drawable_parameters.multisample = multisample;
 }
 
 
-void ef_video_set_supersample(boolean supersample) {
+void ef_video_set_supersample(int supersample) {
     drawable_parameters.supersample = supersample;
 }
 
 
-void ef_video_set_sample_alpha(boolean sample_alpha) {
+void ef_video_set_sample_alpha(int sample_alpha) {
     drawable_parameters.sample_alpha = sample_alpha;
 }
 
@@ -178,7 +277,7 @@ int ef_display_height(EF_Display display) {
 
 EF_Error ef_video_load_texture_file(utf8 *filename,
 				    GLuint id,
-				    boolean build_mipmaps)
+				    int build_mipmaps)
 {
     // TODO
 }
@@ -186,7 +285,53 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
 
 EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
 				      GLuint id,
-				      boolean build_mipmaps)
+				      int build_mipmaps)
 {
     // TODO
+}
+
+
+static LRESULT CALLBACK window_procedure(HWND window,
+					 UINT message,
+					 WPARAM wParam,
+					 LPARAM lParam)
+{
+    struct drawable *drawable = NULL;
+    for(size_t i = 0; i < n_drawables; i++) {
+	if(all_drawables[i]->window == window) {
+	    drawable = all_drawables[i];
+	    break;
+	}
+    }
+    
+    switch(message) {
+    case WM_CREATE:
+	return 0;
+	
+    case WM_CLOSE:
+	if(drawable) {
+	    ef_drawable_delete((EF_Drawable) drawable);
+	    PostQuitMessage(0);
+	}
+	return 0;
+	
+    case WM_DESTROY:
+	return 0;
+	
+    case WM_PAINT:
+	if(drawable) {
+	    if(drawable->draw_callback) {
+		ef_drawable_make_current((EF_Drawable) drawable);
+		drawable->draw_callback((EF_Drawable) drawable,
+					drawable->draw_callback_context);
+	    }
+	}
+	return 0;
+	
+    case WM_KEYDOWN:
+	return 0;
+
+    default:
+	return DefWindowProc(window, message, wParam, lParam);
+    }
 }
