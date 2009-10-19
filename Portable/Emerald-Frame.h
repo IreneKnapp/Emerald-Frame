@@ -72,6 +72,7 @@ EF_Drawable ef_video_new_drawable(int width,
 				  int height,
 				  boolean full_screen,
 				  EF_Display display);
+void ef_drawable_delete(EF_Drawable drawable);
 void ef_drawable_set_title(EF_Drawable drawable, utf8 *title);
 void ef_drawable_set_draw_callback(EF_Drawable drawable,
 				   void (*callback)(EF_Drawable drawable,

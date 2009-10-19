@@ -111,6 +111,7 @@ div.title {
 </ul></li>
 <li><a href="#S_reference_video_drawables"><b>3.2.2.</b> Drawables</a><ul>
 <li><a href="#ef_video_new_drawable"><span class="code">ef_video_new_drawable</span></a></li>
+<li><a href="#ef_drawable_delete"><span class="code">ef_drawable_delete</span></a></li>
 <li><a href="#ef_drawable_set_title"><span class="code">ef_drawable_set_title</span></a></li>
 <li><a href="#ef_drawable_set_draw_callback"><span class="code">ef_drawable_set_draw_callback</span></a></li>
 <li><a href="#ef_drawable_redraw"><span class="code">ef_drawable_redraw</span></a></li>
@@ -811,6 +812,11 @@ positioned on the given display (or, in full-screen mode, the given display is u
 otherwise, it is as if the current display in the sense of
 <a href="#ef_video_current_display">ef_video_current_display()</a>
 has been passed.  The created drawable is immediately displayed to the user.</p>
+
+<a name="ef_drawable_delete"><h4>void ef_drawable_delete(EF_Drawable drawable)</h4></a>
+
+<p>Deletes the given drawable, removing it from the screen and freeing all resources
+and memory it used.</p>
 
 <a name="ef_drawable_set_title"><h4>void ef_drawable_set_title(EF_Drawable drawable, utf8* title)</h4></a>
 
