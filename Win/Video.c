@@ -131,7 +131,7 @@ void ef_drawable_delete(EF_Drawable ef_drawable) {
 
     for(size_t i = 0; i < n_drawables; i++) {
 	if(all_drawables[i] == drawable) {
-	    for(size_t j = i; j < n_drawables; j++)
+	    for(size_t j = i; j < n_drawables-1; j++)
 		all_drawables[j] = all_drawables[j+1];
 	    
 	    n_drawables--;
