@@ -144,8 +144,10 @@ void ef_drawable_delete(EF_Drawable ef_drawable) {
 }
 
 
-void ef_drawable_set_title(EF_Drawable drawable, utf8 *title) {
-    // TODO
+void ef_drawable_set_title(EF_Drawable ef_drawable, utf8 *title) {
+    struct drawable *drawable = (struct drawable *) ef_drawable;
+
+    SetWindowText(drawable->window, title);
 }
 
 
@@ -160,8 +162,10 @@ void ef_drawable_set_draw_callback(EF_Drawable ef_drawable,
 }
 
 
-void ef_drawable_redraw(EF_Drawable drawable) {
-    // TODO
+void ef_drawable_redraw(EF_Drawable ef_drawable) {
+    struct drawable *drawable = (struct drawable *) ef_drawable;
+
+    InvalidateRect(drawable->window, NULL, FALSE);
 }
 
 
