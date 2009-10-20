@@ -88,6 +88,7 @@ div.title {
 <ul class="contents">
 <li><a href="#S_introduction"><b>1.</b> Introduction</a></li>
 <li><a href="#S_introduction_downloads"><b>1.1</b> Downloads</a></li>
+<li><a href="#S_introduction_portability"><b>1.2</b> Portability Advice</a></li>
 <li><a href="#S_sample"><b>2.</b> Sample Programs</a> <ul>
 <li><a href="#S_sample_skeleton"><b>2.1.</b> The Skeleton</a></li>
 <li><a href="#S_sample_time"><b>2.2.</b> Timed Drawing</a></li>
@@ -220,6 +221,13 @@ get in, do what you need to do, and get out, with minimal fuss.</p>
 
 
 <a name="S_introduction_downloads"><h2>1.1. Downloads</h2></a>
+
+
+<a name="S_introduction_portability"><h2>1.2. Portability Advice</h2></a>
+
+<p>On Windows, using an OpenGL texture which has not been initialized will cause a
+segfault.  On the Mac and possibly other platforms, this simply results in an all-white
+texture.  Be aware!</p>
 
 
 <a name="S_sample"><h1>2. Sample Programs</h1></a>
