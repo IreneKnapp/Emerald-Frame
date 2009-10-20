@@ -1,5 +1,17 @@
-#import "Emerald-Frame.h"
-#import <windows.h>
+#include "Emerald-Frame.h"
+#include <windows.h>
+#include "GdiPlusInit.h"
+
+typedef int GpStatus;
+typedef void *GpImage;
+GpStatus __stdcall
+GdipLoadImageFromFile(const WCHAR* filename, GpImage **image);
+GpStatus __stdcall
+GdipGetImageWidth(GpImage *image, UINT *width);
+GpStatus __stdcall
+GdipGetImageHeight(GpImage *image, UINT *height);
+GpStatus __stdcall
+GdipDisposeImage(GpImage *image);
 
 
 struct ef_drawable_parameters {
@@ -30,6 +42,7 @@ struct drawable {
 
 static struct ef_drawable_parameters drawable_parameters;
 static HINSTANCE hInstance;
+static ULONG gdiplus_token;
 static size_t n_drawables;
 static struct drawable **all_drawables;
 
@@ -76,6 +89,13 @@ EF_Error ef_internal_video_init() {
     window_class.lpszMenuName = NULL;
     window_class.lpszClassName = "Emerald Frame";
     RegisterClass(&window_class);
+    
+    GdiplusStartupInput gdiplus_startup_input;
+    gdiplus_startup_input.GdiplusVersion = 1;
+    gdiplus_startup_input.DebugEventCallback = NULL;
+    gdiplus_startup_input.SuppressBackgroundThread = FALSE;
+    gdiplus_startup_input.SuppressExternalCodecs = FALSE;
+    GdiplusStartup(&gdiplus_token, &gdiplus_startup_input, NULL);
     
     return 0;
 }
@@ -283,7 +303,71 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
 				    GLuint id,
 				    int build_mipmaps)
 {
-    // TODO
+    GLint pixel_format;
+    GLint component_format;
+    GLsizei size;
+    uint8_t *data;
+
+    GpImage *image = NULL;
+    uint16_t *filename16;
+    {
+	filename16 = malloc((strlen(filename)+1)*sizeof(uint16_t));
+	size_t i;
+	for(i = 0; filename[i]; i++)
+	    filename16[i] = filename[i];
+	filename16[i] = 0x0000;
+    }
+    GdipLoadImageFromFile(filename16, &image);
+    free(filename16);
+    
+    UINT width, height;
+    GdipGetImageWidth(image, &width);
+    GdipGetImageHeight(image, &height);
+    printf("image %s is (%i, %i) in size\n", filename, width, height);
+    size = 16;
+
+    pixel_format = GL_RGBA;
+
+    component_format = GL_UNSIGNED_BYTE;
+
+    data = malloc(width*height*4);
+    for(int y = 0; y < height; y++) {
+	for(int x = 0; x < width; x++) {
+	    data[(x + y*width)*4] = 0xFF;
+	    data[(x + y*width)*4+1] = 0xFF;
+	    data[(x + y*width)*4+2] = 0xFF;
+	    data[(x + y*width)*4+3] = 0xFF;
+	}
+    }
+
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    //glPixelStorei(GL_UNPACK_ROW_LENGTH, packed_width);
+    //glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, height);
+    
+    if(build_mipmaps) {
+	gluBuild2DMipmaps(GL_TEXTURE_2D,
+			  pixel_format,
+			  width, height,
+			  pixel_format,
+			  component_format,
+			  data);
+    } else {
+	glTexImage2D(GL_TEXTURE_2D,
+		     0,
+		     pixel_format,
+		     size, size,
+		     0,
+		     pixel_format,
+		     component_format,
+		     data);
+    }
+    
+    free(data);
+
+    GdipDisposeImage(image);
+    
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
