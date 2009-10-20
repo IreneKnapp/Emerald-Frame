@@ -1,5 +1,7 @@
 #include "Emerald-Frame.h"
+#include <math.h>
 #include <windows.h>
+#include <gd.h>
 
 
 struct ef_drawable_parameters {
@@ -283,33 +285,75 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
 				    GLuint id,
 				    int build_mipmaps)
 {
+    FILE *file = fopen(filename, "rb");
+    if(!file) {
+	return EF_ERROR_FILE;
+    }
+
+    gdImagePtr image = NULL;
+    
+    uint8_t magic_buffer[4];
+    if(1 != fread(magic_buffer, sizeof(magic_buffer), 1, file)) {
+	fclose(file);
+	return EF_ERROR_IMAGE_DATA;
+    }
+    fseek(file, 0, SEEK_SET);
+    
+    if((magic_buffer[0] == 0x89) &&
+       (magic_buffer[1] == 'P') &&
+       (magic_buffer[2] == 'N') &&
+       (magic_buffer[3] == 'G'))
+    {
+	image = gdImageCreateFromPng(file);
+    } else if((magic_buffer[0] == 'G') &&
+	      (magic_buffer[1] == 'I') &&
+	      (magic_buffer[2] == 'F') &&
+	      (magic_buffer[3] == '8'))
+    {
+	image = gdImageCreateFromGif(file);
+    } else if((magic_buffer[0] == 0xFF) &&
+	      (magic_buffer[1] == 0xD8))
+    {
+	image = gdImageCreateFromJpeg(file);
+    }
+    fclose(file);
+    if(!image) {
+	return EF_ERROR_IMAGE_DATA;
+    }
+    
     GLint pixel_format;
     GLint component_format;
     GLsizei size;
     uint8_t *data;
-
-    int width = 16;
-    int height = 16;
-    size = 16;
-
+    
+    int width = gdImageSX(image);
+    int height = gdImageSY(image);
+    int widthLog2 = ceil(log2(width));
+    int heightLog2 = ceil(log2(height));
+    int sizeLog2 = widthLog2 > heightLog2 ? widthLog2 : heightLog2;
+    size = 1;
+    for(int i = 0; i < sizeLog2; i++)
+	size *= 2;
+    
     pixel_format = GL_RGBA;
-
+    
     component_format = GL_UNSIGNED_BYTE;
-
+    
     data = malloc(width*height*4);
     for(int y = 0; y < height; y++) {
 	for(int x = 0; x < width; x++) {
-	    data[(x + y*width)*4] = 0xFF;
-	    data[(x + y*width)*4+1] = 0xFF;
-	    data[(x + y*width)*4+2] = 0xFF;
-	    data[(x + y*width)*4+3] = 0xFF;
+	    int color = gdImageGetPixel(image, x, y);
+	    data[(x + y*width)*4] = gdImageRed(image, color);
+	    data[(x + y*width)*4+1] = gdImageGreen(image, color);
+	    data[(x + y*width)*4+2] = gdImageBlue(image, color);
+	    int alpha = (127 - gdImageAlpha(image, color)) * 2;
+	    data[(x + y*width)*4+3] = alpha;
 	}
     }
-
+    
     glBindTexture(GL_TEXTURE_2D, id);
-
-    //glPixelStorei(GL_UNPACK_ROW_LENGTH, packed_width);
-    //glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, height);
+    
+    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, height);
     
     if(build_mipmaps) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D,
@@ -330,6 +374,8 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
     }
     
     free(data);
+
+    gdImageDestroy(image);
 
     glBindTexture(GL_TEXTURE_2D, 0);
 }
