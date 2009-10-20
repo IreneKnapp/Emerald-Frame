@@ -5,14 +5,14 @@
 AC_PREREQ(2.54)
 
 #HEY! Change BOTH the version number and the GDLIB_REVISION setting!
-AC_INIT([GD], [2.0.35], [http://bugs.libgd.org])
+AC_INIT([GD], [2.0.36], [http://bugs.libgd.org])
 AC_CONFIG_SRCDIR([gd.c])
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_TARGET([])
 
 GDLIB_MAJOR=2
 GDLIB_MINOR=0
-GDLIB_REVISION=35
+GDLIB_REVISION=36
 GDLIBNAME=gd
 #Expanded by tests later in this file. TBB 2.0.26
 #2.0.28: GIF is standard now. Doesn't depend on anything else,
@@ -350,22 +350,32 @@ AC_ARG_WITH(png,dnl
 # authors decide to do this AGAIN. Which I really hope they won't. TBB
 
 if test "$withval" != no; then
-  AC_PATH_PROG([LIBPNG12_CONFIG], [libpng12-config])
-  AC_PATH_PROG([LIBPNG_CONFIG], [libpng-config])
+  if test -d "$withval"; then
+    if test -e "$withval/bin/libpng12-config"; then
+      LIBPNG12_CONFIG="$withval/bin/libpng12-config"
+    fi
+    if test -e "$withval/bin/libpng-config"; then
+      LIBPNG_CONFIG="$withval/bin/libpng-config"
+    fi
+  else
+      AC_PATH_PROG([LIBPNG12_CONFIG], [libpng12-config])
+      AC_PATH_PROG([LIBPNG_CONFIG], [libpng-config])
+  fi
+
   if test -n "$LIBPNG12_CONFIG"; then
-    libpng_CPPFLAGS=`libpng12-config --cflags`
+    libpng_CPPFLAGS=`$LIBPNG12_CONFIG --cflags`
     # should be --ldopts, but it's currently broken
-    libpng_LDFLAGS=`libpng12-config --ldflags`
+    libpng_LDFLAGS=`$LIBPNG12_CONFIG --ldflags`
     libpng_LDFLAGS=`echo " $libpng_LDFLAGS" | sed 's/ -l[[^ ]][[^ ]]*//g'`
   elif test -n "$LIBPNG_CONFIG"; then
-    libpng_CPPFLAGS=`libpng-config --cflags`
+    libpng_CPPFLAGS=`$LIBPNG_CONFIG --cflags`
     # should be --ldopts, but it's currently broken
-    libpng_LDFLAGS=`libpng-config --ldflags`
+    libpng_LDFLAGS=`$LIBPNG_CONFIG --ldflags`
     libpng_LDFLAGS=`echo " $libpng_LDFLAGS" | sed 's/ -l[[^ ]][[^ ]]*//g'`
-  elif test -d "$withval"; then
-    libpng_CPPFLAGS="-I$withval/include"
-    libpng_LDFLAGS="-L$withval/lib"
   fi
+
+  _cppflags="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $libpng_CPPFLAGS"
 
   AC_CHECK_HEADERS(png.h,,
     [AC_CHECK_HEADERS(libpng/png.h,

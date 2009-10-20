@@ -293,6 +293,8 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromGd2Ptr (int size, void *data)
 {
   gdImagePtr im;
   gdIOCtx *in = gdNewDynamicCtxEx (size, data, 0);
+  if(!in)
+  	return 0;
   im = gdImageCreateFromGd2Ctx (in);
   in->gd_free (in);
   return im;
@@ -347,11 +349,11 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromGd2Ctx (gdIOCtxPtr in)
       chunkMax = cs * bytesPerPixel * cs;
       chunkBuf = gdCalloc (chunkMax, 1);
 			if (!chunkBuf) {
-				goto fail2;
+				goto fail;
 			}
       compBuf = gdCalloc (compMax, 1);
 			if (!compBuf) {
-				goto fail2;
+				goto fail;
 			}
 
       GD2_DBG (printf ("Largest compressed chunk is %d bytes\n", compMax));
@@ -389,7 +391,7 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromGd2Ctx (gdIOCtxPtr in)
 				  (char *) chunkBuf, &chunkLen, in))
 		{
 		  GD2_DBG (printf ("Error reading comproessed chunk\n"));
-		  goto fail2;
+		  goto fail;
 		};
 
 	      chunkPos = 0;
@@ -471,9 +473,8 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromGd2Ctx (gdIOCtxPtr in)
 
   return im;
 
-fail2:
+fail:
   gdImageDestroy (im);
-fail1:
 	if (chunkBuf) {
 		gdFree (chunkBuf);
 	}
@@ -503,6 +504,8 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromGd2PartPtr (int size, void *data, int s
 {
   gdImagePtr im;
   gdIOCtx *in = gdNewDynamicCtxEx (size, data, 0);
+  if(!in)
+  	return 0;
   im = gdImageCreateFromGd2PartCtx (in, srcx, srcy, w, h);
   in->gd_free (in);
   return im;

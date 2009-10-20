@@ -1,4 +1,4 @@
-/* $Id: gd.c,v 1.49.2.16 2007/06/19 20:25:51 pajoye Exp $ */
+/* $Id: gd.c,v 1.49.2.24 2007/11/20 13:42:11 pajoye Exp $ */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -589,7 +589,7 @@ BGD_DECLARE(int) gdImageColorResolveAlpha (gdImagePtr im, int r, int g, int b, i
 
 BGD_DECLARE(void) gdImageColorDeallocate (gdImagePtr im, int color)
 {
-  if (im->trueColor)
+  if (im->trueColor || (color >= gdMaxColors) || (color < 0))
     {
       return;
     }
@@ -601,6 +601,9 @@ BGD_DECLARE(void) gdImageColorTransparent (gdImagePtr im, int color)
 {
   if (!im->trueColor)
     {
+	if((color < -1) || (color >= gdMaxColors)) {
+		return;
+	}
       if (im->transparent != -1)
 	{
 	  im->alpha[im->transparent] = gdAlphaOpaque;
@@ -1955,6 +1958,14 @@ BGD_DECLARE(void) gdImageFill(gdImagePtr im, int x, int y, int nc)
 		goto done;
 	}
 
+	if(overflow2(im->sy, im->sx)) {
+		return;
+	}
+
+	if(overflow2(sizeof(struct seg), ((im->sy * im->sx) / 4))) {
+		return;
+	}
+
 	stack = (struct seg *)gdMalloc(sizeof(struct seg) * ((int)(im->sy*im->sx)/4));
 	if (!stack) {
 		return;
@@ -2019,6 +2030,26 @@ void _gdImageFillTiled(gdImagePtr im, int x, int y, int nc)
 
 	wx2=im->sx;wy2=im->sy;
 	tiled = nc==gdTiled;
+
+	if(overflow2(sizeof(int *), im->sy)) {
+		return;
+	}
+
+	if(overflow2((sizeof(int *) * im->sy), sizeof(int))) {
+		return;
+	}
+
+	if(overflow2(im->sx, sizeof(int))) {
+		return;
+	}
+
+	if(overflow2(im->sy, im->sx)) {
+		return;
+	}
+
+	if(overflow2(sizeof(struct seg), ((im->sy * im->sx) / 4))) {
+		return;
+	}
 
 	nc =  gdImageTileGet(im,x,y);
 	pts = (int **) gdCalloc(sizeof(int *) * im->sy, sizeof(int));
@@ -2103,6 +2134,12 @@ BGD_DECLARE(void) gdImageRectangle (gdImagePtr im, int x1, int y1, int x2, int y
 	int half1 = 1;
 	int t;
 
+
+	if (x1 == x2 && y1 == y2 && thick == 1) {
+			gdImageSetPixel(im, x1, y1, color);
+			return;
+	}
+
 	if (y2 < y1) {
 		t=y1;
 		y1 = y2;
@@ -2117,6 +2154,7 @@ BGD_DECLARE(void) gdImageRectangle (gdImagePtr im, int x1, int y1, int x2, int y
 	if (thick > 1) {
 		int cx, cy, x1ul, y1ul, x2lr, y2lr;
 		int half = thick >> 1;
+
 		half1 = thick - half;
 		x1ul = x1 - half;
 		y1ul = y1 - half;
@@ -2222,7 +2260,9 @@ BGD_DECLARE(void) gdImageCopy (gdImagePtr dst, gdImagePtr src, int dstX, int dst
 		  for (y = 0; (y < h); y++) {
 			  for (x = 0; (x < w); x++) {
 				  int c = gdImageGetTrueColorPixel (src, srcX + x, srcY + y);
-				  gdImageSetPixel (dst, dstX + x, dstY + y, c);
+				  if (c != src->transparent) {
+					  gdImageSetPixel (dst, dstX + x, dstY + y, c);
+				  }
 			  }
 		  }
 	  } else {
@@ -3480,13 +3520,21 @@ static void gdImageAALine (gdImagePtr im, int x1, int y1, int x2, int y2, int co
 		gdImageLine(im, x1, y1, x2, y2, col);
 		return;
 	}
-        /* TBB: use the clipping rectangle */
-        if (clip_1d (&x1, &y1, &x2, &y2, im->cx1, im->cx2) == 0)
-          return;
-        if (clip_1d (&y1, &x1, &y2, &x2, im->cy1, im->cy2) == 0)
-          return;
+
+	/* TBB: use the clipping rectangle */
+	if (clip_1d (&x1, &y1, &x2, &y2, im->cx1, im->cx2) == 0)
+		return;
+	if (clip_1d (&y1, &x1, &y2, &x2, im->cy1, im->cy2) == 0)
+		return;
+
 	dx = x2 - x1;
 	dy = y2 - y1;
+
+    if (dx == 0 && dy == 0) {
+        /* TBB: allow setting points */
+        gdImageSetAAPixelColor(im, x1, y1, col, 0xFF);
+        return;
+    }
 
 	/* Axis aligned lines */
 	if (dx == 0) {
@@ -3497,11 +3545,6 @@ static void gdImageAALine (gdImagePtr im, int x1, int y1, int x2, int y2, int co
 		return;
 	}
 
-	if (dx == 0 && dy == 0) {
-		/* TBB: allow setting points */
-		gdImageSetAAPixelColor(im, x1, y1, col, 0xFF);
-		return;
-	}
 	if (abs(dx) > abs(dy)) {
 		if (dx < 0) {
 			tmp = x1;

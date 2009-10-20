@@ -32,6 +32,8 @@ if (BUILD_TEST)
 		gdimagecolorclosest
 		gdimagecolorexact
 		gdimagecolorresolve
+		gdimagecolordeallocate
+		gdimagecolortransparent
 		#gdimageellipse
 		gdimageline
 		gdimagefilledellipse
@@ -46,6 +48,7 @@ if (BUILD_TEST)
 		gdimagecopy
 		gdimagefill
 		gdimagefilltoborder
+		freetype
 	)
 
 	FOREACH(test_dir ${TESTS_DIRS})

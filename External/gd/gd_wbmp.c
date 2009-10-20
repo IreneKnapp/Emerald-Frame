@@ -109,7 +109,10 @@ BGD_DECLARE(void) gdImageWBMPCtx (gdImagePtr image, int fg, gdIOCtx * out)
   /* create the WBMP */
   if ((wbmp =
        createwbmp (gdImageSX (image), gdImageSY (image), WBMP_WHITE)) == NULL)
+  {
     fprintf (stderr, "Could not create WBMP\n");
+    return;
+  }
 
   /* fill up the WBMP structure */
   pos = 0;
@@ -198,6 +201,8 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromWBMPPtr (int size, void *data)
 {
   gdImagePtr im;
   gdIOCtx *in = gdNewDynamicCtxEx (size, data, 0);
+  if(!in)
+  	return 0;
   im = gdImageCreateFromWBMPCtx (in);
   in->gd_free (in);
   return im;

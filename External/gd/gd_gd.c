@@ -149,6 +149,10 @@ _gdCreateFromFile (gdIOCtx * in, int *sx, int *sy)
     {
       im = gdImageCreate (*sx, *sy);
     }
+  if (!im)
+  	{
+		goto fail1;
+	}
   if (!_gdGetColors (in, im, gd2xFlag))
     {
       goto fail2;
@@ -178,6 +182,8 @@ BGD_DECLARE(gdImagePtr) gdImageCreateFromGdPtr (int size, void *data)
 {
   gdImagePtr im;
   gdIOCtx *in = gdNewDynamicCtxEx (size, data, 0);
+  if(!in)
+  	return 0;
   im = gdImageCreateFromGdCtx (in);
   in->gd_free (in);
   return im;
