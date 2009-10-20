@@ -16,17 +16,17 @@
 # To install in $HOME instead of /usr/local, use:
 #    make install prefix=$HOME
 
-CC=cc
+CC=gcc
 
-CFLAGS=-O
+CFLAGS=-O3 -DUSE_MMAP
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
 #CFLAGS=-g -DDEBUG
 #CFLAGS=-O3 -Wall -Wwrite-strings -Wpointer-arith -Wconversion \
 #           -Wstrict-prototypes -Wmissing-prototypes
 
-LDFLAGS=libz.a
-LDSHARED=$(CC)
-CPP=$(CC) -E
+LDFLAGS=-L. libz.a
+LDSHARED=gcc
+CPP=gcc -E
 
 LIBS=libz.a
 SHAREDLIB=libz.so
@@ -37,13 +37,13 @@ AR=ar rc
 RANLIB=ranlib
 TAR=tar
 SHELL=/bin/sh
-EXE=
+EXE=.exe
 
-prefix = /usr/local
-exec_prefix = ${prefix}
-libdir = ${exec_prefix}/lib
-includedir = ${prefix}/include
-mandir = ${prefix}/share/man
+prefix =/cygdrive/z/dankna On My Mac/Projects/Emerald-Frame/External/Build/win32
+exec_prefix =${prefix}
+libdir =${exec_prefix}/lib
+includedir =${prefix}/include
+mandir =${prefix}/share/man
 man3dir = ${mandir}/man3
 
 OBJS = adler32.o compress.o crc32.o gzio.o uncompr.o deflate.o trees.o \
@@ -90,33 +90,33 @@ minigzip$(EXE): minigzip.o $(LIBS)
 	$(CC) $(CFLAGS) -o $@ minigzip.o $(LDFLAGS)
 
 install: $(LIBS)
-	-@if [ ! -d $(exec_prefix) ]; then mkdir -p $(exec_prefix); fi
-	-@if [ ! -d $(includedir)  ]; then mkdir -p $(includedir); fi
-	-@if [ ! -d $(libdir)      ]; then mkdir -p $(libdir); fi
-	-@if [ ! -d $(man3dir)     ]; then mkdir -p $(man3dir); fi
-	cp zlib.h zconf.h $(includedir)
-	chmod 644 $(includedir)/zlib.h $(includedir)/zconf.h
-	cp $(LIBS) $(libdir)
-	cd $(libdir); chmod 755 $(LIBS)
-	-@(cd $(libdir); $(RANLIB) libz.a || true) >/dev/null 2>&1
-	cd $(libdir); if test -f $(SHAREDLIBV); then \
+	-@if [ ! -d "$(exec_prefix)" ]; then mkdir -p "$(exec_prefix)"; fi
+	-@if [ ! -d "$(includedir)"  ]; then mkdir -p "$(includedir)"; fi
+	-@if [ ! -d "$(libdir)"      ]; then mkdir -p "$(libdir)"; fi
+	-@if [ ! -d "$(man3dir)"     ]; then mkdir -p "$(man3dir)"; fi
+	cp zlib.h zconf.h "$(includedir)"
+	chmod 644 "$(includedir)"/zlib.h "$(includedir)"/zconf.h
+	cp $(LIBS) "$(libdir)"
+	cd "$(libdir)"; chmod 755 $(LIBS)
+	-@(cd "$(libdir)"; $(RANLIB) libz.a || true) >/dev/null 2>&1
+	cd "$(libdir)"; if test -f $(SHAREDLIBV); then \
 	  rm -f $(SHAREDLIB) $(SHAREDLIBM); \
 	  ln -s $(SHAREDLIBV) $(SHAREDLIB); \
 	  ln -s $(SHAREDLIBV) $(SHAREDLIBM); \
 	  (ldconfig || true)  >/dev/null 2>&1; \
 	fi
-	cp zlib.3 $(man3dir)
-	chmod 644 $(man3dir)/zlib.3
+	cp zlib.3 "$(man3dir)"
+	chmod 644 "$(man3dir)"/zlib.3
 # The ranlib in install is needed on NeXTSTEP which checks file times
 # ldconfig is for Linux
 
 uninstall:
-	cd $(includedir); \
-	cd $(libdir); rm -f libz.a; \
+	cd "$(includedir)"; \
+	cd "$(libdir)"; rm -f libz.a; \
 	if test -f $(SHAREDLIBV); then \
 	  rm -f $(SHAREDLIBV) $(SHAREDLIB) $(SHAREDLIBM); \
 	fi
-	cd $(man3dir); rm -f zlib.3
+	cd "$(man3dir)"; rm -f zlib.3
 
 mostlyclean: clean
 clean:
