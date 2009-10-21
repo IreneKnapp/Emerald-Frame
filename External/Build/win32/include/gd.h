@@ -31,7 +31,7 @@ extern "C" {
 #endif /* WIN32 */
 
 #ifdef NONDLL
-#define BGD_DECLARE(rt) extern rt
+#define BGD_DECLARE(rt) extern rt __stdcall
 #else
 #ifdef BGDWIN32
 #define BGD_DECLARE(rt) __declspec(dllexport) rt __stdcall
