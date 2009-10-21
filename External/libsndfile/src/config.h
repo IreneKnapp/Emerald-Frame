@@ -23,7 +23,7 @@
 /* #undef HAVE_ALSA_ASOUNDLIB_H */
 
 /* Define to 1 if you have the <byteswap.h> header file. */
-#define HAVE_BYTESWAP_H 1
+#define HAVE_BYTESWAP_H 0
 
 /* Define to 1 if you have the `calloc' function. */
 #define HAVE_CALLOC 1
@@ -258,7 +258,7 @@
 #define TYPEOF_SF_COUNT_T off_t
 
 /* Set to 1 to use the native windows API */
-#define USE_WINDOWS_API 0
+#define USE_WINDOWS_API 1
 
 /* Version number of package */
 #define VERSION "1.0.20"
