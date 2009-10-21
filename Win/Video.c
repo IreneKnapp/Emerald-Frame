@@ -39,6 +39,9 @@ static struct drawable **all_drawables;
 extern utf8 *ef_internal_application_name();
 
 
+static EF_Error ef_internal_video_load_texture_gd_image(gdImage *image,
+							GLuint id,
+							int build_mipmaps);
 static LRESULT CALLBACK window_procedure(HWND window,
 					 UINT message,
 					 WPARAM wParam,
@@ -320,7 +323,56 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
     if(!image) {
 	return EF_ERROR_IMAGE_DATA;
     }
+
+    EF_Error result = ef_internal_video_load_texture_gd_image(image, id, build_mipmaps);
     
+    gdImageDestroy(image);
+
+    return result;
+}
+
+
+EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
+				      GLuint id,
+				      int build_mipmaps)
+{
+    if(size < 4)
+	return EF_ERROR_IMAGE_DATA;
+
+    gdImagePtr image = NULL;
+    if((bytes[0] == 0x89) &&
+       (bytes[1] == 'P') &&
+       (bytes[2] == 'N') &&
+       (bytes[3] == 'G'))
+    {
+	image = gdImageCreateFromPngPtr(size, bytes);
+    } else if((bytes[0] == 'G') &&
+	      (bytes[1] == 'I') &&
+	      (bytes[2] == 'F') &&
+	      (bytes[3] == '8'))
+    {
+	image = gdImageCreateFromGifPtr(size, bytes);
+    } else if((bytes[0] == 0xFF) &&
+	      (bytes[1] == 0xD8))
+    {
+	image = gdImageCreateFromJpegPtr(size, bytes);
+    }
+    if(!image) {
+	return EF_ERROR_IMAGE_DATA;
+    }
+    
+    EF_Error result = ef_internal_video_load_texture_gd_image(image, id, build_mipmaps);
+    
+    gdImageDestroy(image);
+
+    return result;
+}
+
+
+static EF_Error ef_internal_video_load_texture_gd_image(gdImage *image,
+							GLuint id,
+							int build_mipmaps)
+{
     GLint pixel_format;
     GLint component_format;
     GLsizei size;
@@ -375,17 +427,7 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
     
     free(data);
 
-    gdImageDestroy(image);
-
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-
-EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
-				      GLuint id,
-				      int build_mipmaps)
-{
-    // TODO
 }
 
 
