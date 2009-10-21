@@ -14,7 +14,7 @@ static uint64_t startup_time;
 static GLuint texture_ids[3];
 static int last_played_blip_at_frame;
 static ALuint audio_buffer_ids[2];
-static ALuint audio_source_ids[1];
+static ALuint audio_source_ids[2];
 
 
 int main(int argc, char **argv) {
@@ -40,11 +40,11 @@ int main(int argc, char **argv) {
     
     load_textures(drawable);
     init_gl(drawable);
-
+    
     startup_time = ef_time_unix_epoch();
-
+    
     last_played_blip_at_frame = -1;
-
+    
     ef_time_new_repeating_timer(20, frame, (void *) drawable);
     
     ef_main();
@@ -60,21 +60,26 @@ void load_sounds() {
     
     test_sound_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
     strcpy((char *) test_sound_path, (char *) resource_path);
-    strcat((char *) test_sound_path, "blip.wav");
+    strcat((char *) test_sound_path, "wing.mp3");
     ef_audio_load_sound_file(test_sound_path, audio_buffer_ids[0]);
     free(test_sound_path);
     
     test_sound_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
     strcpy((char *) test_sound_path, (char *) resource_path);
-    strcat((char *) test_sound_path, "pulse.wav");
+    strcat((char *) test_sound_path, "blip.wav");
     ef_audio_load_sound_file(test_sound_path, audio_buffer_ids[1]);
     free(test_sound_path);
 }
 
 
 void init_al() {
-    alGenSources(1, audio_source_ids);
+    alGenSources(2, audio_source_ids);
+    
     alSourceQueueBuffers(audio_source_ids[0], 1, &audio_buffer_ids[0]);
+    alSourcei(audio_source_ids[0], AL_LOOPING, AL_TRUE);
+    alSourcePlay(audio_source_ids[0]);
+    
+    alSourceQueueBuffers(audio_source_ids[1], 1, &audio_buffer_ids[1]);
 }
 
 
@@ -205,7 +210,7 @@ void frame(EF_Timer timer, void *context) {
 	next_blip_frame = last_played_blip_at_frame + 100;
     
     if(elapsed_frames >= next_blip_frame) {
-	alSourcePlay(audio_source_ids[0]);
+	alSourcePlay(audio_source_ids[1]);
 	last_played_blip_at_frame = next_blip_frame;
     }
 }
