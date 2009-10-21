@@ -1,3 +1,6 @@
+// Tell gd.h that we want the non-DLL versions, please.
+#define NONDLL
+
 #include "Emerald-Frame.h"
 #include <math.h>
 #include <windows.h>
