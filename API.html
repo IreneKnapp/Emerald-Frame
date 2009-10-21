@@ -500,9 +500,11 @@ there to be a current OpenGL context, we have to call
 <p>We can't perform the actual loading quite yet; we have another problem - how do we
 find the files which we are distributing with the application?  It can be nontrivial to
 install things such that you can find them later.  Emerald Frame recommends that you
-follow the most common practices for your platform:  On Windows, place them in the same
-directory as the executable.  On the Mac, place them in the Resources directory inside
-the application bundle (XCode will do this for you if you add them to the project).
+follow the most common practices for your platform:  On Windows, place them in or near
+the same directory as the executable - specifically, Emerald Frame uses the directory
+<span class="code">Resources</span> inside the executable's directory.
+On the Mac, place them in the Resources directory inside the application bundle (XCode
+will do this for you if you add them to the project).
 In either case, the same Emerald Frame library function will tell you the appropriate
 path to find them at:
 <a href="ef_configuration_resource_directory">ef_configuration_resource_directory</a>.</p>
@@ -1308,11 +1310,17 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="ef_configuration_resource_directory"><h4>utf8 *ef_configuration_resource_directory()</h4></a>
 
-<p>Returns the path to a platform-specific directory where resource files bundled as part of the application may be found.  The path is returned with a trailing slash (or operating-system-appropriate path component separator).  The path is in memory managed by the library and is valid only until the next call to this function; therefore, this function is not thread-safe.</p>
+<p>Returns the path to a platform-specific directory where resource files bundled as
+part of the application may be found.  The path is returned with a trailing slash (or
+operating-system-appropriate path component separator).  The path is in memory managed
+by the library and is valid only until the next call to this function; therefore, this
+function is not thread-safe.</p>
 
-<p>On the Mac, this is the <span class="code">Resources</span> directory inside the application bundle.</p>
+<p>On the Mac, this is the <span class="code">Resources</span> directory inside the
+application bundle.</p>
 
-<p>On Windows, this is the directory containing the executable.</p>
+<p>On Windows, this is the directory <span class="code">Resources</span> immediately
+inside the directory containing the executable.</p>
 
 <a name="S_reference_pasteboard"><h2>3.8. Pasteboard</h2></a>
 
