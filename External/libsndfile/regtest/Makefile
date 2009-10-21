@@ -102,7 +102,7 @@ CPPFLAGS =
 CXX = /bin/sh /home/Owner/Crookshanks/Projects/Emerald-Frame/External/libsndfile/shave cxx g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -Wall -Wextra -Wcast-align -Wcast-qual -Wshadow -Wwrite-strings -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wreorder -Wsign-promo 
+CXXFLAGS = -mno-cygwin -I/home/Owner/Crookshanks/Projects/Emerald-Frame/External/Build/win32/include -L/home/Owner/Crookshanks/Projects/Emerald-Frame/External/Build/win32/lib -DBGDWIN32 -Wall -Wextra -Wcast-align -Wcast-qual -Wshadow -Wwrite-strings -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wreorder -Wsign-promo 
 CYGPATH_W = cygpath -w
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
