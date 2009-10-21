@@ -22,7 +22,7 @@ static uint64_t startup_time;
 static GLuint texture_ids[3];
 static int last_played_blip_at_frame;
 static ALuint audio_buffer_ids[2];
-static ALuint audio_source_ids[1];
+static ALuint audio_source_ids[2];
 
 
 int main(int argc, char **argv) {
@@ -75,38 +75,26 @@ void load_sounds() {
     
     test_sound_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
     strcpy((char *) test_sound_path, (char *) resource_path);
-    strcat((char *) test_sound_path, "blip.wav");
+    strcat((char *) test_sound_path, "wing.mp3");
     ef_audio_load_sound_file(test_sound_path, audio_buffer_ids[0]);
     free(test_sound_path);
     
     test_sound_path = malloc((strlen((char *) resource_path) + 128) * sizeof(utf8));
     strcpy((char *) test_sound_path, (char *) resource_path);
-    strcat((char *) test_sound_path, "pulse.wav");
+    strcat((char *) test_sound_path, "blip.wav");
     ef_audio_load_sound_file(test_sound_path, audio_buffer_ids[1]);
     free(test_sound_path);
-    
-    /*
-    int wave_length = 44100 / 261;
-    wave_length *= 2;
-    int data_length = 44100 / 20;
-    data_length -= data_length % wave_length;
-    uint16_t *data = malloc(data_length * sizeof(uint16_t));
-    for(int i = 0; i < data_length; i++) {
-	float value = 0.5f * sinf(((float) (i % wave_length)) * ((M_PI*2) / wave_length));
-	uint16_t sample = (value + 1.0f) * (0xFFFF / 2.0f);
-	data[i] = sample;
-    }
-    alBufferData(audio_buffer_ids[0], AL_FORMAT_MONO16, data, data_length, 44100);
-    */
 }
 
 
 void init_al() {
-    alGenSources(1, audio_source_ids);
-    alSourceQueueBuffers(audio_source_ids[0], 1, &audio_buffer_ids[0]);
+    alGenSources(2, audio_source_ids);
     
-    //alSourcei(audio_source_ids[0], AL_LOOPING, AL_TRUE);
-    //alSourcePlay(audio_source_ids[0]);
+    alSourceQueueBuffers(audio_source_ids[0], 1, &audio_buffer_ids[0]);
+    alSourcei(audio_source_ids[0], AL_LOOPING, AL_TRUE);
+    alSourcePlay(audio_source_ids[0]);
+    
+    alSourceQueueBuffers(audio_source_ids[1], 1, &audio_buffer_ids[1]);
 }
 
 
@@ -237,7 +225,7 @@ void frame(EF_Timer timer, void *context) {
 	next_blip_frame = last_played_blip_at_frame + 100;
     
     if(elapsed_frames >= next_blip_frame) {
-	alSourcePlay(audio_source_ids[0]);
+	alSourcePlay(audio_source_ids[1]);
 	last_played_blip_at_frame = next_blip_frame;
     }
 }
