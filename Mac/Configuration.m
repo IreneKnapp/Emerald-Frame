@@ -15,6 +15,11 @@ static utf8 *result_buffer = NULL;
 static size_t result_buffer_size = 0;
 
 
+EF_Error ef_internal_configuration_init() {
+    return 0;
+}
+
+
 utf8 *ef_configuration_resource_directory() {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
