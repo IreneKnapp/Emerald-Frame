@@ -186,7 +186,7 @@
 #define OS_IS_MACOSX 0
 
 /* Set to 1 if compiling for Win32 */
-#define OS_IS_WIN32 0
+#define OS_IS_WIN32 1
 
 /* Name of package */
 #define PACKAGE "libsndfile"
