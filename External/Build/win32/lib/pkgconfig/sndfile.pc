@@ -1,4 +1,4 @@
-prefix=/home/Owner/Crookshanks/Projects/Emerald-Frame/External/Build/win32
+prefix=/home/Owner/build
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
