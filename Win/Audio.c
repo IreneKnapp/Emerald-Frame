@@ -3,6 +3,7 @@
 #include "Emerald-Frame.h"
 
 
+extern EF_Error ef_internal_portable_audio_init();
 extern EF_Error ef_internal_portable_audio_load_sound_file(utf8 *filename,
 							   ALuint id);
 extern EF_Error ef_internal_portable_audio_load_sound_memory(uint8_t *data,
@@ -11,7 +12,7 @@ extern EF_Error ef_internal_portable_audio_load_sound_memory(uint8_t *data,
 
 
 EF_Error ef_internal_audio_init() {
-    return 0;
+    return ef_internal_portable_audio_init();
 }
 
 
