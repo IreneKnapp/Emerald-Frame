@@ -57,6 +57,27 @@ ul.contents a {
   text-decoration: none;
 }
 
+table {
+  margin-left: 2.5em;
+}
+
+th {
+  text-align: left;
+}
+
+td, th {
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+}
+
+td:first-child, th:first-child {
+  padding-left: 0;
+}
+
+td:last-child, th:last-child {
+  padding-right: 0;
+}
+
 .code, h4 {
   font-family: 'Courier New';
 }
@@ -86,9 +107,11 @@ div.title {
 
 <h1>Contents</h1>
 <ul class="contents">
-<li><a href="#S_introduction"><b>1.</b> Introduction</a></li>
-<li><a href="#S_introduction_downloads"><b>1.1</b> Downloads</a></li>
-<li><a href="#S_introduction_portability"><b>1.2</b> Portability Advice</a></li>
+<li><a href="#S_introduction"><b>1.</b> Introduction</a> <ul>
+<li><a href="#S_introduction_downloads"><b>1.1.</b> Downloads</a></li>
+<li><a href="#S_introduction_portability"><b>1.2.</b> Portability Advice</a></li>
+<li><a href="#S_introduction_licensing"><b>1.3.</b> Licensing and its Ramifications for Deployment</a></li>
+</ul></li>
 <li><a href="#S_sample"><b>2.</b> Sample Programs</a> <ul>
 <li><a href="#S_sample_skeleton"><b>2.1.</b> The Skeleton</a></li>
 <li><a href="#S_sample_time"><b>2.2.</b> Timed Drawing</a></li>
@@ -228,6 +251,42 @@ get in, do what you need to do, and get out, with minimal fuss.</p>
 <p>On Windows, using an OpenGL texture which has not been initialized will cause a
 segfault.  On the Mac and possibly other platforms, this simply results in an all-white
 texture.  Be aware!</p>
+
+
+<a name="S_introduction_licensing"><h2>1.3. Licensing and its Ramifications for Deployment</h2></a>
+
+<p>Emerald Frame itself is under the BSD license.  However, because it uses libraries
+which are under the LGPL, you have two options.  If your program is open-source (any
+open-source license will do; it needn't be LGPL itself), you can use the static versions
+of the libraries I provide.  If your program is closed-source, you <b>must</b> use the
+dynamic versions, which I also provide.  This is because the LGPL's test for whether
+your program constitutes a "combined work" is whether it is possible to upgrade the
+libraries independently of the program itself.</p>
+
+<p>You may prefer to use the dynamic versions anyway with your open-source program, to
+simplify your own build process.  Nothing stops you from doing this.  The only case
+where you need to be careful which version you use is if your program is
+closed-source.</p>
+
+<p>Here is a table of the dependencies of Emerald Frame and their licenses.  Not all
+dependencies are used on all platforms, so the table lists where they're used.</p>
+
+<table>
+<tr><th>Library</th><th>Platforms</th><th>License</th></tr>
+<tr><td>freetype</td><td>Windows</td><td>BSD with advertising clause</td></tr>
+<tr><td>gd</td><td>Windows</td><td>BSD with advertising clause</td></tr>
+<tr><td>jpeg</td><td>Windows</td><td>BSD with advertising clause</td></tr>
+<tr><td>libiconv</td><td>Windows</td><td>LGPL</td></tr>
+<tr><td>libpng</td><td>Windows</td><td>BSD</td></tr>
+<tr><td>libsndfile</td><td>Windows</td><td>LGPL</td></tr>
+<tr><td>mpg123</td><td>Windows</td><td>LGPL</td></tr>
+<tr><td>OpenAL</td><td>Windows, Mac OS X</td><td>LGPL</td></tr>
+<tr><td>OpenGL</td><td>Windows, Mac OS X</td><td>Varies</td></tr>
+<tr><td>zlib</td><td>Windows</td><td>BSD</td></tr>
+</table>
+
+<p>OpenGL is not distributed with Emerald Frame; it is provided by your platform.
+Therefore, its licensing is not relevant.</p>
 
 
 <a name="S_sample"><h1>2. Sample Programs</h1></a>
