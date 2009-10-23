@@ -281,7 +281,6 @@ dependencies are used on all platforms, so the table lists where they're used.</
 <tr><td>libsndfile</td><td>Windows</td><td>LGPL</td></tr>
 <tr><td>mpg123</td><td>Windows</td><td>LGPL</td></tr>
 <tr><td>OpenAL</td><td>Windows, Mac OS X</td><td>LGPL</td></tr>
-<tr><td>OpenGL</td><td>Windows, Mac OS X</td><td>Varies</td></tr>
 <tr><td>zlib</td><td>Windows</td><td>BSD</td></tr>
 </table>
 
@@ -1338,7 +1337,16 @@ any time after the first mouse-down event in the sequence.  The first mouse-down
 the first mouse-up event will both have a click count of 1; the second will have a
 click count of 2; and so on.  However, if at any time the mouse is moved, the click
 count resets to 0.  Therefore, in addition to double-clicking, this function can be
-used to implement a no-slip-clicking feature by checking it on mouse-up.</p.
+used to implement a no-slip-clicking feature by checking it on mouse-up.</p>
+
+<p>The maximum time between clicks for the clicks to count as being "in rapid
+succession" is determined by the operating system, and respects any preferences the
+user has set in that regard.</p>
+
+<p>There is no upper limit on how many clicks may occur together.  Triple, quadruple,
+and higher click counts are all possible.  However, these sequences may be difficult to
+execute, especially for users with disabilities, and should therefore not be used as
+the only way to access important functionality.</p>
 
 <p>This function is valid on mouse-down and mouse-up events only.  If it is called on
 other types of events, the behavior is undefined.</p>
