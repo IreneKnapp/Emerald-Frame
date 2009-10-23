@@ -6,13 +6,14 @@
 // some reason I can't track down, it is.
 #define UNICODE
 
-#include "Emerald-Frame.h"
-#include "Unicode.h"
-#include <math.h>
-#include <windows.h>
-#include <gd.h>
+// Tell windows.h we want to require at least Windows XP.  This makes it define some
+// nice things that we enjoy having, such as 
+#define WINVER         0x0501
+#define _WIN32_WINNT   0x0501
+#define _WIN32_WINDOWS 0x0501
+#define _WIN32_IE      0x0501
 
-
+// These aren't defined by the MinGW headers, for some reason.
 #ifndef MAPVK_VK_TO_VSC
 #define MAPVK_VK_TO_VSC 0
 #endif
@@ -25,6 +26,13 @@
 #ifndef MAPVK_VSC_TO_VK_EX
 #define MAPVK_VSC_TO_VK_EX 3
 #endif
+
+
+#include "Emerald-Frame.h"
+#include "Unicode.h"
+#include <math.h>
+#include <windows.h>
+#include <gd.h>
 
 
 struct ef_drawable_parameters {
