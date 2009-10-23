@@ -1257,6 +1257,9 @@ explicitly freed; it is valid for the duration of the callback's execution.</p>
 <p>If there is an existing callback, the new one replaces it.  If
 <span class="code">NULL</span> is passed, any existing callback is removed.</p>
 
+<p>When a mouse button is first pressed, up and down events related to other mouse
+buttons are ignored until that button is released.</p>
+
 <a name="ef_input_set_mouse_up_callback"><h4>void ef_input_set_mouse_up_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
 
 <p>Sets a callback to be invoked every time any mouse button is released.  The function
@@ -1284,6 +1287,12 @@ explicitly freed; it is valid for the duration of the callback's execution.</p>
 <p>The mouse-move callback is called regardless of whether there are any mouse buttons
 held down; if you need to do processing based on whether buttons are held down, you must
 save that information in the mouse-down callback.</p>
+
+<p>The mouse-move callback is normally called only when the mouse is within the
+drawable's window; however, when any mouse button is pressed while the mouse is within
+the window, mouse-move callbacks will be generated regardless of the mouse's position
+until it is released.  Thus you can use this callback to track drags that go outside the
+window.</p>
 
 <a name="ef_input_set_mouse_enter_callback"><h4>void ef_input_set_mouse_enter_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
 
