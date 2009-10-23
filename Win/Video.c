@@ -796,7 +796,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 					 WPARAM wParam,
 					 LPARAM lParam)
 {
-    static struct event *saved_event = NULL;
+    static struct event *saved_key_event = NULL;
     static WPARAM last_dead_character = '\0';
     static int append_character_instead_of_replacing = 0;
     static utf8 character_buffer[13] = { '\0' };
@@ -850,11 +850,11 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    event->data.key_event.string = (utf8 *) "";
 	    event->data.key_event.string = NULL;
 
-	    if(saved_event) {
-		free(saved_event);
-		saved_event = NULL;
+	    if(saved_key_event) {
+		free(saved_key_event);
+		saved_key_event = NULL;
 	    }
-	    saved_event = event;
+	    saved_key_event = event;
 	}
 	if(message == WM_SYSKEYDOWN)
 	    return DefWindowProc(window, message, wParam, lParam);
@@ -863,17 +863,17 @@ static LRESULT CALLBACK window_procedure(HWND window,
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
-	if(saved_event && drawable && drawable->key_up_callback
+	if(saved_key_event && drawable && drawable->key_up_callback
 	   && !is_modifier_keycode(wParam) && !last_dead_character)
 	{
-	    saved_event->timestamp = ef_time_unix_epoch();
-	    saved_event->data.key_event.string = character_buffer;
+	    saved_key_event->timestamp = ef_time_unix_epoch();
+	    saved_key_event->data.key_event.string = character_buffer;
 	    drawable->key_up_callback(drawable,
-					(EF_Event) saved_event,
+					(EF_Event) saved_key_event,
 					drawable->key_up_callback_context);
 	    
-	    free(saved_event);
-	    saved_event = NULL;
+	    free(saved_key_event);
+	    saved_key_event = NULL;
 	}
 	if(message == WM_SYSKEYUP)
 	    return DefWindowProc(window, message, wParam, lParam);
@@ -899,11 +899,11 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    append_character_instead_of_replacing = 1;
 	} else {
 	    append_character_instead_of_replacing = 0;
-
-	    if(saved_event && drawable && drawable->key_down_callback) {
-		saved_event->data.key_event.string = character_buffer;
+	    
+	    if(saved_key_event && drawable && drawable->key_down_callback) {
+		saved_key_event->data.key_event.string = character_buffer;
 		drawable->key_down_callback(drawable,
-					    (EF_Event) saved_event,
+					    (EF_Event) saved_key_event,
 					    drawable->key_down_callback_context);
 	    }
 	}
