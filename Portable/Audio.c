@@ -14,6 +14,7 @@ struct virtual_file {
 
 static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id);
 static EF_Error load_sound_mpg123_memory(uint8_t *data, size_t size, ALuint id);
+static EF_Error load_sound_mpg123_h(mpg123_handle *handle, ALuint id);
 static EF_Error load_sound_sndfile_file(utf8 *filename, ALuint id);
 static EF_Error load_sound_sndfile_memory(uint8_t *data, size_t size, ALuint id);
 static EF_Error load_sound_sndfile_h(SNDFILE *file, SF_INFO *sfinfo, ALuint id);
@@ -82,37 +83,6 @@ EF_Error ef_internal_portable_audio_load_sound_memory(uint8_t *data,
 }
 
 
-/*
-static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
-    FILE *file = fopen(filename, "rb");
-    if(!file)
-	return EF_ERROR_FILE;
-    
-    size_t buffer_used_size = 0;
-    size_t buffer_allocated_size = 2048;
-    uint8_t *buffer = malloc(buffer_allocated_size * sizeof(uint8_t));
-    while(1) {
-	if(buffer_used_size == buffer_allocated_size) {
-	    buffer_allocated_size += 2048;
-	    buffer = realloc(buffer, buffer_allocated_size * sizeof(uint8_t));
-	}
-	
-	size_t read_size = fread(buffer + buffer_used_size,
-				 1,
-				 buffer_allocated_size - buffer_used_size,
-				 file);
-	if(read_size == 0)
-	    break;
-	buffer_used_size += read_size;
-    }
-    
-    fclose(file);
-
-    load_sound_sndfile_memory(buffer, buffer_used_size, id);
-}
-*/
-
-
 static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
     mpg123_handle *handle = mpg123_new(NULL, NULL);
     if(!handle)
@@ -122,7 +92,42 @@ static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
 	mpg123_delete(handle);
 	return EF_ERROR_FILE;
     }
+
+    EF_Error result = load_sound_mpg123_h(handle, id);
     
+    mpg123_close(handle);
+    mpg123_delete(handle);
+    
+    return result;
+}
+
+
+static EF_Error load_sound_mpg123_memory(uint8_t *data, size_t size, ALuint id) {
+    mpg123_handle *handle = mpg123_new(NULL, NULL);
+    if(!handle)
+	return EF_ERROR_INTERNAL;
+    
+    if(MPG123_OK != mpg123_open_feed(handle)) {
+	mpg123_delete(handle);
+	return EF_ERROR_INTERNAL;
+    }
+
+    if(MPG123_OK != mpg123_feed(handle, data, size)) {
+	mpg123_close(handle);
+	mpg123_delete(handle);
+	return EF_ERROR_INTERNAL;
+    }
+    
+    EF_Error result = load_sound_mpg123_h(handle, id);
+    
+    mpg123_close(handle);
+    mpg123_delete(handle);
+    
+    return result;
+}
+
+
+static EF_Error load_sound_mpg123_h(mpg123_handle *handle, ALuint id) {
     long rate = 0;
     int channels = 0;
     int encoding = 0;
@@ -157,14 +162,11 @@ static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
 	    mpg123_close(handle);
 	    mpg123_delete(handle);
 	    return EF_ERROR_SOUND_DATA;
-	} else if(result == MPG123_DONE) {
+	} else if((result == MPG123_DONE) || (result == MPG123_NEED_MORE)) {
 	    break;
 	}
     }
     
-    mpg123_close(handle);
-    mpg123_delete(handle);
-
     ALenum alFormat;
     switch(channels) {
     case 1:
@@ -183,11 +185,6 @@ static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
     free(buffer);
     
     return 0;
-}
-
-
-static EF_Error load_sound_mpg123_memory(uint8_t *data, size_t size, ALuint id) {
-    return EF_ERROR_INTERNAL;
 }
 
 
