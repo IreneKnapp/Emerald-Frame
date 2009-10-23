@@ -1,3 +1,6 @@
+#ifndef EMERALD_FRAME_H
+#define EMERALD_FRAME_H
+
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -40,6 +43,7 @@ typedef uint32_t EF_Keycode;
 typedef uint32_t EF_Modifiers;
 typedef uint32_t EF_Dead_Key_State;
 typedef uint8_t utf8;
+typedef uint16_t utf16;
 typedef uint32_t utf32;
 
 #ifndef NULL
@@ -173,3 +177,5 @@ int32_t ef_event_mouse_y(EF_Event event);
 utf8 *ef_configuration_resource_directory();
 
 // Pasteboard
+
+#endif
