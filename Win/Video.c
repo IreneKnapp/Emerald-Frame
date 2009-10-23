@@ -807,6 +807,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
     static WPARAM last_dead_character = '\0';
     static int append_character_instead_of_replacing = 0;
     static utf8 character_buffer[13] = { '\0' };
+    static int click_button = -1;
     static uint64_t click_start_time = 0;
     int32_t click_start_x;
     int32_t click_start_y;
@@ -933,6 +934,8 @@ static LRESULT CALLBACK window_procedure(HWND window,
     case WM_MBUTTONDOWN:
     case WM_XBUTTONDOWN:
 	{
+	    SetCapture(window);
+	    
 	    struct event *event = malloc(sizeof(struct event));
 	    
 	    event->timestamp = ef_time_unix_epoch();
@@ -962,6 +965,14 @@ static LRESULT CALLBACK window_procedure(HWND window,
 		}
 		break;
 	    }
+
+	    int starts_a_click;
+	    if(click_button == -1) {
+		starts_a_click = 1;
+		click_button = event->data.mouse_event.button_number;
+	    } else {
+		starts_a_click = 0;
+	    }
 	    
 	    if(event->timestamp - click_start_time < GetDoubleClickTime())
 		click_count++;
@@ -976,7 +987,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    event->data.mouse_event.x = (lParam & 0xFFFF);
 	    event->data.mouse_event.y = client_rect.bottom - ((lParam >> 16) & 0xFFFF);
 	    
-	    if(drawable && drawable->mouse_down_callback) {
+	    if(starts_a_click && drawable && drawable->mouse_down_callback) {
 		drawable->mouse_down_callback(drawable,
 					      (EF_Event) event,
 					      drawable->mouse_down_callback_context);
@@ -991,6 +1002,8 @@ static LRESULT CALLBACK window_procedure(HWND window,
     case WM_MBUTTONUP:
     case WM_XBUTTONUP:
 	{
+	    ReleaseCapture();
+	    
 	    struct event *event = malloc(sizeof(struct event));
 	    
 	    event->timestamp = ef_time_unix_epoch();
@@ -1021,6 +1034,14 @@ static LRESULT CALLBACK window_procedure(HWND window,
 		break;
 	    }
 	    
+	    int ends_a_click;
+	    if(click_button == event->data.mouse_event.button_number) {
+		ends_a_click = 1;
+		click_button = -1;
+	    } else {
+		ends_a_click = 0;
+	    }
+	    
 	    event->data.mouse_event.click_count = click_count;
 	    
 	    RECT client_rect;
@@ -1029,7 +1050,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    event->data.mouse_event.x = (lParam & 0xFFFF);
 	    event->data.mouse_event.y = client_rect.bottom - ((lParam >> 16) & 0xFFFF);
 	    
-	    if(drawable && drawable->mouse_up_callback) {
+	    if(ends_a_click && drawable && drawable->mouse_up_callback) {
 		drawable->mouse_up_callback(drawable,
 					    (EF_Event) event,
 					    drawable->mouse_up_callback_context);
