@@ -145,7 +145,7 @@ EF_Error ef_internal_video_init() {
     window_class.lpszMenuName = NULL;
     window_class.lpszClassName = L"Emerald Frame";
     RegisterClassW(&window_class);
-    
+
     return 0;
 }
 
@@ -157,12 +157,23 @@ EF_Drawable ef_video_new_drawable(int width,
 {
     struct drawable *drawable = malloc(sizeof(struct drawable));
 
+    DWORD window_style = WS_CAPTION | WS_POPUPWINDOW | WS_VISIBLE;
+    
+    RECT window_rect;
+    window_rect.top = 0;
+    window_rect.left = 0;
+    window_rect.bottom = height;
+    window_rect.right = width;
+    AdjustWindowRect(&window_rect, window_style, 0);
+    int adjusted_width = window_rect.right - window_rect.left;
+    int adjusted_height = window_rect.bottom - window_rect.top;
+    
     utf16 *title16 = utf8_to_utf16(ef_internal_application_name());
     drawable->window = CreateWindowW(L"Emerald Frame",
 				     title16,
-				     WS_CAPTION | WS_POPUPWINDOW | WS_VISIBLE,
+				     window_style,
 				     CW_USEDEFAULT, CW_USEDEFAULT,
-				     width, height,
+				     adjusted_width, adjusted_height,
 				     NULL, NULL, hInstance, NULL);
     free(title16);
     
