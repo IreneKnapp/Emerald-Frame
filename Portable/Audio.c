@@ -1,6 +1,7 @@
 #include "Emerald-Frame.h"
 #include <stdio.h>
 #include <string.h>
+#include <mpg123.h>
 #include <sndfile.h>
 
 
@@ -30,6 +31,9 @@ static sf_count_t virtual_file_tell(struct virtual_file *file);
 
 
 EF_Error ef_internal_portable_audio_init() {
+    if(MPG123_OK != mpg123_init())
+	return EF_ERROR_INTERNAL;
+    
     return 0;
 }
 
@@ -78,8 +82,8 @@ EF_Error ef_internal_portable_audio_load_sound_memory(uint8_t *data,
 }
 
 
+/*
 static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
-    /*
     FILE *file = fopen(filename, "rb");
     if(!file)
 	return EF_ERROR_FILE;
@@ -105,9 +109,80 @@ static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
     fclose(file);
 
     load_sound_sndfile_memory(buffer, buffer_used_size, id);
-    */
+}
+*/
+
+
+static EF_Error load_sound_mpg123_file(utf8 *filename, ALuint id) {
+    mpg123_handle *handle = mpg123_new(NULL, NULL);
+    if(!handle)
+	return EF_ERROR_INTERNAL;
     
-    return EF_ERROR_INTERNAL;
+    if(MPG123_OK != mpg123_open(handle, filename)) {
+	mpg123_delete(handle);
+	return EF_ERROR_FILE;
+    }
+    
+    long rate = 0;
+    int channels = 0;
+    int encoding = 0;
+    if(MPG123_OK != mpg123_getformat(handle, &rate, &channels, &encoding)) {
+	mpg123_close(handle);
+	mpg123_delete(handle);
+	return EF_ERROR_SOUND_DATA;
+    }
+
+    mpg123_format_none(handle);
+    mpg123_format(handle, rate, channels, encoding);
+
+    size_t buffer_block_size = mpg123_outblock(handle) * 1024;
+    size_t buffer_used_size = 0;
+    size_t buffer_allocated_size = buffer_block_size;
+    uint8_t *buffer = malloc(buffer_allocated_size * sizeof(uint8_t));
+    while(1) {
+	if(buffer_used_size == buffer_allocated_size) {
+	    buffer_allocated_size += buffer_block_size;
+	    buffer = realloc(buffer, buffer_allocated_size * sizeof(uint8_t));
+	}
+
+	size_t amount_read;
+	int result = mpg123_read(handle,
+				 buffer + buffer_used_size,
+				 buffer_allocated_size - buffer_used_size,
+				 &amount_read);
+	buffer_used_size += amount_read;
+	
+	if(result == MPG123_ERR) {
+	    free(buffer);
+	    mpg123_close(handle);
+	    mpg123_delete(handle);
+	    return EF_ERROR_SOUND_DATA;
+	} else if(result == MPG123_DONE) {
+	    break;
+	}
+    }
+    
+    mpg123_close(handle);
+    mpg123_delete(handle);
+
+    ALenum alFormat;
+    switch(channels) {
+    case 1:
+	alFormat = AL_FORMAT_MONO16;
+	break;
+    case 2:
+	alFormat = AL_FORMAT_STEREO16;
+	break;
+    default:
+	free(buffer);
+	return EF_ERROR_SOUND_DATA;
+    }
+    
+    alBufferData(id, alFormat, buffer, buffer_used_size, rate);
+    
+    free(buffer);
+    
+    return 0;
 }
 
 
@@ -163,7 +238,6 @@ static EF_Error load_sound_sndfile_h(SNDFILE *file, SF_INFO *sfinfo, ALuint id) 
     size_t buffer_size = sfinfo->frames * sfinfo->channels * sizeof(uint16_t);
     uint16_t *buffer = malloc(buffer_size);
     sf_count_t n_read = sf_readf_short(file, buffer, sfinfo->frames);
-    printf("read %i frames\n", n_read);
     
     ALenum alFormat;
     switch(sfinfo->channels) {
