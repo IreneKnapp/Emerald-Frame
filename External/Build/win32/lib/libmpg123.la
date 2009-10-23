@@ -11,7 +11,7 @@ dlname='../bin/libmpg123-0.dll'
 library_names='libmpg123.dll.a'
 
 # The name of the static archive.
-old_library=''
+old_library='libmpg123.a'
 
 # Linker flags that can not go in dependency_libs.
 inherited_linker_flags=''
