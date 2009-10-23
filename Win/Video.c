@@ -176,6 +176,13 @@ EF_Drawable ef_video_new_drawable(int width,
 				     adjusted_width, adjusted_height,
 				     NULL, NULL, hInstance, NULL);
     free(title16);
+
+    TRACKMOUSEEVENT trackmouseevent;
+    trackmouseevent.cbSize = sizeof(trackmouseevent);
+    trackmouseevent.dwFlags = TME_LEAVE;
+    trackmouseevent.hwndTrack = drawable->window;
+    trackmouseevent.dwHoverTime = 0;
+    TrackMouseEvent(&trackmouseevent);
     
     drawable->device_context = GetDC(drawable->window);
     
@@ -800,6 +807,11 @@ static LRESULT CALLBACK window_procedure(HWND window,
     static WPARAM last_dead_character = '\0';
     static int append_character_instead_of_replacing = 0;
     static utf8 character_buffer[13] = { '\0' };
+    static uint64_t click_start_time = 0;
+    int32_t click_start_x;
+    int32_t click_start_y;
+    static int click_count = 1;
+    static struct drawable *mouse_drawable = NULL;
     
     struct drawable *drawable = NULL;
     for(size_t i = 0; i < n_drawables; i++) {
@@ -915,6 +927,180 @@ static LRESULT CALLBACK window_procedure(HWND window,
     case WM_SYSDEADCHAR:
 	last_dead_character = wParam;
 	break;
+
+    case WM_LBUTTONDOWN:
+    case WM_RBUTTONDOWN:
+    case WM_MBUTTONDOWN:
+    case WM_XBUTTONDOWN:
+	{
+	    struct event *event = malloc(sizeof(struct event));
+	    
+	    event->timestamp = ef_time_unix_epoch();
+	    event->modifiers = get_modifiers();
+	    
+	    switch(message) {
+	    case WM_LBUTTONDOWN:
+		event->data.mouse_event.button_number = 0;
+		break;
+	    case WM_RBUTTONDOWN:
+		event->data.mouse_event.button_number = 1;
+		break;
+	    case WM_MBUTTONDOWN:
+		event->data.mouse_event.button_number = 2;
+		break;
+	    case WM_XBUTTONDOWN:
+		switch((wParam >> 16) & 0xFFFF) {
+		case XBUTTON1:
+		    event->data.mouse_event.button_number = 3;
+		    break;
+		case XBUTTON2:
+		    event->data.mouse_event.button_number = 4;
+		    break;
+		default:
+		    event->data.mouse_event.button_number = 5;
+		    break;
+		}
+		break;
+	    }
+	    
+	    if(event->timestamp - click_start_time < GetDoubleClickTime())
+		click_count++;
+	    else
+		click_count = 1;
+	    click_start_time = event->timestamp;
+	    event->data.mouse_event.click_count = click_count;
+	    
+	    RECT client_rect;
+	    GetClientRect(window, &client_rect);
+
+	    event->data.mouse_event.x = (lParam & 0xFFFF);
+	    event->data.mouse_event.y = client_rect.bottom - ((lParam >> 16) & 0xFFFF);
+	    
+	    if(drawable && drawable->mouse_down_callback) {
+		drawable->mouse_down_callback(drawable,
+					      (EF_Event) event,
+					      drawable->mouse_down_callback_context);
+	    }
+	    
+	    free(event);
+	}
+	break;
+	
+    case WM_LBUTTONUP:
+    case WM_RBUTTONUP:
+    case WM_MBUTTONUP:
+    case WM_XBUTTONUP:
+	{
+	    struct event *event = malloc(sizeof(struct event));
+	    
+	    event->timestamp = ef_time_unix_epoch();
+	    event->modifiers = get_modifiers();
+	    
+	    switch(message) {
+	    case WM_LBUTTONUP:
+		event->data.mouse_event.button_number = 0;
+		break;
+	    case WM_RBUTTONUP:
+		event->data.mouse_event.button_number = 1;
+		break;
+	    case WM_MBUTTONUP:
+		event->data.mouse_event.button_number = 2;
+		break;
+	    case WM_XBUTTONUP:
+		switch((wParam >> 16) & 0xFFFF) {
+		case XBUTTON1:
+		    event->data.mouse_event.button_number = 3;
+		    break;
+		case XBUTTON2:
+		    event->data.mouse_event.button_number = 4;
+		    break;
+		default:
+		    event->data.mouse_event.button_number = 5;
+		    break;
+		}
+		break;
+	    }
+	    
+	    event->data.mouse_event.click_count = click_count;
+	    
+	    RECT client_rect;
+	    GetClientRect(window, &client_rect);
+	    
+	    event->data.mouse_event.x = (lParam & 0xFFFF);
+	    event->data.mouse_event.y = client_rect.bottom - ((lParam >> 16) & 0xFFFF);
+	    
+	    if(drawable && drawable->mouse_up_callback) {
+		drawable->mouse_up_callback(drawable,
+					    (EF_Event) event,
+					    drawable->mouse_up_callback_context);
+	    }
+	    
+	    free(event);
+	}
+	break;
+
+    case WM_MOUSEMOVE:
+	{
+	    click_start_time = 0;
+
+	    struct event *event = malloc(sizeof(struct event));
+	    
+	    event->timestamp = ef_time_unix_epoch();
+	    event->modifiers = get_modifiers();
+	    event->data.mouse_event.button_number = 0;
+	    event->data.mouse_event.click_count = 0;
+
+	    RECT client_rect;
+	    GetClientRect(window, &client_rect);
+	    
+	    event->data.mouse_event.x = (lParam & 0xFFFF);
+	    event->data.mouse_event.y = client_rect.bottom - ((lParam >> 16) & 0xFFFF);
+
+	    if(mouse_drawable != drawable) {
+		TRACKMOUSEEVENT trackmouseevent;
+		trackmouseevent.cbSize = sizeof(trackmouseevent);
+		trackmouseevent.dwFlags = TME_LEAVE;
+		trackmouseevent.hwndTrack = drawable->window;
+		trackmouseevent.dwHoverTime = 0;
+		TrackMouseEvent(&trackmouseevent);
+		
+		if(drawable && drawable->mouse_enter_callback) {
+		    drawable->mouse_enter_callback(drawable,
+						   (EF_Event) event,
+						 drawable->mouse_enter_callback_context);
+		}
+		
+		mouse_drawable = drawable;
+	    }
+	    
+	    if(drawable && drawable->mouse_move_callback) {
+		drawable->mouse_move_callback(drawable,
+					      (EF_Event) event,
+					      drawable->mouse_move_callback_context);
+	    }
+	    
+	    free(event);
+	}
+	break;
+	
+    case WM_MOUSELEAVE:
+	if(drawable && drawable->mouse_exit_callback) {
+	    struct event *event = malloc(sizeof(struct event));
+	    
+	    event->timestamp = ef_time_unix_epoch();
+	    event->modifiers = get_modifiers();
+	    event->data.mouse_event.button_number = 0;
+	    event->data.mouse_event.click_count = 0;
+	    event->data.mouse_event.x = 0;
+	    event->data.mouse_event.y = 0;
+	    
+	    drawable->mouse_exit_callback(drawable,
+					  (EF_Event) event,
+					  drawable->mouse_exit_callback_context);
+
+	    free(event);
+	}
+	mouse_drawable = NULL;
 	
     default:
 	return DefWindowProc(window, message, wParam, lParam);
