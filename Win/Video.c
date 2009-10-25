@@ -947,11 +947,15 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	} else {
 	    append_character_instead_of_replacing = 0;
 	    
-	    if(saved_key_event && drawable && drawable->key_down_callback) {
-		saved_key_event->data.key_event.string = character_buffer;
-		drawable->key_down_callback(drawable,
-					    (EF_Event) saved_key_event,
-					    drawable->key_down_callback_context);
+	    if(saved_key_event &&
+	       !is_noncharacter_keycode(saved_key_event->data.key_event.keycode))
+	    {
+		if(drawable && drawable->key_down_callback) {
+		    saved_key_event->data.key_event.string = character_buffer;
+		    drawable->key_down_callback(drawable,
+						(EF_Event) saved_key_event,
+						drawable->key_down_callback_context);
+		}
 	    }
 	}
 	last_dead_character = '\0';
