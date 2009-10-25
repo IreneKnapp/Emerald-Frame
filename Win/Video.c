@@ -515,7 +515,7 @@ static EF_Error ef_internal_video_load_texture_gd_image(gdImage *image,
     
     glBindTexture(GL_TEXTURE_2D, id);
     
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, size * 4);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, size);
     glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, size);
     
     if(build_mipmaps) {
