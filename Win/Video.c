@@ -110,6 +110,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 					 LPARAM lParam);
 static EF_Modifiers get_modifiers();
 static int is_modifier_keycode(WPARAM keycode);
+static int is_noncharacter_keycode(WPARAM keycode);
 
 
 EF_Error ef_internal_video_init() {
@@ -858,7 +859,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	
     case WM_DESTROY:
 	return 0;
-	
+
     case WM_PAINT:
 	{
 	    PAINTSTRUCT paint;
@@ -876,7 +877,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
-	if(drawable && drawable->key_down_callback && !is_modifier_keycode(wParam)) {
+	if(!is_modifier_keycode(wParam)) {
 	    struct event *event = malloc(sizeof(struct event));
 	    event->timestamp = ef_time_unix_epoch();
 	    event->modifiers = get_modifiers();
@@ -891,6 +892,14 @@ static LRESULT CALLBACK window_procedure(HWND window,
 		saved_key_event = NULL;
 	    }
 	    saved_key_event = event;
+
+	    if(is_noncharacter_keycode(wParam)) {
+		if(drawable && drawable->key_down_callback) {
+		    drawable->key_down_callback(drawable,
+						(EF_Event) event,
+						drawable->key_down_callback_context);
+		}
+	    }
 	}
 	if(message == WM_SYSKEYDOWN) {
 	    return DefWindowProc(window, message, wParam, lParam);
@@ -1188,4 +1197,12 @@ static int is_modifier_keycode(WPARAM keycode) {
 	return 1;
     default: return 0;
     }
+}
+
+
+static int is_noncharacter_keycode(WPARAM keycode) {
+    if(0 == MapVirtualKey(keycode, MAPVK_VK_TO_CHAR))
+	return 1;
+    else
+	return 0;
 }
