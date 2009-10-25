@@ -12,7 +12,9 @@ Library
   Build-Depends:        base >= 3 && < 5, bytestring >= 0.9, utf8-string >= 0.3.5,
                         OpenAL >= 1.4.0.0, OpenGL >= 2.4.0.1
   Exposed-modules:	Graphics.UI.EmeraldFrame
---  extra-libraries:	emerald-frame
---  extra-lib-dirs:	../Mac/build/Release/
-  ghc-options:		-Wall -framework "'Emerald Frame'"
---  ghc-options:		-Wall -framework-path../Mac/build/Release/ -framework "Emerald Frame"
+  if os(windows)
+    extra-libraries:	EmeraldFrame.dll
+    extra-lib-dirs:	../Win/build/Libraries/
+  if os(darwin)
+    ghc-options:	-Wall -framework "'Emerald Frame'"
+--    ghc-options:	-Wall -framework-path../Mac/build/Release/ -framework "Emerald Frame"
