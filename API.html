@@ -1021,17 +1021,19 @@ drawables).</p>
 
 <p>Loads a bitmap image from an external file into an OpenGL texture.  The application
 must have already allocated the texture ID, as with
-<span class="code">glGenTextures</span>.
-If the image data is not a square image with a power-of-two size, the created texture is
-the next larger such size that completely contains the image.  If this occurs and the
-texture is mipmapped, it will be rescaled to fill the entire available space.  If this
-occurs and the texture is not mipmapped, it will instead be padded, and the space space
-filling the bottom and right edges, to pad it to size, will not necessarily contain
-anything in particular, and should not be displayed.
-What file formats are supported depends upon operating-system support, but will include
-PNG, GIF, and JPEG.
-Returns <span class="code">EF_ERROR_FILE</span> if the file cannot be found or cannot be
-read.  Returns <span class="code">EF_ERROR_IMAGE_DATA</span> if the file cannot be
+<span class="code">glGenTextures</span>.</p>
+
+<p>If the image data is not a square image with a power-of-two size, the created texture
+is the next larger such size that completely contains the image.  If this occurs, the
+texture will be padded, and the space filling the bottom and right edges, to pad it to
+size, will not necessarily contain anything in particular, and should not be
+displayed.</p>
+
+<p>What file formats are supported depends upon operating-system support, but will
+include PNG, GIF, and JPEG.</p>
+
+<p>Returns <span class="code">EF_ERROR_FILE</span> if the file cannot be found or cannot
+be read.  Returns <span class="code">EF_ERROR_IMAGE_DATA</span> if the file cannot be
 interpreted as a valid image with a supported pixel format.</p>
 
 <!--
