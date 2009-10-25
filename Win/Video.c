@@ -204,6 +204,23 @@ EF_Drawable ef_video_new_drawable(int width,
     n_drawables++;
     all_drawables = realloc(all_drawables, sizeof(struct drawable *) * n_drawables);
     all_drawables[n_drawables-1] = drawable;
+
+    drawable->draw_callback = NULL;
+    drawable->draw_callback_context = NULL;
+    drawable->key_down_callback = NULL;
+    drawable->key_down_callback_context = NULL;
+    drawable->key_up_callback = NULL;
+    drawable->key_up_callback_context = NULL;
+    drawable->mouse_down_callback = NULL;
+    drawable->mouse_down_callback_context = NULL;
+    drawable->mouse_up_callback = NULL;
+    drawable->mouse_up_callback_context = NULL;
+    drawable->mouse_move_callback = NULL;
+    drawable->mouse_move_callback_context = NULL;
+    drawable->mouse_enter_callback = NULL;
+    drawable->mouse_enter_callback_context = NULL;
+    drawable->mouse_exit_callback = NULL;
+    drawable->mouse_exit_callback_context = NULL;
     
     return (EF_Drawable) drawable;
 }
@@ -477,26 +494,34 @@ static EF_Error ef_internal_video_load_texture_gd_image(gdImage *image,
     
     component_format = GL_UNSIGNED_BYTE;
     
-    data = malloc(width*height*4);
-    for(int y = 0; y < height; y++) {
-	for(int x = 0; x < width; x++) {
-	    int color = gdImageGetPixel(image, x, y);
-	    data[(x + y*width)*4] = gdImageRed(image, color);
-	    data[(x + y*width)*4+1] = gdImageGreen(image, color);
-	    data[(x + y*width)*4+2] = gdImageBlue(image, color);
-	    int alpha = (127 - gdImageAlpha(image, color)) * 2;
-	    data[(x + y*width)*4+3] = alpha;
+    data = malloc(size*size*4);
+    for(int y = 0; y < size; y++) {
+	for(int x = 0; x < size; x++) {
+	    if((y < height) && (x < width)) {
+		int color = gdImageGetPixel(image, x, y);
+		data[(x + y*size)*4] = gdImageRed(image, color);
+		data[(x + y*size)*4+1] = gdImageGreen(image, color);
+		data[(x + y*size)*4+2] = gdImageBlue(image, color);
+		int alpha = (127 - gdImageAlpha(image, color)) * 2;
+		data[(x + y*size)*4+3] = alpha;
+	    } else {
+		data[(x + y*size)*4] = 0x00;
+		data[(x + y*size)*4+1] = 0x00;
+		data[(x + y*size)*4+2] = 0x00;
+		data[(x + y*size)*4+3] = 0x00;
+	    }
 	}
     }
     
     glBindTexture(GL_TEXTURE_2D, id);
     
-    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, height);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, size * 4);
+    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, size);
     
     if(build_mipmaps) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D,
 			  pixel_format,
-			  width, height,
+			  size, size,
 			  pixel_format,
 			  component_format,
 			  data);
