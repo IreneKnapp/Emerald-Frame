@@ -35,6 +35,9 @@
 #include <gd.h>
 
 
+#define MAX_SAVED_KEY_EVENTS 8
+
+
 struct ef_drawable_parameters {
     int double_buffer;
     int stereo;
@@ -81,6 +84,7 @@ struct event {
 	struct {
 	    EF_Keycode keycode;
 	    utf8 *string;
+	    int has_fired_for_key_down;
 	} key_event;
 	struct {
 	    int button_number;
@@ -829,7 +833,8 @@ static LRESULT CALLBACK window_procedure(HWND window,
 					 WPARAM wParam,
 					 LPARAM lParam)
 {
-    static struct event *saved_key_event = NULL;
+    static int n_saved_key_events = 0;
+    static struct event *saved_key_events[MAX_SAVED_KEY_EVENTS];
     static WPARAM last_dead_character = '\0';
     static int append_character_instead_of_replacing = 0;
     static utf8 character_buffer[13] = { '\0' };
@@ -878,22 +883,38 @@ static LRESULT CALLBACK window_procedure(HWND window,
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
 	if(!is_modifier_keycode(wParam)) {
-	    struct event *event = malloc(sizeof(struct event));
-	    event->timestamp = ef_time_unix_epoch();
-	    event->modifiers = get_modifiers();
-	    event->data.key_event.keycode
-		= (EF_Keycode) wParam;
-		//= (EF_Keycode) MapVirtualKey(wParam, MAPVK_VK_TO_VSC);
-	    event->data.key_event.string = (utf8 *) "";
-	    event->data.key_event.string = NULL;
-
-	    if(saved_key_event) {
-		free(saved_key_event);
-		saved_key_event = NULL;
+	    struct event *event = NULL;
+	    for(int i = 0; i < n_saved_key_events; i++) {
+		if(saved_key_events[i]->data.key_event.keycode == wParam) {
+		    event = saved_key_events[i];
+		    break;
+		}
 	    }
-	    saved_key_event = event;
 
+	    if(event) {
+		event->timestamp = ef_time_unix_epoch();
+		event->modifiers = get_modifiers();
+		event->data.key_event.string = NULL;
+		event->data.key_event.has_fired_for_key_down = 0;
+	    } else {
+		event = malloc(sizeof(struct event));
+		event->timestamp = ef_time_unix_epoch();
+		event->modifiers = get_modifiers();
+		event->data.key_event.keycode
+		    = (EF_Keycode) wParam;
+		    //= (EF_Keycode) MapVirtualKey(wParam, MAPVK_VK_TO_VSC);
+		event->data.key_event.string = NULL;
+		event->data.key_event.has_fired_for_key_down = 0;
+		
+		if(n_saved_key_events < MAX_SAVED_KEY_EVENTS) {
+		    n_saved_key_events++;
+		    saved_key_events[n_saved_key_events-1] = event;
+		}
+	    }
+	    
 	    if(is_noncharacter_keycode(wParam)) {
+		event->data.key_event.has_fired_for_key_down = 1;
+		
 		if(drawable && drawable->key_down_callback) {
 		    drawable->key_down_callback(drawable,
 						(EF_Event) event,
@@ -909,22 +930,40 @@ static LRESULT CALLBACK window_procedure(HWND window,
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
-	if(saved_key_event && drawable && drawable->key_up_callback
-	   && !is_modifier_keycode(wParam) && !last_dead_character)
 	{
-	    saved_key_event->timestamp = ef_time_unix_epoch();
-	    saved_key_event->data.key_event.string = character_buffer;
-	    drawable->key_up_callback(drawable,
-					(EF_Event) saved_key_event,
-					drawable->key_up_callback_context);
+	    struct event *saved_key_event = NULL;
+	    for(int i = 0; i < n_saved_key_events; i++) {
+		if(saved_key_events[i]->data.key_event.keycode == wParam) {
+		    saved_key_event = saved_key_events[i];
+		    break;
+		}
+	    }
 	    
-	    free(saved_key_event);
-	    saved_key_event = NULL;
-	}
-	if(message == WM_SYSKEYUP) {
-	    return DefWindowProc(window, message, wParam, lParam);
-	} else {
-	    return 0;
+	    if(saved_key_event && drawable && drawable->key_up_callback
+	       && !is_modifier_keycode(wParam) && !last_dead_character)
+	    {
+		saved_key_event->timestamp = ef_time_unix_epoch();
+		saved_key_event->data.key_event.string = character_buffer;
+		drawable->key_up_callback(drawable,
+					  (EF_Event) saved_key_event,
+					  drawable->key_up_callback_context);
+		
+		for(int i = 0; i < n_saved_key_events; i++) {
+		    if(saved_key_events[i] == saved_key_event) {
+			for(int j = i; j < n_saved_key_events-1; j++)
+			    saved_key_events[j] = saved_key_events[j+1];
+			n_saved_key_events--;
+			break;
+		    }
+		}
+		free(saved_key_event);
+	    }
+	    
+	    if(message == WM_SYSKEYUP) {
+		return DefWindowProc(window, message, wParam, lParam);
+	    } else {
+		return 0;
+	    }
 	}
 	
     case WM_CHAR:
@@ -947,9 +986,16 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	} else {
 	    append_character_instead_of_replacing = 0;
 	    
-	    if(saved_key_event &&
-	       !is_noncharacter_keycode(saved_key_event->data.key_event.keycode))
-	    {
+	    struct event *saved_key_event = NULL;
+	    if(n_saved_key_events) {
+		struct event *event = saved_key_events[n_saved_key_events-1];
+		if(!event->data.key_event.has_fired_for_key_down)
+		    saved_key_event = event;
+	    }
+	    
+	    if(saved_key_event) {
+		saved_key_event->data.key_event.has_fired_for_key_down = 1;
+		
 		if(drawable && drawable->key_down_callback) {
 		    saved_key_event->data.key_event.string = character_buffer;
 		    drawable->key_down_callback(drawable,
