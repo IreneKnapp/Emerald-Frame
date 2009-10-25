@@ -40,7 +40,7 @@ build/libwrap_oal.a: \
 	build/OpenAL32/OpenAL32.o \
 	build/OpenAL32/openal32.res.o
 	if ! test -d build ; then mkdir build ; fi
-	ar cr $@ $(filter %.o,$^) $(filter %.a,$^)
+	ar cr $@ $(filter %.o,$^)
 
 build/OpenAL32/alBuffer.o: OpenAL32/alBuffer.c
 	if ! test -d build ; then mkdir build ; fi

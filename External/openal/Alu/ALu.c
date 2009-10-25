@@ -33,6 +33,10 @@
 #define __min min
 #endif
 
+#ifdef __MINGW32__
+#include <float.h>
+#endif
+
 ALUAPI ALint ALUAPIENTRY aluF2L(ALfloat Value)
 {
 	double temp;

@@ -28,7 +28,9 @@
 extern "C" {
 #endif
 
+#ifndef AL_BUILD_LIBRARY
 #define AL_BUILD_LIBRARY
+#endif
 
 #include "al\al.h"
 
