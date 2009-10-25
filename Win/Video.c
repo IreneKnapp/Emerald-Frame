@@ -127,12 +127,12 @@ EF_Error ef_internal_video_init() {
     drawable_parameters.multisample = False;
     drawable_parameters.supersample = False;
     drawable_parameters.sample_alpha = False;
-
+    
     n_drawables = 0;
     all_drawables = NULL;
-    
-    hInstance = GetModuleHandleW(NULL);
 
+    hInstance = GetModuleHandleW(NULL);
+    
     WNDCLASSW window_class;
     window_class.style = CS_OWNDC;
     window_class.lpfnWndProc = window_procedure;
@@ -834,11 +834,9 @@ static LRESULT CALLBACK window_procedure(HWND window,
     static utf8 character_buffer[13] = { '\0' };
     static int click_button = -1;
     static uint64_t click_start_time = 0;
-    int32_t click_start_x;
-    int32_t click_start_y;
     static int click_count = 1;
     static struct drawable *mouse_drawable = NULL;
-    
+
     struct drawable *drawable = NULL;
     for(size_t i = 0; i < n_drawables; i++) {
 	if(all_drawables[i]->window == window) {
@@ -894,10 +892,11 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    }
 	    saved_key_event = event;
 	}
-	if(message == WM_SYSKEYDOWN)
+	if(message == WM_SYSKEYDOWN) {
 	    return DefWindowProc(window, message, wParam, lParam);
-	else
+	} else {
 	    return 0;
+	}
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
@@ -913,10 +912,11 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    free(saved_key_event);
 	    saved_key_event = NULL;
 	}
-	if(message == WM_SYSKEYUP)
+	if(message == WM_SYSKEYUP) {
 	    return DefWindowProc(window, message, wParam, lParam);
-	else
+	} else {
 	    return 0;
+	}
 	
     case WM_CHAR:
     case WM_SYSCHAR:
@@ -947,12 +947,12 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	}
 	last_dead_character = '\0';
 	
-	break;
+	return 0;
 	
     case WM_DEADCHAR:
     case WM_SYSDEADCHAR:
 	last_dead_character = wParam;
-	break;
+	return 0;
 
     case WM_LBUTTONDOWN:
     case WM_RBUTTONDOWN:
@@ -1020,7 +1020,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    
 	    free(event);
 	}
-	break;
+	return 0;
 	
     case WM_LBUTTONUP:
     case WM_RBUTTONUP:
@@ -1083,7 +1083,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    
 	    free(event);
 	}
-	break;
+	return 0;
 
     case WM_MOUSEMOVE:
 	{
@@ -1127,7 +1127,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    
 	    free(event);
 	}
-	break;
+	return 0;
 	
     case WM_MOUSELEAVE:
 	if(drawable && drawable->mouse_exit_callback) {
@@ -1147,6 +1147,7 @@ static LRESULT CALLBACK window_procedure(HWND window,
 	    free(event);
 	}
 	mouse_drawable = NULL;
+	return 0;
 	
     default:
 	return DefWindowProc(window, message, wParam, lParam);
