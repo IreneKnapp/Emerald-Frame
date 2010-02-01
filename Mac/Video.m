@@ -7,8 +7,8 @@
 
 
 struct ef_drawable_parameters {
-    boolean double_buffer;
-    boolean stereo;
+    int double_buffer;
+    int stereo;
     int aux_buffers;
     int color_size;
     int alpha_size;
@@ -16,11 +16,11 @@ struct ef_drawable_parameters {
     int stencil_size;
     int accumulation_size;
     int samples;
-    boolean aux_depth_stencil;
-    boolean color_float;
-    boolean multisample;
-    boolean supersample;
-    boolean sample_alpha;
+    int aux_depth_stencil;
+    int color_float;
+    int multisample;
+    int supersample;
+    int sample_alpha;
 };
 
 static struct ef_drawable_parameters drawable_parameters;
@@ -28,7 +28,7 @@ static struct ef_drawable_parameters drawable_parameters;
 
 static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 						       GLuint id,
-						       boolean build_mipmaps);
+						       int build_mipmaps);
 
 
 EF_Error ef_internal_video_init() {
@@ -51,6 +51,7 @@ EF_Error ef_internal_video_init() {
     NSApplication *application = [NSApplication sharedApplication];
     ApplicationDelegate *delegate = [[ApplicationDelegate alloc] init];
     [application setDelegate: delegate];
+    [application activateIgnoringOtherApps: YES];
     [pool drain];
     
     return 0;
@@ -59,7 +60,7 @@ EF_Error ef_internal_video_init() {
 
 EF_Drawable ef_video_new_drawable(int width,
 				  int height,
-				  boolean full_screen,
+				  int full_screen,
 				  EF_Display display)
 {
     // Create the window-manager connection, if it doesn't exist.
@@ -194,12 +195,12 @@ void ef_drawable_swap_buffers(EF_Drawable drawable) {
 }
 
 
-void ef_video_set_double_buffer(boolean double_buffer) {
+void ef_video_set_double_buffer(int double_buffer) {
     drawable_parameters.double_buffer = double_buffer;
 }
 
 
-void ef_video_set_stereo(boolean stereo) {
+void ef_video_set_stereo(int stereo) {
     drawable_parameters.stereo = stereo;
 }
 
@@ -239,27 +240,27 @@ void ef_video_set_samples(int samples) {
 }
 
 
-void ef_video_set_aux_depth_stencil(boolean aux_depth_stencil) {
+void ef_video_set_aux_depth_stencil(int aux_depth_stencil) {
     drawable_parameters.aux_depth_stencil = aux_depth_stencil;
 }
 
 
-void ef_video_set_color_float(boolean color_float) {
+void ef_video_set_color_float(int color_float) {
     drawable_parameters.color_float = color_float;
 }
 
 
-void ef_video_set_multisample(boolean multisample) {
+void ef_video_set_multisample(int multisample) {
     drawable_parameters.multisample = multisample;
 }
 
 
-void ef_video_set_supersample(boolean supersample) {
+void ef_video_set_supersample(int supersample) {
     drawable_parameters.supersample = supersample;
 }
 
 
-void ef_video_set_sample_alpha(boolean sample_alpha) {
+void ef_video_set_sample_alpha(int sample_alpha) {
     drawable_parameters.sample_alpha = sample_alpha;
 }
 
@@ -310,7 +311,7 @@ int ef_display_height(EF_Display display) {
 
 EF_Error ef_video_load_texture_file(utf8 *filename,
 				    GLuint id,
-				    boolean build_mipmaps)
+				    int build_mipmaps)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *filenameString = [NSString stringWithUTF8String: (char *) filename];
@@ -328,7 +329,7 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
 
 EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
 				      GLuint id,
-				      boolean build_mipmaps)
+				      int build_mipmaps)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSData *data = [NSData dataWithBytes: (void *) bytes length: (NSUInteger) size];
@@ -342,7 +343,7 @@ EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
 
 static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 						       GLuint id,
-						       boolean build_mipmaps)
+						       int build_mipmaps)
 {
     NSBitmapImageRep *imageRepresentation = nil;
     for(NSImageRep *possibleRepresentation in [image representations]) {
@@ -359,7 +360,7 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
     GLint pixel_format;
     GLint component_format;
     GLsizei size;
-    boolean word_aligned;
+    int word_aligned;
     uint8_t *data;
     
     int width = [imageRepresentation pixelsWide];
@@ -445,7 +446,7 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
     if(build_mipmaps) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D,
 			  pixel_format,
-			  width, height,
+			  size, size,
 			  pixel_format,
 			  component_format,
 			  data);
