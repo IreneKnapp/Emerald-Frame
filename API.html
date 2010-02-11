@@ -202,24 +202,167 @@ div.title {
 <li><a href="#S_reference_text"><b>3.6.</b> Text</a> <ul>
 <li><a href="#S_reference_text_fonts"><b>3.6.1.</b> Fonts</a> <ul>
 <li><a href="#S_reference_text_fonts_finding_fonts"><b>3.6.1.1.</b> Finding Fonts</a> <ul>
+<li><a href="#ef_text_compute_available_fonts"><span class="code">ef_text_compute_available_fonts</span></a></li>
+<li><a href="#ef_text_compute_available_font_families"><span class="code">ef_text_compute_available_font_families</span></a></li>
+<li><a href="#ef_text_compute_available_fonts_with_traits"><span class="code">ef_text_compute_available_fonts_with_traits</span></a></li>
+<li><a href="#ef_text_compute_available_members_of_font_family"><span class="code">ef_text_compute_available_members_of_font_family</span></a></li>
+<li><a href="#ef_text_computed_count"><span class="code">ef_text_computed_count</span></a></li>
+<li><a href="#ef_text_computed_name_n"><span class="code">ef_text_computed_name_n</span></a></li>
+<li><a href="#ef_text_computed_member_name_n"><span class="code">ef_text_computed_member_name_n</span></a></li>
+<li><a href="#ef_text_computed_weight_n"><span class="code">ef_text_computed_weight_n</span></a></li>
+<li><a href="#ef_text_computed_traits_n"><span class="code">ef_text_computed_traits_n</span></a></li>
+<li><a href="#ef_text_discard_computed"><span class="code">ef_text_discard_computed</span></a></li>
+<li><a href="#ef_text_specific_font"><span class="code">ef_text_specific_font</span></a></li>
+<li><a href="#ef_font_traits"><span class="code">ef_font_traits</span></a></li>
+<li><a href="#ef_font_weight"><span class="code">ef_font_weight</span></a></li>
+<li><a href="#ef_font_is_fixed_pitch"><span class="code">ef_font_is_fixed_pitch</span></a></li>
+<li><a href="#ef_font_convert_to_face"><span class="code">ef_font_convert_to_face</span></a></li>
+<li><a href="#ef_font_convert_to_family"><span class="code">ef_font_convert_to_family</span></a></li>
+<li><a href="#ef_font_convert_to_have_traits"><span class="code">ef_font_convert_to_have_traits</span></a></li>
+<li><a href="#ef_font_convert_to_not_have_traits"><span class="code">ef_font_convert_to_not_have_traits</span></a></li>
+<li><a href="#ef_font_convert_to_size"><span class="code">ef_font_convert_to_size</span></a></li>
+<li><a href="#ef_font_convert_to_weight"><span class="code">ef_font_convert_to_weight</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_fonts_font_attributes"><b>3.6.1.2.</b> Font Attributes</a> <ul>
+<li><a href="#ef_font_advancement_for_glyph"><span class="code">ef_font_advancement_for_glyph</span></a></li>
+<li><a href="#ef_font_ascender"><span class="code">ef_font_ascender</span></a></li>
+<li><a href="#ef_font_descender"><span class="code">ef_font_descender</span></a></li>
+<li><a href="#ef_font_x_height"><span class="code">ef_font_x_height</span></a></li>
+<li><a href="#ef_font_cap_height"><span class="code">ef_font_cap_height</span></a></li>
+<li><a href="#ef_font_italic_angle"><span class="code">ef_font_italic_angle</span></a></li>
+<li><a href="#ef_font_leading"><span class="code">ef_font_leading</span></a></li>
+<li><a href="#ef_font_maximum_advancement"><span class="code">ef_font_maximum_advancement</span></a></li>
+<li><a href="#ef_font_underline_position"><span class="code">ef_font_underline_position</span></a></li>
+<li><a href="#ef_font_underline_thickness"><span class="code">ef_font_underline_thickness</span></a></li>
+<li><a href="#ef_font_bounding_rectangle_top"><span class="code">ef_font_bounding_rectangle_top</span></a></li>
+<li><a href="#ef_font_bounding_rectangle_left"><span class="code">ef_font_bounding_rectangle_left</span></a></li>
+<li><a href="#ef_font_bounding_rectangle_bottom"><span class="code">ef_font_bounding_rectangle_bottom</span></a></li>
+<li><a href="#ef_font_bounding_rectangle_right"><span class="code">ef_font_bounding_rectangle_right</span></a></li>
+<li><a href="#ef_font_glyph_bounding_rectangle_top"><span class="code">ef_font_glyph_bounding_rectangle_top</span></a></li>
+<li><a href="#ef_font_glyph_bounding_rectangle_left"><span class="code">ef_font_glyph_bounding_rectangle_left</span></a></li>
+<li><a href="#ef_font_glyph_bounding_rectangle_bottom"><span class="code">ef_font_glyph_bounding_rectangle_bottom</span></a></li>
+<li><a href="#ef_font_glyph_bounding_rectangle_right"><span class="code">ef_font_glyph_bounding_rectangle_right</span></a></li>
 </ul></li>
 </ul></li>
 <li><a href="#S_reference_text_attributed_strings"><b>3.6.2.</b> Attributed Strings</a> <ul>
 <li><a href="#S_reference_text_attributed_strings_general"><b>3.6.2.1.</b> General</a> <ul>
+<li><a href="#ef_text_new_attributed_string"><span class="code">ef_text_new_attributed_string</span></a></li>
+<li><a href="#ef_text_new_attributed_string_with_text"><span class="code">ef_text_new_attributed_string_with_text</span></a></li>
+<li><a href="#ef_text_new_attributed_string_with_text_and_attributes"><span class="code">ef_text_new_attributed_string_with_text_and_attributes</span></a></li>
+<li><a href="#ef_attributed_string_delete"><span class="code">ef_attributed_string_delete</span></a></li>
+<li><a href="#ef_attributed_string_text"><span class="code">ef_attributed_string_text</span></a></li>
+<li><a href="#ef_attributed_string_length"><span class="code">ef_attributed_string_length</span></a></li>
+<li><a href="#ef_attributed_string_attributes_at_index"><span class="code">ef_attributed_string_attributes_at_index</span></a></li>
+<li><a href="#ef_attributed_string_enumerate_attributes"><span class="code">ef_attributed_string_enumerate_attributes</span></a></li>
+<li><a href="#ef_attributed_string_replace_text"><span class="code">ef_attributed_string_replace_text</span></a></li>
+<li><a href="#ef_attributed_string_delete_text"><span class="code">ef_attributed_string_delete_text</span></a></li>
+<li><a href="#ef_attributed_string_set_attributes"><span class="code">ef_attributed_string_set_attributes</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_attributed_strings_drawing"><b>3.6.2.2.</b> Drawing</a> <ul>
+<li><a href="#ef_attributed_string_draw_at_point"><span class="code">ef_attributed_string_draw_at_point</span></a></li>
+<li><a href="#ef_attributed_string_draw_in_rectangle"><span class="code">ef_attributed_string_draw_in_rectangle</span></a></li>
+<li><a href="#ef_attributed_string_width"><span class="code">ef_attributed_string_width</span></a></li>
+<li><a href="#ef_attributed_string_height"><span class="code">ef_attributed_string_height</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_attributed_strings_text_attributes"><b>3.6.2.3.</b> Text Attributes</a> <ul>
+<li><a href="#ef_text_new_attributes"><span class="code">ef_text_new_attributes</span></a></li>
+<li><a href="#ef_text_attributes_delete"><span class="code">ef_text_attributes_delete</span></a></li>
+<li><a href="#ef_text_attributes_font"><span class="code">ef_text_attributes_font</span></a></li>
+<li><a href="#ef_text_attributes_paragraph_style_is_default"><span class="code">ef_text_attributes_paragraph_style_is_default</span></a></li>
+<li><a href="#ef_text_attributes_paragraph_style"><span class="code">ef_text_attributes_paragraph_style</span></a></li>
+<li><a href="#ef_text_attributes_foreground_color_red"><span class="code">ef_text_attributes_foreground_color_red</span></a></li>
+<li><a href="#ef_text_attributes_foreground_color_green"><span class="code">ef_text_attributes_foreground_color_green</span></a></li>
+<li><a href="#ef_text_attributes_foreground_color_blue"><span class="code">ef_text_attributes_foreground_color_blue</span></a></li>
+<li><a href="#ef_text_attributes_foreground_color_alpha"><span class="code">ef_text_attributes_foreground_color_alpha</span></a></li>
+<li><a href="#ef_text_attributes_background_color_red"><span class="code">ef_text_attributes_background_color_red</span></a></li>
+<li><a href="#ef_text_attributes_background_color_green"><span class="code">ef_text_attributes_background_color_green</span></a></li>
+<li><a href="#ef_text_attributes_background_color_blue"><span class="code">ef_text_attributes_background_color_blue</span></a></li>
+<li><a href="#ef_text_attributes_background_color_alpha"><span class="code">ef_text_attributes_background_color_alpha</span></a></li>
+<li><a href="#ef_text_attributes_underline"><span class="code">ef_text_attributes_underline</span></a></li>
+<li><a href="#ef_text_attributes_underline_colored"><span class="code">ef_text_attributes_underline_colored</span></a></li>
+<li><a href="#ef_text_attributes_underline_color_red"><span class="code">ef_text_attributes_underline_color_red</span></a></li>
+<li><a href="#ef_text_attributes_underline_color_green"><span class="code">ef_text_attributes_underline_color_green</span></a></li>
+<li><a href="#ef_text_attributes_underline_color_blue"><span class="code">ef_text_attributes_underline_color_blue</span></a></li>
+<li><a href="#ef_text_attributes_underline_color_alpha"><span class="code">ef_text_attributes_underline_color_alpha</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough"><span class="code">ef_text_attributes_strikethrough</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_colored"><span class="code">ef_text_attributes_strikethrough_colored</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_color_red"><span class="code">ef_text_attributes_strikethrough_color_red</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_color_green"><span class="code">ef_text_attributes_strikethrough_color_green</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_color_blue"><span class="code">ef_text_attributes_strikethrough_color_blue</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_color_alpha"><span class="code">ef_text_attributes_strikethrough_color_alpha</span></a></li>
+<li><a href="#ef_text_attributes_superscript"><span class="code">ef_text_attributes_superscript</span></a></li>
+<li><a href="#ef_text_attributes_ligature_style"><span class="code">ef_text_attributes_ligature_style</span></a></li>
+<li><a href="#ef_text_attributes_baseline_offset"><span class="code">ef_text_attributes_baseline_offset</span></a></li>
+<li><a href="#ef_text_attributes_kerning_is_default"><span class="code">ef_text_attributes_kerning_is_default</span></a></li>
+<li><a href="#ef_text_attributes_kerning"><span class="code">ef_text_attributes_kerning</span></a></li>
+<li><a href="#ef_text_attributes_outline_style"><span class="code">ef_text_attributes_outline_style</span></a></li>
+<li><a href="#ef_text_attributes_stroke_width"><span class="code">ef_text_attributes_stroke_width</span></a></li>
+<li><a href="#ef_text_attributes_obliqueness"><span class="code">ef_text_attributes_obliqueness</span></a></li>
+<li><a href="#ef_text_attributes_expansion"><span class="code">ef_text_attributes_expansion</span></a></li>
+<li><a href="#ef_text_attributes_set_font"><span class="code">ef_text_attributes_set_font</span></a></li>
+<li><a href="#ef_text_attributes_set_paragraph_style_default"><span class="code">ef_text_attributes_set_paragraph_style_default</span></a></li>
+<li><a href="#ef_text_attributes_set_paragraph_style"><span class="code">ef_text_attributes_set_paragraph_style</span></a></li>
+<li><a href="#ef_text_attributes_set_foreground_color"><span class="code">ef_text_attributes_set_foreground_color</span></a></li>
+<li><a href="#ef_text_attributes_set_background_color"><span class="code">ef_text_attributes_set_background_color</span></a></li>
+<li><a href="#ef_text_attributes_set_underline"><span class="code">ef_text_attributes_set_underline</span></a></li>
+<li><a href="#ef_text_attributes_set_underline_uncolored"><span class="code">ef_text_attributes_set_underline_uncolored</span></a></li>
+<li><a href="#ef_text_attributes_set_underline_color"><span class="code">ef_text_attributes_set_underline_color</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough"><span class="code">ef_text_attributes_strikethrough</span></a></li>
+<li><a href="#ef_text_attributes_set_strikethrough_uncolored"><span class="code">ef_text_attributes_set_strikethrough_uncolored</span></a></li>
+<li><a href="#ef_text_attributes_set_strikethrough_color"><span class="code">ef_text_attributes_set_strikethrough_color</span></a></li>
+<li><a href="#ef_text_attributes_set_superscript"><span class="code">ef_text_attributes_set_superscript</span></a></li>
+<li><a href="#ef_text_attributes_set_ligature_style"><span class="code">ef_text_attributes_set_ligature_style</span></a></li>
+<li><a href="#ef_text_attributes_set_baseline_offset"><span class="code">ef_text_attributes_set_baseline_offset</span></a></li>
+<li><a href="#ef_text_attributes_set_kerning_default"><span class="code">ef_text_attributes_set_kerning_default</span></a></li>
+<li><a href="#ef_text_attributes_set_kerning"><span class="code">ef_text_attributes_set_kerning</span></a></li>
+<li><a href="#ef_text_attributes_outline_style"><span class="code">ef_text_attributes_outline_style</span></a></li>
+<li><a href="#ef_text_attributes_stroke_width"><span class="code">ef_text_attributes_stroke_width</span></a></li>
+<li><a href="#ef_text_attributes_set_obliqueness"><span class="code">ef_text_attributes_set_obliqueness</span></a></li>
+<li><a href="#ef_text_attributes_set_expansion"><span class="code">ef_text_attributes_set_expansion</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_attributed_strings_paragraph_styles"><b>3.6.2.4.</b> Paragraph Styles</a> <ul>
+<li><a href="#ef_text_new_paragraph_style"><span class="code">ef_text_new_paragraph_style</span></a></li>
+<li><a href="#ef_paragraph_style_delete"><span class="code">ef_paragraph_style_delete</span></a></li>
+<li><a href="#ef_paragraph_style_alignment"><span class="code">ef_paragraph_style_alignment</span></a></li>
+<li><a href="#ef_paragraph_style_first_line_head_indent"><span class="code">ef_paragraph_style_first_line_head_indent</span></a></li>
+<li><a href="#ef_paragraph_style_head_indent"><span class="code">ef_paragraph_style_head_indent</span></a></li>
+<li><a href="#ef_paragraph_style_tail_indent"><span class="code">ef_paragraph_style_tail_indent</span></a></li>
+<li><a href="#ef_paragraph_style_line_height_multiple"><span class="code">ef_paragraph_style_line_height_multiple</span></a></li>
+<li><a href="#ef_paragraph_style_minimum_line_height"><span class="code">ef_paragraph_style_minimum_line_height</span></a></li>
+<li><a href="#ef_paragraph_style_has_maximum_line_height"><span class="code">ef_paragraph_style_has_maximum_line_height</span></a></li>
+<li><a href="#ef_paragraph_style_maximum_line_height"><span class="code">ef_paragraph_style_maximum_line_height</span></a></li>
+<li><a href="#ef_paragraph_style_line_spacing"><span class="code">ef_paragraph_style_line_spacing</span></a></li>
+<li><a href="#ef_paragraph_style_paragraph_spacing"><span class="code">ef_paragraph_style_paragraph_spacing</span></a></li>
+<li><a href="#ef_paragraph_style_paragraph_spacing_before"><span class="code">ef_paragraph_style_paragraph_spacing_before</span></a></li>
+<li><a href="#ef_paragraph_style_set_alignment"><span class="code">ef_paragraph_style_set_alignment</span></a></li>
+<li><a href="#ef_paragraph_style_set_first_line_head_indent"><span class="code">ef_paragraph_style_set_first_line_head_indent</span></a></li>
+<li><a href="#ef_paragraph_style_set_head_indent"><span class="code">ef_paragraph_style_set_head_indent</span></a></li>
+<li><a href="#ef_paragraph_style_set_tail_indent"><span class="code">ef_paragraph_style_set_tail_indent</span></a></li>
+<li><a href="#ef_paragraph_style_set_line_height_multiple"><span class="code">ef_paragraph_style_set_line_height_multiple</span></a></li>
+<li><a href="#ef_paragraph_style_set_minimum_line_height"><span class="code">ef_paragraph_style_set_minimum_line_height</span></a></li>
+<li><a href="#ef_paragraph_style_set_no_maximum_line_height"><span class="code">ef_paragraph_style_set_no_maximum_line_height</span></a></li>
+<li><a href="#ef_paragraph_style_set_maximum_line_height"><span class="code">ef_paragraph_style_set_maximum_line_height</span></a></li>
+<li><a href="#ef_paragraph_style_set_line_spacing"><span class="code">ef_paragraph_style_set_line_spacing</span></a></li>
+<li><a href="#ef_paragraph_style_set_paragraph_spacing"><span class="code">ef_paragraph_style_set_paragraph_spacing</span></a></li>
+<li><a href="#ef_paragraph_style_set_paragraph_spacing_before"><span class="code">ef_paragraph_style_set_paragraph_spacing_before</span></a></li>
 </ul></li>
 </ul></li>
 <li><a href="#S_reference_text_flows"><b>3.6.3.</b> Flows</a> <ul>
 <li><a href="#S_reference_text_flows_general"><b>3.6.3.1.</b> General</a> <ul>
+<li><a href="#ef_text_new_text_flow"><span class="code">ef_text_new_text_flow</span></a></li>
+<li><a href="#ef_text_flow_delete"><span class="code">ef_text_flow_delete</span></a></li>
+<li><a href="#ef_text_flow_left"><span class="code">ef_text_flow_left</span></a></li>
+<li><a href="#ef_text_flow_top"><span class="code">ef_text_flow_top</span></a></li>
+<li><a href="#ef_text_flow_set_origin"><span class="code">ef_text_flow_set_origin</span></a></li>
+<li><a href="#ef_text_flow_width"><span class="code">ef_text_flow_width</span></a></li>
+<li><a href="#ef_text_flow_height"><span class="code">ef_text_flow_height</span></a></li>
+<li><a href="#ef_text_flow_set_size"><span class="code">ef_text_flow_set_size</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_flows_drawing"><b>3.6.3.2.</b> Drawing</a> <ul>
+<li><a href="#ef_text_flow_draw"><span class="code">ef_text_flow_draw</span></a></li>
+<li><a href="#ef_text_flow_draw_background"><span class="code">ef_text_flow_draw_background</span></a></li>
+<li><a href="#ef_text_flow_draw_glyphs"><span class="code">ef_text_flow_draw_glyphs</span></a></li>
+<li><a href="#ef_text_flow_draw_decorations"><span class="code">ef_text_flow_draw_decorations</span></a></li>
 </ul></li>
 </ul></li>
 </ul></li>
