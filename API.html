@@ -830,7 +830,7 @@ Frame library function.  Not useful, for example, for OpenGL error codes.</p>
 
 <a name="S_reference_video"><h2>3.2. Video</h2></a>
 
-<a name="S_reference_video_displays"><h3>3.2.1. Displays</h3></a>
+<a name="S_reference_video_displays"><h3>3.2.1. Video - Displays</h3></a>
 
 <p><b>Displays</b> are physical screens attached to the computer.  It is useful to
 work with them whenever the user has multiple screens, whether to identify them all and
@@ -866,7 +866,7 @@ received last time to retrieve the one following it.</p>
 
 </ul>
 
-<a name="S_reference_video_drawables"><h3>3.2.2. Drawables</h3></a>
+<a name="S_reference_video_drawables"><h3>3.2.2. Video - Drawables</h3></a>
 
 <p>A <b>drawable</b> is a context into which you can perform graphics commands.  It is
 either a window, or the entire contents of a display.
@@ -924,7 +924,7 @@ this causes any changes since the last call of it to be displayed to the user.</
 
 <p>This function implicitly calls <span class="code">glFlush()</span>.</p>
 
-<a name="S_reference_video_settings"><h3>3.2.3. Settings</h3></a>
+<a name="S_reference_video_settings"><h3>3.2.3. Video - Settings</h3></a>
 
 <a name="ef_video_set_double_buffer"><h4>void ef_video_set_double_buffer(boolean double_buffer)</h4></a>
 
@@ -1015,7 +1015,7 @@ This is a somewhat unpopular method of doing full-screen antialiasing.</p>
 will be used for all future drawables that are created (it does not modify existing
 drawables).</p>
 
-<a name="S_reference_video_images"><h3>3.2.4. Image Files</h3></a>
+<a name="S_reference_video_images"><h3>3.2.4. Video - Image Files</h3></a>
 
 <a name="ef_video_load_texture_file"><h4>EF_Error ef_video_load_texture_file(utf8 *filename, GLuint id, boolean build_mipmaps)</h4></a>
 
@@ -1102,7 +1102,7 @@ cancelled, the timer is automatically disposed of and will not fire.</p>
 
 <a name="S_reference_input"><h2>3.5. Input</h2></a>
 
-<a name="S_reference_input_general"><h3>3.5.1. General</h3></a>
+<a name="S_reference_input_general"><h3>3.5.1. Input - General</h3></a>
 
 <a name="ef_event_timestamp"><h4>uint64_t ef_event_timestamp(EF_Event event)</h4></a>
 
@@ -1127,7 +1127,7 @@ future releases of Emerald Frame.  They are:</p>
 
 <p>This function is valid on all types of events.</p>
 
-<a name="S_reference_input_keyboard"><h3>3.5.2. Keyboard</h3></a>
+<a name="S_reference_input_keyboard"><h3>3.5.2. Input - Keyboard</h3></a>
 
 <a name="ef_input_set_key_down_callback"><h4>void ef_input_set_key_down_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
 
@@ -1245,7 +1245,7 @@ no immediate output.  The string returned by this function is in statically-allo
 memory and does not need to be freed; it remains valid until the next call to this
 function.</p>
 
-<a name="S_reference_input_mouse"><h3>3.5.3. Mouse</h3></a>
+<a name="S_reference_input_mouse"><h3>3.5.3. Input - Mouse</h3></a>
 
 <a name="ef_input_set_mouse_down_callback"><h4>void ef_input_set_mouse_down_callback(<br />EF_Drawable drawable,<br />void (*callback)(EF_Drawable drawable, EF_Event event, void *context),<br />void *context)</h4></a>
 
