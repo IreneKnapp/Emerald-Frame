@@ -1549,6 +1549,376 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="S_reference_text"><h2>3.6. Text</h2></a>
 
+<a name="#S_reference_text_fonts"><h3>3.6.1. Text - Fonts</h3></a>
+
+<a name="#S_reference_text_fonts_finding_fonts"><h3>3.6.1.1. Text - Fonts - Finding Fonts</h3></a>
+
+<a name="ef_text_compute_available_fonts"><h4>void ef_text_compute_available_fonts()</h4></a>
+
+<a name="ef_text_compute_available_font_families"><h4>void ef_text_compute_available_font_families()</h4></a>
+
+<a name="ef_text_compute_available_fonts_with_traits"><h4>void ef_text_compute_available_fonts_with_traits(EF_Font_Traits)</h4></a>
+
+<a name="ef_text_compute_available_members_of_font_family"><h4>void ef_text_compute_available_members_of_font_family(utf8 *family_name)</h4></a>
+
+<a name="ef_text_computed_count"><h4>int32_t ef_text_computed_count()</h4></a>
+
+<a name="ef_text_computed_name_n"><h4>utf8 *ef_text_computed_name_n(int32_t which)</h4></a>
+
+<a name="ef_text_computed_member_name_n"><h4>utf8 *ef_text_computed_member_name_n(int32_t which)</h4></a>
+
+<a name="ef_text_computed_weight_n"><h4>EF_Font_Weight ef_text_computed_weight_n(int32_t which)</h4></a>
+
+<a name="ef_text_computed_traits_n"><h4>EF_Font_Traits ef_text_computed_traits_n(int32_t which)</h4></a>
+
+<a name="ef_text_discard_computed"><h4>void ef_text_discard_computed()</h4></a>
+
+<a name="ef_text_specific_font"><h4>EF_Font ef_text_specific_font(utf8 *family_name,
+			      EF_Font_Traits traits,
+			      EF_Font_Weight weight,
+			      double size)</h4></a>
+
+<a name="ef_font_traits"><h4>EF_Font_Traits ef_font_traits(EF_Font font)</h4></a>
+
+<a name="ef_font_weight"><h4>int32_t ef_font_weight(EF_Font font)</h4></a>
+
+<a name="ef_font_is_fixed_pitch"><h4>int ef_font_is_fixed_pitch(EF_Font font)</h4></a>
+
+<a name="ef_font_convert_to_face"><h4>EF_Font ef_font_convert_to_face(EF_Font font, utf8 *face_name)</h4></a>
+
+<a name="ef_font_convert_to_family"><h4>EF_Font ef_font_convert_to_family(EF_Font font, utf8 *family_name)</h4></a>
+
+<a name="ef_font_convert_to_have_traits"><h4>EF_Font ef_font_convert_to_have_traits(EF_Font font, EF_Font_Traits traits)</h4></a>
+
+<a name="ef_font_convert_to_not_have_traits"><h4>EF_Font ef_font_convert_to_not_have_traits(EF_Font font, EF_Font_Traits traits)</h4></a>
+
+<a name="ef_font_convert_to_size"><h4>EF_Font ef_font_convert_to_size(EF_Font font, double size)</h4></a>
+
+<a name="ef_font_convert_to_weight"><h4>EF_Font ef_font_convert_to_weight(EF_Font font, EF_Font_Weight weight)</h4></a>
+
+<a name="#S_reference_text_fonts_font_attributes"><h3>3.6.1.2. Text - Fonts - Font Attributes</h3></a>
+
+<a name="ef_font_advancement_for_glyph"><h4>double ef_font_advancement_for_glyph(EF_Font font, EF_Glyph glyph)</h4></a>
+
+<a name="ef_font_ascender"><h4>double ef_font_ascender(EF_Font font)</h4></a>
+
+<a name="ef_font_descender"><h4>double ef_font_descender(EF_Font font)</h4></a>
+
+<a name="ef_font_x_height"><h4>double ef_font_x_height(EF_Font font)</h4></a>
+
+<a name="ef_font_cap_height"><h4>double ef_font_cap_height(EF_Font font)</h4></a>
+
+<a name="ef_font_italic_angle"><h4>double ef_font_italic_angle(EF_Font font)</h4></a>
+
+<a name="ef_font_leading"><h4>double ef_font_leading(EF_Font font)</h4></a>
+
+<a name="ef_font_maximum_advancement"><h4>double ef_font_maximum_advancement(EF_Font font)</h4></a>
+
+<a name="ef_font_underline_position"><h4>double ef_font_underline_position(EF_Font font)</h4></a>
+
+<a name="ef_font_underline_thickness"><h4>double ef_font_underline_thickness(EF_Font font)</h4></a>
+
+<a name="ef_font_bounding_rectangle_top"><h4>double ef_font_bounding_rectangle_top(EF_Font font)</h4></a>
+
+<a name="ef_font_bounding_rectangle_left"><h4>double ef_font_bounding_rectangle_left(EF_Font font)</h4></a>
+
+<a name="ef_font_bounding_rectangle_bottom"><h4>double ef_font_bounding_rectangle_bottom(EF_Font font)</h4></a>
+
+<a name="ef_font_bounding_rectangle_right"><h4>double ef_font_bounding_rectangle_right(EF_Font font)</h4></a>
+
+<a name="ef_font_glyph_bounding_rectangle_top"><h4>double ef_font_glyph_bounding_rectangle_top(EF_Font font, EF_Glyph glyph)</h4></a>
+
+<a name="ef_font_glyph_bounding_rectangle_left"><h4>double ef_font_glyph_bounding_rectangle_left(EF_Font font, EF_Glyph glyph)</h4></a>
+
+<a name="ef_font_glyph_bounding_rectangle_bottom"><h4>double ef_font_glyph_bounding_rectangle_bottom(EF_Font font, EF_Glyph glyph)</h4></a>
+
+<a name="ef_font_glyph_bounding_rectangle_right"><h4>double ef_font_glyph_bounding_rectangle_right(EF_Font font, EF_Glyph glyph)</h4></a>
+
+<a name="#S_reference_text_attributed_strings"><h3>3.6.2. Text - Attributed Strings</h3></a>
+
+<a name="#S_reference_text_attributed_strings_general"><h3>3.6.2.1. Text - Attributed Strings - General</h3></a>
+
+<a name="ef_text_new_attributed_string"><h4>EF_Attributed_String ef_text_new_attributed_string()</h4></a>
+
+<a name="ef_text_new_attributed_string_with_text"><h4>EF_Attributed_String ef_text_new_attributed_string_with_text(utf8 *text)</h4></a>
+
+<a name="ef_text_new_attributed_string_with_text_and_attributes"><h4>EF_Attributed_String
+  ef_text_new_attributed_string_with_text_and_attributes(utf8 *text,
+							 EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_attributed_string_delete"><h4>void ef_attributed_string_delete(EF_Attributed_String attributed_string)</h4></a>
+
+<a name="ef_attributed_string_text"><h4>utf8 *ef_attributed_string_text(EF_Attributed_String attributed_string)</h4></a>
+
+<a name="ef_attributed_string_length"><h4>int32_t ef_attributed_string_length(EF_Attributed_String attributed_string)</h4></a>
+
+<a name="ef_attributed_string_attributes_at_index"><h4>EF_Text_Attributes
+  ef_attributed_string_attributes_at_index(EF_Attributed_String attributed_string,
+					   int32_t *effective_start,
+					   int32_t *effective_end)</h4></a>
+
+<a name="ef_attributed_string_enumerate_attributes"><h4>void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_string,
+					       int (*callback)(EF_Text_Attributes
+							         text_attributes,
+							       int32_t start,
+							       int32_t end))</h4></a>
+
+<a name="ef_attributed_string_replace_text"><h4>void ef_attributed_string_replace_text(EF_Attributed_String attributed_string,
+				       utf8 *text,
+				       int32_t start,
+				       int32_t end)</h4></a>
+
+<a name="ef_attributed_string_delete_text"><h4>void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
+				      int32_t start,
+				      int32_t end)</h4></a>
+
+<a name="ef_attributed_string_set_attributes"><h4>void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
+					 EF_Text_Attributes ef_text_attributes,
+					 int32_t start,
+					 int32_t end)</h4></a>
+
+<a name="#S_reference_text_attributed_strings_drawing"><h3>3.6.2.2. Text - Attributed Strings - Drawing</h3></a>
+<a name="ef_attributed_string_draw_at_point"><h4>void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
+					double x,
+					double y)</h4></a>
+
+<a name="ef_attributed_string_draw_in_rectangle"><h4>void ef_attributed_string_draw_in_rectangle(EF_Attributed_String attributed_string,
+					    double left,
+					    double top,
+					    double width,
+					    double height)</h4></a>
+
+<a name="ef_attributed_string_width"><h4>double ef_attributed_string_width(EF_Attributed_String attributed_string)</h4></a>
+
+<a name="ef_attributed_string_height"><h4>double ef_attributed_string_height(EF_Attributed_String attributed_string)</h4></a>
+
+<a name="#S_reference_text_attributed_strings_text_attributes"><h3>3.6.2.3. Text - Attributed Strings - Text Attributes</h3></a>
+
+<a name="ef_text_new_attributes"><h4>EF_Text_Attributes ef_text_new_attributes()</h4></a>
+
+<a name="ef_text_attributes_delete"><h4>void ef_text_attributes_delete(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_font"><h4>EF_Font ef_text_attributes_font(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_paragraph_style_is_default"><h4>int ef_text_attributes_paragraph_style_is_default(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_paragraph_style"><h4>EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_foreground_color_red"><h4>double ef_text_attributes_foreground_color_red(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_foreground_color_green"><h4>double ef_text_attributes_foreground_color_green(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_foreground_color_blue"><h4>double ef_text_attributes_foreground_color_blue(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_foreground_color_alpha"><h4>double ef_text_attributes_foreground_color_alpha(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_background_color_red"><h4>double ef_text_attributes_background_color_red(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_background_color_green"><h4>double ef_text_attributes_background_color_green(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_background_color_blue"><h4>double ef_text_attributes_background_color_blue(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_background_color_alpha"><h4>double ef_text_attributes_background_color_alpha(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_underline"><h4>EF_Underline_Style ef_text_attributes_underline(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_underline_colored"><h4>int ef_text_attributes_underline_colored(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_underline_color_red"><h4>double ef_text_attributes_underline_color_red(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_underline_color_green"><h4>double ef_text_attributes_underline_color_green(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_underline_color_blue"><h4>double ef_text_attributes_underline_color_blue(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_underline_color_alpha"><h4>double ef_text_attributes_underline_color_alpha(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_strikethrough"><h4>EF_Strikethrough_Style ef_text_attributes_strikethrough(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_strikethrough_colored"><h4>int ef_text_attributes_strikethrough_colored(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_strikethrough_color_red"><h4>double ef_text_attributes_strikethrough_color_red(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_strikethrough_color_green"><h4>double ef_text_attributes_strikethrough_color_green(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_strikethrough_color_blue"><h4>double ef_text_attributes_strikethrough_color_blue(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_strikethrough_color_alpha"><h4>double ef_text_attributes_strikethrough_color_alpha(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_superscript"><h4>int ef_text_attributes_superscript(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_ligature_style"><h4>EF_Ligature_Style ef_text_attributes_ligature_style(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_baseline_offset"><h4>double ef_text_attributes_baseline_offset(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_kerning_is_default"><h4>int ef_text_attributes_kerning_is_default(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_kerning"><h4>double ef_text_attributes_kerning(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_outline_style"><h4>EF_Outline_Style ef_text_attributes_outline_style(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_stroke_width"><h4>double ef_text_attributes_stroke_width(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_obliqueness"><h4>double ef_text_attributes_obliqueness(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_expansion"><h4>double ef_text_attributes_expansion(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_set_font"><h4>void ef_text_attributes_set_font(EF_Text_Attributes attributes, EF_Font font)</h4></a>
+
+<a name="ef_text_attributes_set_paragraph_style_default"><h4>void ef_text_attributes_set_paragraph_style_default(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_set_paragraph_style"><h4>void ef_text_attributes_set_paragraph_style(EF_Text_Attributes attributes,
+					    EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_text_attributes_set_foreground_color"><h4>void ef_text_attributes_set_foreground_color(EF_Text_Attributes attributes,
+					     double red,
+					     double green,
+					     double blue,
+					     double alpha)</h4></a>
+
+<a name="ef_text_attributes_set_background_color"><h4>void ef_text_attributes_set_background_color(EF_Text_Attributes attributes,
+					     double red,
+					     double green,
+					     double blue,
+					     double alpha)</h4></a>
+
+<a name="ef_text_attributes_set_underline"><h4>void ef_text_attributes_set_underline(EF_Text_Attributes attributes,
+				      EF_Underline_Style underline)</h4></a>
+
+<a name="ef_text_attributes_set_underline_uncolored"><h4>void ef_text_attributes_set_underline_uncolored(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_set_underline_color"><h4>void ef_text_attributes_set_underline_color(EF_Text_Attributes attributes,
+					    double red,
+					    double green,
+					    double blue,
+					    double alpha)</h4></a>
+
+<a name="ef_text_attributes_strikethrough"><h4>void ef_text_attributes_strikethrough(EF_Text_Attributes attributes,
+				      EF_Strikethrough_Style strikethrough_style)</h4></a>
+
+<a name="ef_text_attributes_set_strikethrough_uncolored"><h4>void ef_text_attributes_set_strikethrough_uncolored(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_set_strikethrough_color"><h4>void ef_text_attributes_set_strikethrough_color(EF_Text_Attributes attributes,
+						double red,
+						double green,
+						double blue,
+						double alpha)</h4></a>
+
+<a name="ef_text_attributes_set_superscript"><h4>void ef_text_attributes_set_superscript(EF_Text_Attributes attributes,
+					int superscript)</h4></a>
+
+<a name="ef_text_attributes_set_ligature_style"><h4>void ef_text_attributes_set_ligature_style(EF_Text_Attributes attributes,
+					   EF_Ligature_Style ligature_style)</h4></a>
+
+<a name="ef_text_attributes_set_baseline_offset"><h4>void ef_text_attributes_set_baseline_offset(EF_Text_Attributes attributes,
+					    double baseline_offset)</h4></a>
+
+<a name="ef_text_attributes_set_kerning_default"><h4>void ef_text_attributes_set_kerning_default(EF_Text_Attributes attributes)</h4></a>
+
+<a name="ef_text_attributes_set_kerning"><h4>void ef_text_attributes_set_kerning(EF_Text_Attributes attributes,
+				    double kerning)</h4></a>
+
+<a name="ef_text_attributes_outline_style"><h4>void ef_text_attributes_outline_style(EF_Text_Attributes attributes,
+				      EF_Outline_Style outline_style)</h4></a>
+
+<a name="ef_text_attributes_stroke_width"><h4>void ef_text_attributes_stroke_width(EF_Text_Attributes attributes,
+				     double stroke_width)</h4></a>
+
+<a name="ef_text_attributes_set_obliqueness"><h4>void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
+					double obliqueness)</h4></a>
+
+<a name="ef_text_attributes_set_expansion"><h4>void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
+				      double expansion)</h4></a>
+
+<a name="#S_reference_text_attributed_strings_paragraph_styles"><h3>3.6.2.4. Text - Attributed Strings - Paragraph Styles</h3></a>
+
+<a name="ef_text_new_paragraph_style"><h4>EF_Paragraph_Style ef_text_new_paragraph_style()</h4></a>
+
+<a name="ef_paragraph_style_delete"><h4>void ef_paragraph_style_delete(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_alignment"><h4>EF_Paragraph_Alignment ef_paragraph_style_alignment(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_first_line_head_indent"><h4>double ef_paragraph_style_first_line_head_indent(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_head_indent"><h4>double ef_paragraph_style_head_indent(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_tail_indent"><h4>double ef_paragraph_style_tail_indent(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_line_height_multiple"><h4>double ef_paragraph_style_line_height_multiple(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_minimum_line_height"><h4>double ef_paragraph_style_minimum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_has_maximum_line_height"><h4>int ef_paragraph_style_has_maximum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_maximum_line_height"><h4>double ef_paragraph_style_maximum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_line_spacing"><h4>double ef_paragraph_style_line_spacing(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_paragraph_spacing"><h4>double ef_paragraph_style_paragraph_spacing(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_paragraph_spacing_before"><h4>double ef_paragraph_style_paragraph_spacing_before(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_set_alignment"><h4>void ef_paragraph_style_set_alignment(EF_Paragraph_Style paragraph_style,
+				      EF_Paragraph_Alignment paragraph_alignment)</h4></a>
+
+<a name="ef_paragraph_style_set_first_line_head_indent"><h4>void ef_paragraph_style_set_first_line_head_indent(EF_Paragraph_Style paragraph_style,
+						   double first_line_head_indent)</h4></a>
+
+<a name="ef_paragraph_style_set_head_indent"><h4>void ef_paragraph_style_set_head_indent(EF_Paragraph_Style paragraph_style,
+					double head_indent)</h4></a>
+
+<a name="ef_paragraph_style_set_tail_indent"><h4>void ef_paragraph_style_set_tail_indent(EF_Paragraph_Style paragraph_style,
+					double tail_indent)</h4></a>
+
+<a name="ef_paragraph_style_set_line_height_multiple"><h4>void ef_paragraph_style_set_line_height_multiple(EF_Paragraph_Style paragraph_style,
+						 double line_height_multiple)</h4></a>
+
+<a name="ef_paragraph_style_set_minimum_line_height"><h4>void ef_paragraph_style_set_minimum_line_height(EF_Paragraph_Style paragraph_style,
+						double minimum_line_height)</h4></a>
+
+<a name="ef_paragraph_style_set_no_maximum_line_height"><h4>void ef_paragraph_style_set_no_maximum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<a name="ef_paragraph_style_set_maximum_line_height"><h4>void ef_paragraph_style_set_maximum_line_height(EF_Paragraph_Style paragraph_style,
+						double maximum_line_height)</h4></a>
+
+<a name="ef_paragraph_style_set_line_spacing"><h4>void ef_paragraph_style_set_line_spacing(EF_Paragraph_Style paragraph_style,
+					 double line_spacing)</h4></a>
+
+<a name="ef_paragraph_style_set_paragraph_spacing"><h4>void ef_paragraph_style_set_paragraph_spacing(EF_Paragraph_Style paragraph_style,
+					      double paragraph_spacing)</h4></a>
+
+<a name="ef_paragraph_style_set_paragraph_spacing_before"><h4>void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
+						     double paragraph_spacing_before)</h4></a>
+
+<a name="#S_reference_text_flows"><h3>3.6.3. Text - Flows</h3></a>
+
+<a name="#S_reference_text_flows_general"><h3>3.6.3.1. Text - Flows - General</h3></a>
+
+<a name="ef_text_new_text_flow"><h4>void ef_text_new_text_flow(EF_Drawable drawable)</h4></a>
+
+<a name="ef_text_flow_delete"><h4>void ef_text_flow_delete(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_left"><h4>double ef_text_flow_left(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_top"><h4>double ef_text_flow_top(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_set_origin"><h4>void ef_text_flow_set_origin(EF_Text_Flow text_flow, double left, double top)</h4></a>
+
+<a name="ef_text_flow_width"><h4>double ef_text_flow_width(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_height"><h4>double ef_text_flow_height(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_set_size"><h4>void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height)</h4></a>
+
+<a name="#S_reference_text_flows_drawing"><h3>3.6.3.2. Text - Flows - Drawing</h3></a>
+
+<a name="ef_text_flow_draw"><h4>void ef_text_flow_draw(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_draw_background"><h4>void ef_text_flow_draw_background(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_draw_glyphs"><h4>void ef_text_flow_draw_glyphs(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_draw_decorations"><h4>void ef_text_flow_draw_decorations(EF_Text_Flow text_flow)</h4></a>
+
 <a name="S_reference_configuration"><h2>3.7. Configuration</h2></a>
 
 <a name="ef_configuration_resource_directory"><h4>utf8 *ef_configuration_resource_directory()</h4></a>
