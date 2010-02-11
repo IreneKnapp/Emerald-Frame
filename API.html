@@ -117,6 +117,7 @@ div.title {
 <li><a href="#S_sample_time"><b>2.2.</b> Timed Drawing</a></li>
 <li><a href="#S_sample_textures"><b>2.3.</b> Loading Textures</a></li>
 <li><a href="#S_sample_audio"><b>2.4.</b> Audio</a></li>
+<li><a href="#S_sample_text"><b>2.5.</b> Text</a></li>
 </ul></li>
 <li><a href="#S_reference"><b>3.</b> Reference</a> <ul>
 <li><a href="#S_reference_general"><b>3.1.</b> General</a> <ul>
@@ -208,11 +209,12 @@ div.title {
 <li><a href="#ef_text_compute_available_members_of_font_family"><span class="code">ef_text_compute_available_members_of_font_family</span></a></li>
 <li><a href="#ef_text_computed_count"><span class="code">ef_text_computed_count</span></a></li>
 <li><a href="#ef_text_computed_name_n"><span class="code">ef_text_computed_name_n</span></a></li>
-<li><a href="#ef_text_computed_member_name_n"><span class="code">ef_text_computed_member_name_n</span></a></li>
+<li><a href="#ef_text_computed_style_name_n"><span class="code">ef_text_computed_style_name_n</span></a></li>
 <li><a href="#ef_text_computed_weight_n"><span class="code">ef_text_computed_weight_n</span></a></li>
 <li><a href="#ef_text_computed_traits_n"><span class="code">ef_text_computed_traits_n</span></a></li>
 <li><a href="#ef_text_discard_computed"><span class="code">ef_text_discard_computed</span></a></li>
 <li><a href="#ef_text_specific_font"><span class="code">ef_text_specific_font</span></a></li>
+<li><a href="#ef_font_delete"><span class="code">ef_font_delete</span></a></li>
 <li><a href="#ef_font_traits"><span class="code">ef_font_traits</span></a></li>
 <li><a href="#ef_font_weight"><span class="code">ef_font_weight</span></a></li>
 <li><a href="#ef_font_is_fixed_pitch"><span class="code">ef_font_is_fixed_pitch</span></a></li>
@@ -270,26 +272,14 @@ div.title {
 <li><a href="#ef_text_attributes_font"><span class="code">ef_text_attributes_font</span></a></li>
 <li><a href="#ef_text_attributes_paragraph_style_is_default"><span class="code">ef_text_attributes_paragraph_style_is_default</span></a></li>
 <li><a href="#ef_text_attributes_paragraph_style"><span class="code">ef_text_attributes_paragraph_style</span></a></li>
-<li><a href="#ef_text_attributes_foreground_color_red"><span class="code">ef_text_attributes_foreground_color_red</span></a></li>
-<li><a href="#ef_text_attributes_foreground_color_green"><span class="code">ef_text_attributes_foreground_color_green</span></a></li>
-<li><a href="#ef_text_attributes_foreground_color_blue"><span class="code">ef_text_attributes_foreground_color_blue</span></a></li>
-<li><a href="#ef_text_attributes_foreground_color_alpha"><span class="code">ef_text_attributes_foreground_color_alpha</span></a></li>
-<li><a href="#ef_text_attributes_background_color_red"><span class="code">ef_text_attributes_background_color_red</span></a></li>
-<li><a href="#ef_text_attributes_background_color_green"><span class="code">ef_text_attributes_background_color_green</span></a></li>
-<li><a href="#ef_text_attributes_background_color_blue"><span class="code">ef_text_attributes_background_color_blue</span></a></li>
-<li><a href="#ef_text_attributes_background_color_alpha"><span class="code">ef_text_attributes_background_color_alpha</span></a></li>
-<li><a href="#ef_text_attributes_underline"><span class="code">ef_text_attributes_underline</span></a></li>
-<li><a href="#ef_text_attributes_underline_colored"><span class="code">ef_text_attributes_underline_colored</span></a></li>
-<li><a href="#ef_text_attributes_underline_color_red"><span class="code">ef_text_attributes_underline_color_red</span></a></li>
-<li><a href="#ef_text_attributes_underline_color_green"><span class="code">ef_text_attributes_underline_color_green</span></a></li>
-<li><a href="#ef_text_attributes_underline_color_blue"><span class="code">ef_text_attributes_underline_color_blue</span></a></li>
-<li><a href="#ef_text_attributes_underline_color_alpha"><span class="code">ef_text_attributes_underline_color_alpha</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough"><span class="code">ef_text_attributes_strikethrough</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough_colored"><span class="code">ef_text_attributes_strikethrough_colored</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough_color_red"><span class="code">ef_text_attributes_strikethrough_color_red</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough_color_green"><span class="code">ef_text_attributes_strikethrough_color_green</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough_color_blue"><span class="code">ef_text_attributes_strikethrough_color_blue</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough_color_alpha"><span class="code">ef_text_attributes_strikethrough_color_alpha</span></a></li>
+<li><a href="#ef_text_attributes_foreground_color"><span class="code">ef_text_attributes_foreground_color</span></a></li>
+<li><a href="#ef_text_attributes_background_color"><span class="code">ef_text_attributes_background_color</span></a></li>
+<li><a href="#ef_text_attributes_underline_style"><span class="code">ef_text_attributes_underline_style</span></a></li>
+<li><a href="#ef_text_attributes_underline_is_colored"><span class="code">ef_text_attributes_underline_is_colored</span></a></li>
+<li><a href="#ef_text_attributes_underline_color"><span class="code">ef_text_attributes_underline_color</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_style"><span class="code">ef_text_attributes_strikethrough_style</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_is_colored"><span class="code">ef_text_attributes_strikethrough_is_colored</span></a></li>
+<li><a href="#ef_text_attributes_strikethrough_color"><span class="code">ef_text_attributes_strikethrough_color</span></a></li>
 <li><a href="#ef_text_attributes_superscript"><span class="code">ef_text_attributes_superscript</span></a></li>
 <li><a href="#ef_text_attributes_ligature_style"><span class="code">ef_text_attributes_ligature_style</span></a></li>
 <li><a href="#ef_text_attributes_baseline_offset"><span class="code">ef_text_attributes_baseline_offset</span></a></li>
@@ -304,10 +294,10 @@ div.title {
 <li><a href="#ef_text_attributes_set_paragraph_style"><span class="code">ef_text_attributes_set_paragraph_style</span></a></li>
 <li><a href="#ef_text_attributes_set_foreground_color"><span class="code">ef_text_attributes_set_foreground_color</span></a></li>
 <li><a href="#ef_text_attributes_set_background_color"><span class="code">ef_text_attributes_set_background_color</span></a></li>
-<li><a href="#ef_text_attributes_set_underline"><span class="code">ef_text_attributes_set_underline</span></a></li>
+<li><a href="#ef_text_attributes_set_underline_style"><span class="code">ef_text_attributes_set_underline_style</span></a></li>
 <li><a href="#ef_text_attributes_set_underline_uncolored"><span class="code">ef_text_attributes_set_underline_uncolored</span></a></li>
 <li><a href="#ef_text_attributes_set_underline_color"><span class="code">ef_text_attributes_set_underline_color</span></a></li>
-<li><a href="#ef_text_attributes_strikethrough"><span class="code">ef_text_attributes_strikethrough</span></a></li>
+<li><a href="#ef_text_attributes_set_strikethrough_style"><span class="code">ef_text_attributes_set_strikethrough_style</span></a></li>
 <li><a href="#ef_text_attributes_set_strikethrough_uncolored"><span class="code">ef_text_attributes_set_strikethrough_uncolored</span></a></li>
 <li><a href="#ef_text_attributes_set_strikethrough_color"><span class="code">ef_text_attributes_set_strikethrough_color</span></a></li>
 <li><a href="#ef_text_attributes_set_superscript"><span class="code">ef_text_attributes_set_superscript</span></a></li>
@@ -351,6 +341,8 @@ div.title {
 <li><a href="#S_reference_text_flows_general"><b>3.6.3.1.</b> General</a> <ul>
 <li><a href="#ef_text_new_text_flow"><span class="code">ef_text_new_text_flow</span></a></li>
 <li><a href="#ef_text_flow_delete"><span class="code">ef_text_flow_delete</span></a></li>
+<li><a href="#ef_text_flow_attributed_string"><span class="code">ef_text_flow_attributed_string</span></a></li>
+<li><a href="#ef_text_flow_set_attributed_string"><span class="code">ef_text_flow_set_attributed_string</span></a></li>
 <li><a href="#ef_text_flow_left"><span class="code">ef_text_flow_left</span></a></li>
 <li><a href="#ef_text_flow_top"><span class="code">ef_text_flow_top</span></a></li>
 <li><a href="#ef_text_flow_set_origin"><span class="code">ef_text_flow_set_origin</span></a></li>
@@ -967,6 +959,13 @@ immediately.</p>
 time it's pointing in one of the four cardinal directions.  Easy for you, a lot of work
 for me behind the scenes!</p>
 
+<a name="S_sample_text"><h2>2.5. Text</h2></a>
+
+<p>Some games need no text.  But when you do need it, it's crucial.  Emerald Frame tries
+to make simple things simple and complex things possible.  Since our sample from the
+last chapter is getting somewhat crowded, let's start with a fresh program.  Here is
+all the code you need to draw a simple textual label on the screen:</p>
+
 <a name="S_reference"><h1>3. Reference</h1></a>
 
 <a name="S_reference_general"><h2>3.1. General</h2></a>
@@ -1549,54 +1548,393 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="S_reference_text"><h2>3.6. Text</h2></a>
 
-<a name="#S_reference_text_fonts"><h3>3.6.1. Text - Fonts</h3></a>
+<p>Text is a very important area of many programs, and the API for it is
+consequentially rather large.  Do not be daunted!  If you simply need to draw
+single-line labels, you probably only need to call a handful of functions; see
+<a href="#S_sample_text">the tutorial section</a> for further advice.  But the power
+is here to do full paragraphs, should you need it.  Even advanced features like
+ligatures can be controlled.</p>
 
-<a name="#S_reference_text_fonts_finding_fonts"><h3>3.6.1.1. Text - Fonts - Finding Fonts</h3></a>
+<a name="S_reference_text_fonts"><h3>3.6.1. Text - Fonts</h3></a>
+
+<p>Operating-system fonts are referenced by <span class="code">EF_Font</span> objects,
+which have the dual purpose of <i>describing</i> fonts as well as <i>implementing</i>
+them.  Simply creating font objects in order to query their traits or construct other
+font objects based on them is cheap, and you should do it freely.  Actually using a
+font object to draw to the screen causes the glyph data to be read into memory and
+decoded, which may take perhaps a quarter-second in the worst case, so you should not
+create and destroy them gratuitously; rather, you should create them when your program
+enters the mode where they are needed.  A loaded font also requires large amounts of
+memory, so you should be careful not to leak them!  These cautions, incidentally, apply
+even beyond the scope of Emerald Frame.</p>
+
+<p>Fonts have a few properties which are used to describe them at a high level.  One
+of these is <i>weight</i>, which is an item from the controlled vocabulary shown in the
+chart below.  Most other high-level font properties are lumped together as <i>traits</i>,
+another controlled vocabulary, shown in the second chart.  Traits should not be
+confused with <i>attributes</i>, which are described in the next section and are used
+to describe how text is rendered onscreen in ways that go beyond information contained
+in a font file; for example, color is an attribute rather than a trait, because any
+font can be rendered in any color, but italic is a trait, because it is an identifying
+characteristic of the font.</p>
+
+<table>
+<tr>
+<th>Numerical encoding</th>
+<th>Common name for font weight</th>
+<th>ISO name for font weight</th>
+</tr>
+<tr>
+<td><span class="code">1</span></td>
+<td><span class="code">EF_FONT_WEIGHT_ULTRALIGHT</span></td>
+<td>none</td>
+</tr>
+<tr>
+<td><span class="code">2</span></td>
+<td><span class="code">EF_FONT_WEIGHT_THIN</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W1</span></td>
+</tr>
+<tr>
+<td><span class="code">3</span></td>
+<td><span class="code">EF_FONT_WEIGHT_LIGHT</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W2</span></td>
+</tr>
+<tr>
+<td><span class="code">4</span></td>
+<td><span class="code">EF_FONT_WEIGHT_BOOK</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W3</span></td>
+</tr>
+<tr>
+<td><span class="code">5</span></td>
+<td><span class="code">EF_FONT_WEIGHT_REGULAR</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W4</span></td>
+</tr>
+<tr>
+<td><span class="code">6</span></td>
+<td><span class="code">EF_FONT_WEIGHT_MEDIUM</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W5</span></td>
+</tr>
+<tr>
+<td><span class="code">7</span></td>
+<td><span class="code">EF_FONT_WEIGHT_DEMIBOLD</span></td>
+<td>none</td>
+</tr>
+<tr>
+<td><span class="code">8</span></td>
+<td><span class="code">EF_FONT_WEIGHT_SEMIBOLD</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W6</span></td>
+</tr>
+<tr>
+<td><span class="code">9</span></td>
+<td><span class="code">EF_FONT_WEIGHT_BOLD</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W7</span></td>
+</tr>
+<tr>
+<td><span class="code">10</span></td>
+<td><span class="code">EF_FONT_WEIGHT_EXTRABOLD</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W8</span></td>
+</tr>
+<tr>
+<td><span class="code">11</span></td>
+<td><span class="code">EF_FONT_WEIGHT_HEAVY</span></td>
+<td>none</td>
+</tr>
+<tr>
+<td><span class="code">12</span></td>
+<td><span class="code">EF_FONT_WEIGHT_BLACK</span></td>
+<td><span class="code">EF_FONT_WEIGHT_W9</span></td>
+</tr>
+<tr>
+<td><span class="code">13</span></td>
+<td><span class="code">EF_FONT_WEIGHT_ULTRABLACK</span></td>
+<td>none</td>
+</tr>
+<tr>
+<td><span class="code">14</span></td>
+<td><span class="code">EF_FONT_WEIGHT_EXTRABLACK</span></td>
+<td>none</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th>Numerical encoding</th>
+<th>Common name for font trait</th>
+</tr>
+<tr>
+<td><span class="code">0x0001</span></td>
+<td><span class="code">EF_FONT_TRAIT_ITALIC</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0002</span></td>
+<td><span class="code">EF_FONT_TRAIT_UNITALIC</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0004</span></td>
+<td><span class="code">EF_FONT_TRAIT_BOLD</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0008</span></td>
+<td><span class="code">EF_FONT_TRAIT_UNBOLD</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0010</span></td>
+<td><span class="code">EF_FONT_TRAIT_NARROW</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0020</span></td>
+<td><span class="code">EF_FONT_TRAIT_EXPANDED</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0040</span></td>
+<td><span class="code">EF_FONT_TRAIT_CONDENSED</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0080</span></td>
+<td><span class="code">EF_FONT_TRAIT_SMALL_CAPS</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0100</span></td>
+<td><span class="code">EF_FONT_TRAIT_POSTER</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0200</span></td>
+<td><span class="code">EF_FONT_TRAIT_COMPRESSED</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0400</span></td>
+<td><span class="code">EF_FONT_TRAIT_FIXED_PITCH</span></td>
+</tr>
+<tr>
+<td><span class="code">0x0800</span></td>
+<td><span class="code">EF_FONT_TRAIT_NON_STANDARD_CHARACTER_SET</span></td>
+</tr>
+</table>
+
+<p>A word needs to be said about font sizes, as well.  Each and every font has its own
+relationship between requested point size and actual height in pixels.  The only
+way to determine this relationship is to load the font completely and measure it;
+therefore, Emerald Frame does not provide any way to specify font sizes in pixels, only
+in abstract points, which also do not necessarily bear any particular relationship to
+printer's points (1/72nd of an inch).  This unfortunate situation is the fault of font
+foundries everywhere, and cannot be remedied by programmers.</p>
+
+<a name="S_reference_text_fonts_finding_fonts"><h3>3.6.1.1. Text - Fonts - Finding Fonts</h3></a>
 
 <a name="ef_text_compute_available_fonts"><h4>void ef_text_compute_available_fonts()</h4></a>
 
+<p>Computes the list of all fonts installed on the system.  Fills the computed-font-name
+buffer with their names.  If the buffer is already occupied, it is first emptied, as by a
+call to <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.
+The names in question are the PostScript names of the fonts (even TrueType fonts have
+PostScript names), suitable for passing to calls such as
+<a href="#ef_text_specific_font">ef_text_specific_font</a>,
+but not necessarily for displaying to the user; in particular, they are not localized to
+the user's language.</p>
+
+<p>The names produced by this function are suitable for passing to
+<a href="#ef_font_convert_to_face">ef_font_convert_to_face</a>, and for displaying to
+the user.</p>
+
+<p>To retrieve the names produced by this function from the computed-font-name buffer,
+see <a href="#ef_text_computed_count">ef_text_computed_count</a>,
+<a href="#ef_text_computed_name_n">ef_text_computed_name_n</a>,
+and <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.</p>
+
 <a name="ef_text_compute_available_font_families"><h4>void ef_text_compute_available_font_families()</h4></a>
+
+<p>Computes the list of all font families installed on the system.  Fills the
+computed-font-name buffer with their names.
+If the buffer is already occupied, it is first emptied, as by a
+call to <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.
+This is subtly different from
+<a href="#ef_text_compute_available_fonts">ef_text_compute_available_fonts</a>, in that
+it is not uncommon for there to be, for example, two separate font files for the
+"regular" and "bold" version of the same font; these are separate fonts but the same
+font family.</p>
+
+<p>The names produced by this function are suitable for passing to
+<a href="#ef_text_compute_available_members_of_font_family">ef_text_compute_available_members_of_font_family</a>, <a href="#ef_font_convert_to_family">ef_font_convert_to_family</a>, and <a href="#ef_text_specific_font">ef_text_specific_font</a>.</p>
+
+<p>To retrieve the names produced by this function from the computed-font-name buffer,
+see <a href="#ef_text_computed_count">ef_text_computed_count</a>,
+<a href="#ef_text_computed_name_n">ef_text_computed_name_n</a>,
+and <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.</p>
 
 <a name="ef_text_compute_available_fonts_with_traits"><h4>void ef_text_compute_available_fonts_with_traits(EF_Font_Traits)</h4></a>
 
+<p>Computes the list of all installed fonts on the system which match the given traits;
+this might be used, for example, to find all fixed-width fonts.  Fills the
+computed-font-name buffer with their names.
+If the buffer is already occupied, it is first emptied, as by a
+call to <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.</p>
+
+<p>The names produced by this function are suitable for passing to
+<a href="#ef_font_convert_to_face">ef_font_convert_to_face</a>, and for displaying to
+the user.</p>
+
+<p>To retrieve the names produced by this function from the computed-font-name buffer,
+see <a href="#ef_text_computed_count">ef_text_computed_count</a>,
+<a href="#ef_text_computed_name_n">ef_text_computed_name_n</a>,
+and <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.</p>
+
 <a name="ef_text_compute_available_members_of_font_family"><h4>void ef_text_compute_available_members_of_font_family(utf8 *family_name)</h4></a>
+
+<p>Computes the list of all fonts belonging to the given family and fills the
+computed-font-name buffer with their names.
+If the buffer is already occupied, it is first emptied, as by a
+call to <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.
+For example, a given family might have
+regular, bold, italic, and bold-italic versions.</p>
+
+<p>The parameter to this function is most likely obtained from
+<a href="#ef_text_compute_available_font_families">ef_text_compute_available_font_families</a>
+and the names it produces are suitable for passing to
+<a href="#ef_font_convert_to_face">ef_font_convert_to_face</a>, and for displaying to
+the user.</p>
+
+<p>Compared to the other <span class="code">ef_text_compute_available_*</span> functions,
+this function produces more information.  In addition to the face name, retrievable with
+<a href="#ef_text_computed_name_n">ef_text_computed_name_n</a>, it produces for each
+found font a description of the style, suitable for presenting to the user - ie the
+text "Bold" or "Italic".  This can be retrieved with
+<a href="#ef_text_computed_style_name_n">ef_text_computed_style_name_n</a>.  It also
+produces a font weight and a set of font traits, retrievable with
+<a href="#ef_text_computed_weight_n">ef_text_computed_weight_n</a> and
+<a href="#ef_text_computed_traits_n">ef_text_computed_traits_n</a>, respectively.</p>
 
 <a name="ef_text_computed_count"><h4>int32_t ef_text_computed_count()</h4></a>
 
+<p>Returns the number of items in the computed-font-name buffer.  This is zero until
+one of the four functions above is called, filling the buffer.  It is also zero after
+a call to <a href="#ef_text_discard_computed">ef_text_discard_computed</a>.</p>
+
 <a name="ef_text_computed_name_n"><h4>utf8 *ef_text_computed_name_n(int32_t which)</h4></a>
 
-<a name="ef_text_computed_member_name_n"><h4>utf8 *ef_text_computed_member_name_n(int32_t which)</h4></a>
+<p>Returns the name at the given zero-based position in the computed-font-name buffer,
+which must have been filled prior to this call.  If the buffer is empty or
+<span class="code">which</span> lies beyond its last item, <span class="code">NULL</span>
+is returned.  The name will be either a font face name, or a font family name, depending
+on the function that filled the buffer.</p>
+
+<a name="ef_text_computed_style_name_n"><h4>utf8 *ef_text_computed_style_name_n(int32_t which)</h4></a>
+
+<p>Returns the style name at the given zero-based position in the computed-font-name
+buffer, which must have been filled by
+<a href="#ef_text_compute_available_members_of_font_family">ef_text_compute_available_members_of_font_family</a>
+prior to this call.  If the buffer is empty, <span class="code">which</span> lies
+beyond its last item, or any other function was the last used to fill the buffer,
+<span class="code">NULL</span> is returned.</p>
 
 <a name="ef_text_computed_weight_n"><h4>EF_Font_Weight ef_text_computed_weight_n(int32_t which)</h4></a>
 
+<p>Returns the font weight at the given zero-based position in the computed-font-name
+buffer, which must have been filled by
+<a href="#ef_text_compute_available_members_of_font_family">ef_text_compute_available_members_of_font_family</a>
+prior to this call.  If the buffer is empty, <span class="code">which</span> lies
+beyond its last item, or any other function was the last used to fill the buffer,
+<span class="code">0</span> is returned.</p>
+
+<p>A font weight is, loosely, a measure of how bold the font appears visually, as
+described in
+<a href="#S_reference_text_fonts">the introduction to this chapter</a>.</p>
+
 <a name="ef_text_computed_traits_n"><h4>EF_Font_Traits ef_text_computed_traits_n(int32_t which)</h4></a>
 
+<p>Returns the set of font traits at the given zero-based position in the
+computed-font-name buffer, which must have been filled by
+<a href="#ef_text_compute_available_members_of_font_family">ef_text_compute_available_members_of_font_family</a>
+prior to this call.  If the buffer is empty, <span class="code">which</span> lies
+beyond its last item, or any other function was the last used to fill the buffer,
+<span class="code">0</span> is returned.</p>
+
 <a name="ef_text_discard_computed"><h4>void ef_text_discard_computed()</h4></a>
+
+<p>Empties the computed-font-name buffer, reclaiming the memory it uses.</p>
 
 <a name="ef_text_specific_font"><h4>EF_Font ef_text_specific_font(utf8 *family_name,
 			      EF_Font_Traits traits,
 			      EF_Font_Weight weight,
 			      double size)</h4></a>
 
+<p>Allocates and returns a font given its desired family name, traits, weight, and
+point size.  May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.</p>
+
+<a name="ef_font_delete"><h4>void ef_font_delete(EF_Font font)</h4></a>
+
+<p>Frees a given font, reclaiming the memory it uses.  After this, it should no longer
+be used.</p>
+
 <a name="ef_font_traits"><h4>EF_Font_Traits ef_font_traits(EF_Font font)</h4></a>
+
+<p>Returns the set of traits the given font has.</p>
 
 <a name="ef_font_weight"><h4>int32_t ef_font_weight(EF_Font font)</h4></a>
 
+<p>Returns the weight of the given font.</p>
+
 <a name="ef_font_is_fixed_pitch"><h4>int ef_font_is_fixed_pitch(EF_Font font)</h4></a>
+
+<p>Returns a boolean indicating whether the given font is fixed-pitch - that is,
+monospaced.</p>
 
 <a name="ef_font_convert_to_face"><h4>EF_Font ef_font_convert_to_face(EF_Font font, utf8 *face_name)</h4></a>
 
+<p>Allocates and returns a font sharing all its properties with the given font, except
+for its face, which is changed to the face with the given name.
+May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.  Note that this
+does not modify an existing font; it allocates a new one.</p>
+
 <a name="ef_font_convert_to_family"><h4>EF_Font ef_font_convert_to_family(EF_Font font, utf8 *family_name)</h4></a>
+
+<p>Allocates and returns a font sharing all its properties with the given font, except
+for its family, which is changed to the family with the given name.
+May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.  Note that this
+does not modify an existing font; it allocates a new one.</p>
 
 <a name="ef_font_convert_to_have_traits"><h4>EF_Font ef_font_convert_to_have_traits(EF_Font font, EF_Font_Traits traits)</h4></a>
 
+<p>Allocates and returns a font sharing all its properties with the given font, except
+for its set of traits, which is unioned with the set given.
+May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.  Note that this
+does not modify an existing font; it allocates a new one.</p>
+
 <a name="ef_font_convert_to_not_have_traits"><h4>EF_Font ef_font_convert_to_not_have_traits(EF_Font font, EF_Font_Traits traits)</h4></a>
+
+<p>Allocates and returns a font sharing all its properties with the given font, except
+for its set of traits, which is differenced with the set given.
+May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.  Note that this
+does not modify an existing font; it allocates a new one.</p>
 
 <a name="ef_font_convert_to_size"><h4>EF_Font ef_font_convert_to_size(EF_Font font, double size)</h4></a>
 
+<p>Allocates and returns a font sharing all its properties with the given font, except
+for its set of traits, which is changed to the size given.
+May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.  Note that this
+does not modify an existing font; it allocates a new one.</p>
+
 <a name="ef_font_convert_to_weight"><h4>EF_Font ef_font_convert_to_weight(EF_Font font, EF_Font_Weight weight)</h4></a>
 
-<a name="#S_reference_text_fonts_font_attributes"><h3>3.6.1.2. Text - Fonts - Font Attributes</h3></a>
+<p>Allocates and returns a font sharing all its properties with the given font, except
+for its set of traits, which is changed to the weight given.
+May return <span class="code">NULL</span> if no font matching these
+characteristics is available.  The caller is responsible for freeing the font when it is
+no longer needed, using <a href="#ef_font_delete">ef_font_delete</a>.  Note that this
+does not modify an existing font; it allocates a new one.</p>
+
+<a name="S_reference_text_fonts_font_attributes"><h3>3.6.1.2. Text - Fonts - Font Attributes</h3></a>
 
 <a name="ef_font_advancement_for_glyph"><h4>double ef_font_advancement_for_glyph(EF_Font font, EF_Glyph glyph)</h4></a>
 
@@ -1634,9 +1972,9 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="ef_font_glyph_bounding_rectangle_right"><h4>double ef_font_glyph_bounding_rectangle_right(EF_Font font, EF_Glyph glyph)</h4></a>
 
-<a name="#S_reference_text_attributed_strings"><h3>3.6.2. Text - Attributed Strings</h3></a>
+<a name="S_reference_text_attributed_strings"><h3>3.6.2. Text - Attributed Strings</h3></a>
 
-<a name="#S_reference_text_attributed_strings_general"><h3>3.6.2.1. Text - Attributed Strings - General</h3></a>
+<a name="S_reference_text_attributed_strings_general"><h3>3.6.2.1. Text - Attributed Strings - General</h3></a>
 
 <a name="ef_text_new_attributed_string"><h4>EF_Attributed_String ef_text_new_attributed_string()</h4></a>
 
@@ -1677,7 +2015,7 @@ is called on other types of events, the behavior is undefined.</p>
 					 int32_t start,
 					 int32_t end)</h4></a>
 
-<a name="#S_reference_text_attributed_strings_drawing"><h3>3.6.2.2. Text - Attributed Strings - Drawing</h3></a>
+<a name="S_reference_text_attributed_strings_drawing"><h3>3.6.2.2. Text - Attributed Strings - Drawing</h3></a>
 <a name="ef_attributed_string_draw_at_point"><h4>void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
 					double x,
 					double y)</h4></a>
@@ -1692,7 +2030,7 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="ef_attributed_string_height"><h4>double ef_attributed_string_height(EF_Attributed_String attributed_string)</h4></a>
 
-<a name="#S_reference_text_attributed_strings_text_attributes"><h3>3.6.2.3. Text - Attributed Strings - Text Attributes</h3></a>
+<a name="S_reference_text_attributed_strings_text_attributes"><h3>3.6.2.3. Text - Attributed Strings - Text Attributes</h3></a>
 
 <a name="ef_text_new_attributes"><h4>EF_Text_Attributes ef_text_new_attributes()</h4></a>
 
@@ -1704,45 +2042,37 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="ef_text_attributes_paragraph_style"><h4>EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes)</h4></a>
 
-<a name="ef_text_attributes_foreground_color_red"><h4>double ef_text_attributes_foreground_color_red(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_foreground_color"><h4>void ef_text_attributes_foreground_color(EF_Text_Attributes attributes,
+					 double *red,
+					 double *green,
+					 double *blue,
+					 double *alpha)</h4></a>
 
-<a name="ef_text_attributes_foreground_color_green"><h4>double ef_text_attributes_foreground_color_green(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_background_color"><h4>void ef_text_attributes_background_color(EF_Text_Attributes attributes,
+					 double *red,
+					 double *green,
+					 double *blue,
+					 double *alpha)</h4></a>
 
-<a name="ef_text_attributes_foreground_color_blue"><h4>double ef_text_attributes_foreground_color_blue(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_underline_style"><h4>EF_Underline_Style ef_text_attributes_underline_style(EF_Text_Attributes attributes)</h4></a>
 
-<a name="ef_text_attributes_foreground_color_alpha"><h4>double ef_text_attributes_foreground_color_alpha(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_underline_is_colored"><h4>int ef_text_attributes_underline_is_colored(EF_Text_Attributes attributes)</h4></a>
 
-<a name="ef_text_attributes_background_color_red"><h4>double ef_text_attributes_background_color_red(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_underline_color"><h4>void ef_text_attributes_underline_color(EF_Text_Attributes attributes,
+					double *red,
+					double *green,
+					double *blue,
+					double *alpha)</h4></a>
 
-<a name="ef_text_attributes_background_color_green"><h4>double ef_text_attributes_background_color_green(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_strikethrough_style"><h4>EF_Strikethrough_Style ef_text_attributes_strikethrough_style(EF_Text_Attributes attributes)</h4></a>
 
-<a name="ef_text_attributes_background_color_blue"><h4>double ef_text_attributes_background_color_blue(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_strikethrough_is_colored"><h4>int ef_text_attributes_strikethrough_is_colored(EF_Text_Attributes attributes)</h4></a>
 
-<a name="ef_text_attributes_background_color_alpha"><h4>double ef_text_attributes_background_color_alpha(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_underline"><h4>EF_Underline_Style ef_text_attributes_underline(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_underline_colored"><h4>int ef_text_attributes_underline_colored(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_underline_color_red"><h4>double ef_text_attributes_underline_color_red(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_underline_color_green"><h4>double ef_text_attributes_underline_color_green(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_underline_color_blue"><h4>double ef_text_attributes_underline_color_blue(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_underline_color_alpha"><h4>double ef_text_attributes_underline_color_alpha(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_strikethrough"><h4>EF_Strikethrough_Style ef_text_attributes_strikethrough(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_strikethrough_colored"><h4>int ef_text_attributes_strikethrough_colored(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_strikethrough_color_red"><h4>double ef_text_attributes_strikethrough_color_red(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_strikethrough_color_green"><h4>double ef_text_attributes_strikethrough_color_green(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_strikethrough_color_blue"><h4>double ef_text_attributes_strikethrough_color_blue(EF_Text_Attributes attributes)</h4></a>
-
-<a name="ef_text_attributes_strikethrough_color_alpha"><h4>double ef_text_attributes_strikethrough_color_alpha(EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_attributes_strikethrough_color"><h4>void ef_text_attributes_strikethrough_color(EF_Text_Attributes attributes,
+					    double *red,
+					    double *green,
+					    double *blue,
+					    double *alpha)</h4></a>
 
 <a name="ef_text_attributes_superscript"><h4>int ef_text_attributes_superscript(EF_Text_Attributes attributes)</h4></a>
 
@@ -1781,8 +2111,8 @@ is called on other types of events, the behavior is undefined.</p>
 					     double blue,
 					     double alpha)</h4></a>
 
-<a name="ef_text_attributes_set_underline"><h4>void ef_text_attributes_set_underline(EF_Text_Attributes attributes,
-				      EF_Underline_Style underline)</h4></a>
+<a name="ef_text_attributes_set_underline_style"><h4>void ef_text_attributes_set_underline_style(EF_Text_Attributes attributes,
+				            EF_Underline_Style underline_style)</h4></a>
 
 <a name="ef_text_attributes_set_underline_uncolored"><h4>void ef_text_attributes_set_underline_uncolored(EF_Text_Attributes attributes)</h4></a>
 
@@ -1792,8 +2122,8 @@ is called on other types of events, the behavior is undefined.</p>
 					    double blue,
 					    double alpha)</h4></a>
 
-<a name="ef_text_attributes_strikethrough"><h4>void ef_text_attributes_strikethrough(EF_Text_Attributes attributes,
-				      EF_Strikethrough_Style strikethrough_style)</h4></a>
+<a name="ef_text_attributes_set_strikethrough_style"><h4>void ef_text_attributes_strikethrough(EF_Text_Attributes attributes,
+				                EF_Strikethrough_Style strikethrough_style)</h4></a>
 
 <a name="ef_text_attributes_set_strikethrough_uncolored"><h4>void ef_text_attributes_set_strikethrough_uncolored(EF_Text_Attributes attributes)</h4></a>
 
@@ -1829,7 +2159,7 @@ is called on other types of events, the behavior is undefined.</p>
 <a name="ef_text_attributes_set_expansion"><h4>void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
 				      double expansion)</h4></a>
 
-<a name="#S_reference_text_attributed_strings_paragraph_styles"><h3>3.6.2.4. Text - Attributed Strings - Paragraph Styles</h3></a>
+<a name="S_reference_text_attributed_strings_paragraph_styles"><h3>3.6.2.4. Text - Attributed Strings - Paragraph Styles</h3></a>
 
 <a name="ef_text_new_paragraph_style"><h4>EF_Paragraph_Style ef_text_new_paragraph_style()</h4></a>
 
@@ -1889,13 +2219,18 @@ is called on other types of events, the behavior is undefined.</p>
 <a name="ef_paragraph_style_set_paragraph_spacing_before"><h4>void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
 						     double paragraph_spacing_before)</h4></a>
 
-<a name="#S_reference_text_flows"><h3>3.6.3. Text - Flows</h3></a>
+<a name="S_reference_text_flows"><h3>3.6.3. Text - Flows</h3></a>
 
-<a name="#S_reference_text_flows_general"><h3>3.6.3.1. Text - Flows - General</h3></a>
+<a name="S_reference_text_flows_general"><h3>3.6.3.1. Text - Flows - General</h3></a>
 
 <a name="ef_text_new_text_flow"><h4>void ef_text_new_text_flow(EF_Drawable drawable)</h4></a>
 
 <a name="ef_text_flow_delete"><h4>void ef_text_flow_delete(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_attributed_string"><h4>EF_Attributed_String ef_text_flow_attributed_string(EF_Text_Flow text_flow)</h4></a>
+
+<a name="ef_text_flow_set_attributed_string"><h4>void ef_text_flow_set_attributed_string(EF_Text_Flow text_flow,
+					EF_Attributed_String attributed_string)</h4></a>
 
 <a name="ef_text_flow_left"><h4>double ef_text_flow_left(EF_Text_Flow text_flow)</h4></a>
 
@@ -1909,7 +2244,7 @@ is called on other types of events, the behavior is undefined.</p>
 
 <a name="ef_text_flow_set_size"><h4>void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height)</h4></a>
 
-<a name="#S_reference_text_flows_drawing"><h3>3.6.3.2. Text - Flows - Drawing</h3></a>
+<a name="S_reference_text_flows_drawing"><h3>3.6.3.2. Text - Flows - Drawing</h3></a>
 
 <a name="ef_text_flow_draw"><h4>void ef_text_flow_draw(EF_Text_Flow text_flow)</h4></a>
 
