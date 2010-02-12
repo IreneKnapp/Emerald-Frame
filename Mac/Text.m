@@ -112,6 +112,17 @@ void ef_text_compute_available_fonts_with_traits(EF_Font_Traits traits,
 
 
 void ef_text_compute_available_members_of_font_family(utf8 *family_name) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(computed_font_name_buffer) {
+	[computed_font_name_buffer release];
+	computed_font_name_buffer = nil;
+    }
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSString *familyNameString = [NSString stringWithUTF8String: family_name];
+    computed_font_name_buffer
+	= [fontManager availableMembersOfFontFamily: familyNameString];
+    [computed_font_name_buffer retain];
+    [pool drain];
 }
 
 
@@ -134,22 +145,101 @@ utf8 *ef_text_computed_name_n(int32_t which) {
 	[pool drain];
 	return NULL;
     }
-    NSString *string = [computed_font_name_buffer objectAtIndex: which];
-    utf8 *result = utf8_dup((utf8 *) [string UTF8String]);
+    
+    id item = [computed_font_name_buffer objectAtIndex: which];
+    utf8* result = NULL;
+    if([item isKindOfClass: [NSString class]]) {
+	NSString *string = (NSString *) item;
+	result = utf8_dup((utf8 *) [string UTF8String]);
+    } else if ([item isKindOfClass: [NSArray class]]) {
+	NSArray *array = (NSArray *) item;
+	NSString *string = [array objectAtIndex: 0];
+	result = utf8_dup((utf8 *) [string UTF8String]);
+    }
+    
     [pool drain];
     return result;
 }
 
 
 utf8 *ef_text_computed_style_name_n(int32_t which) {
+    if(!computed_font_name_buffer)
+	return NULL;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(which >= [computed_font_name_buffer count]) {
+	[pool drain];
+	return NULL;
+    }
+    
+    id item = [computed_font_name_buffer objectAtIndex: which];
+    if(![item isKindOfClass: [NSArray class]]) {
+	[pool drain];
+	return NULL;
+    }
+    NSArray *array = (NSArray *) item;
+    NSString *string = [array objectAtIndex: 1];
+    utf8 *result = utf8_dup((utf8 *) [string UTF8String]);
+    
+    [pool drain];
+    return result;
 }
 
 
 EF_Font_Weight ef_text_computed_weight_n(int32_t which) {
+    if(!computed_font_name_buffer)
+	return 0;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(which >= [computed_font_name_buffer count]) {
+	[pool drain];
+	return 0;
+    }
+    
+    id item = [computed_font_name_buffer objectAtIndex: which];
+    if(![item isKindOfClass: [NSArray class]]) {
+	[pool drain];
+	return 0;
+    }
+    NSArray *array = (NSArray *) item;
+    NSNumber *number = [array objectAtIndex: 2];
+    EF_Font_Weight result = [number intValue];
+    
+    [pool drain];
+    return result;
 }
 
 
 EF_Font_Traits ef_text_computed_traits_n(int32_t which) {
+    if(!computed_font_name_buffer)
+	return 0;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(which >= [computed_font_name_buffer count]) {
+	[pool drain];
+	return 0;
+    }
+    
+    id item = [computed_font_name_buffer objectAtIndex: which];
+    if(![item isKindOfClass: [NSArray class]]) {
+	[pool drain];
+	return 0;
+    }
+    NSArray *array = (NSArray *) item;
+    NSNumber *number = [array objectAtIndex: 3];
+    NSInteger cocoa_traits = [number integerValue];
+    
+    EF_Font_Traits result = 0;
+    if(cocoa_traits & NSItalicFontMask)
+	result |= EF_FONT_TRAIT_ITALIC;
+    if(cocoa_traits & NSBoldFontMask)
+	result |= EF_FONT_TRAIT_BOLD;
+    if(cocoa_traits & NSExpandedFontMask)
+	result |= EF_FONT_TRAIT_EXPANDED;
+    if(cocoa_traits & NSCondensedFontMask)
+	result |= EF_FONT_TRAIT_CONDENSED;
+    if(cocoa_traits & NSFixedPitchFontMask)
+	result |= EF_FONT_TRAIT_FIXED_PITCH;
+    
+    [pool drain];
+    return result;
 }
 
 

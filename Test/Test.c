@@ -8,6 +8,29 @@ void draw(EF_Drawable drawable, void *context);
 
 int main(int argc, char **argv) {
     ef_init((utf8 *) "Test Application");
+
+    {
+	ef_text_compute_available_members_of_font_family((utf8 *) "Palatino");
+	int32_t n_fonts = ef_text_computed_count();
+	printf("%i total members\n", n_fonts);
+	for(int32_t i = 0; i < n_fonts; i++) {
+	    utf8 *name = ef_text_computed_name_n(i);
+	    printf("  \"%s\"", name);
+	    free(name);
+
+	    utf8 *style_name = ef_text_computed_style_name_n(i);
+	    printf(" \"%s\"", style_name);
+	    free(style_name);
+
+	    EF_Font_Weight weight = ef_text_computed_weight_n(i);
+	    printf(" %i", weight);
+	    
+	    EF_Font_Traits traits = ef_text_computed_traits_n(i);
+	    printf(" 0x%04x\n", traits);
+	}
+	printf("\n");
+	ef_text_discard_computed();
+    }
     
     ef_video_set_double_buffer(True);
     ef_video_set_color_size(24);
