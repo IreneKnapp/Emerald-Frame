@@ -94,6 +94,15 @@
 		E24BE3E81083AF6400257F89 /* Input.m in Sources */ = {isa = PBXBuildFile; fileRef = E24BE3E51083AF4400257F89 /* Input.m */; };
 		E24BE3E91083AF6400257F89 /* Input.m in Sources */ = {isa = PBXBuildFile; fileRef = E24BE3E51083AF4400257F89 /* Input.m */; };
 		E24BE3EA1083AF6500257F89 /* Input.m in Sources */ = {isa = PBXBuildFile; fileRef = E24BE3E51083AF4400257F89 /* Input.m */; };
+		E2974A2A1124BFC000A726F1 /* Text.m in Sources */ = {isa = PBXBuildFile; fileRef = E2974A291124BFC000A726F1 /* Text.m */; };
+		E2974A2B1124BFC000A726F1 /* Text.m in Sources */ = {isa = PBXBuildFile; fileRef = E2974A291124BFC000A726F1 /* Text.m */; };
+		E2974A2C1124BFC000A726F1 /* Text.m in Sources */ = {isa = PBXBuildFile; fileRef = E2974A291124BFC000A726F1 /* Text.m */; };
+		E2974A391124D0CB00A726F1 /* Unicode.c in Sources */ = {isa = PBXBuildFile; fileRef = E2974A371124D0CB00A726F1 /* Unicode.c */; };
+		E2974A3A1124D0CB00A726F1 /* Unicode.h in Headers */ = {isa = PBXBuildFile; fileRef = E2974A381124D0CB00A726F1 /* Unicode.h */; };
+		E2974A3B1124D0CB00A726F1 /* Unicode.c in Sources */ = {isa = PBXBuildFile; fileRef = E2974A371124D0CB00A726F1 /* Unicode.c */; };
+		E2974A3C1124D0CB00A726F1 /* Unicode.h in Headers */ = {isa = PBXBuildFile; fileRef = E2974A381124D0CB00A726F1 /* Unicode.h */; };
+		E2974A3D1124D0CB00A726F1 /* Unicode.c in Sources */ = {isa = PBXBuildFile; fileRef = E2974A371124D0CB00A726F1 /* Unicode.c */; };
+		E2974A3E1124D0CB00A726F1 /* Unicode.h in Headers */ = {isa = PBXBuildFile; fileRef = E2974A381124D0CB00A726F1 /* Unicode.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +186,9 @@
 		E235E41C10811C8B00A7BD66 /* pulse.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = pulse.wav; path = ../Test/pulse.wav; sourceTree = SOURCE_ROOT; };
 		E24BE0D010812DD700257F89 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		E24BE3E51083AF4400257F89 /* Input.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Input.m; sourceTree = "<group>"; };
+		E2974A291124BFC000A726F1 /* Text.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Text.m; sourceTree = "<group>"; };
+		E2974A371124D0CB00A726F1 /* Unicode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Unicode.c; path = ../Portable/Unicode.c; sourceTree = SOURCE_ROOT; };
+		E2974A381124D0CB00A726F1 /* Unicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Unicode.h; path = ../Portable/Unicode.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +313,7 @@
 				E235E3811081149000A7BD66 /* Audio */,
 				E235DD2C1080077C00A7BD66 /* Time */,
 				E24BE3E71083AF4E00257F89 /* Input */,
+				E2974A1F1124BF7A00A726F1 /* Text */,
 				E235DED01080D55A00A7BD66 /* Configuration */,
 				E235DD231080066F00A7BD66 /* Test Application */,
 			);
@@ -320,6 +333,8 @@
 			children = (
 				E235D723107EF7CF00A7BD66 /* Emerald-Frame.c */,
 				E235D724107EF7CF00A7BD66 /* Emerald-Frame.h */,
+				E2974A371124D0CB00A726F1 /* Unicode.c */,
+				E2974A381124D0CB00A726F1 /* Unicode.h */,
 			);
 			name = Portable;
 			sourceTree = "<group>";
@@ -381,6 +396,14 @@
 			name = Input;
 			sourceTree = "<group>";
 		};
+		E2974A1F1124BF7A00A726F1 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				E2974A291124BFC000A726F1 /* Text.m */,
+			);
+			name = Text;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -393,6 +416,7 @@
 				E235D89C107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 				E235DB3F107F99EE00A7BD66 /* DrawableOpenGLView.h in Headers */,
 				E235DD3C10800AF700A7BD66 /* TimerData.h in Headers */,
+				E2974A3C1124D0CB00A726F1 /* Unicode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +429,7 @@
 				E235D89E107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 				E235DB41107F99EE00A7BD66 /* DrawableOpenGLView.h in Headers */,
 				E235DD3810800AF700A7BD66 /* TimerData.h in Headers */,
+				E2974A3A1124D0CB00A726F1 /* Unicode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +442,7 @@
 				E235D89A107F330700A7BD66 /* ApplicationDelegate.h in Headers */,
 				E235DB3D107F99EE00A7BD66 /* DrawableOpenGLView.h in Headers */,
 				E235DD3A10800AF700A7BD66 /* TimerData.h in Headers */,
+				E2974A3E1124D0CB00A726F1 /* Unicode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +582,8 @@
 				E235DED21080D57000A7BD66 /* Configuration.m in Sources */,
 				E235E385108114A100A7BD66 /* Audio.m in Sources */,
 				E24BE3E81083AF6400257F89 /* Input.m in Sources */,
+				E2974A2B1124BFC000A726F1 /* Text.m in Sources */,
+				E2974A3B1124D0CB00A726F1 /* Unicode.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +602,8 @@
 				E235DED31080D57000A7BD66 /* Configuration.m in Sources */,
 				E235E383108114A100A7BD66 /* Audio.m in Sources */,
 				E24BE3E91083AF6400257F89 /* Input.m in Sources */,
+				E2974A2A1124BFC000A726F1 /* Text.m in Sources */,
+				E2974A391124D0CB00A726F1 /* Unicode.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +622,8 @@
 				E235DED41080D57000A7BD66 /* Configuration.m in Sources */,
 				E235E384108114A100A7BD66 /* Audio.m in Sources */,
 				E24BE3EA1083AF6500257F89 /* Input.m in Sources */,
+				E2974A2C1124BFC000A726F1 /* Text.m in Sources */,
+				E2974A3D1124D0CB00A726F1 /* Unicode.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

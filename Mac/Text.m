@@ -5,17 +5,109 @@
 //  Created by Dan Knapp on 2/11/10.
 //  Copyright 2010 Dan Knapp. All rights reserved.
 //
+#import <math.h>
+#import <Cocoa/Cocoa.h>
+
+#import "Emerald-Frame.h"
+#import "Unicode.h"
+
+
+static id computed_font_name_buffer;
+
+
+EF_Error ef_internal_text_init() {
+    computed_font_name_buffer = nil;
+    
+    return 0;
+}
 
 
 void ef_text_compute_available_fonts() {
+    ef_text_compute_available_fonts_with_traits(0, 0);
 }
 
 
 void ef_text_compute_available_font_families() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(computed_font_name_buffer) {
+	[computed_font_name_buffer release];
+	computed_font_name_buffer = nil;
+    }
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    computed_font_name_buffer = [fontManager availableFontFamilies];
+    [computed_font_name_buffer retain];
+    [pool drain];
 }
 
 
-void ef_text_compute_available_fonts_with_traits(EF_Font_Traits) {
+void ef_text_compute_available_fonts_with_traits(EF_Font_Traits traits,
+						 EF_Font_Traits negative_traits)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    if(computed_font_name_buffer) {
+	[computed_font_name_buffer release];
+	computed_font_name_buffer = nil;
+    }
+    
+    NSInteger cocoa_traits = 0;
+    if(traits & EF_FONT_TRAIT_ITALIC)
+	cocoa_traits |= NSFontItalicTrait;
+    if(traits & EF_FONT_TRAIT_BOLD)
+	cocoa_traits |= NSFontBoldTrait;
+    if(traits & EF_FONT_TRAIT_EXPANDED)
+	cocoa_traits |= NSFontExpandedTrait;
+    if(traits & EF_FONT_TRAIT_CONDENSED)
+	cocoa_traits |= NSFontCondensedTrait;
+    if(traits & EF_FONT_TRAIT_FIXED_PITCH)
+	cocoa_traits |= NSFontMonoSpaceTrait;
+    
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    
+    NSMutableDictionary *fontTraits = [NSMutableDictionary dictionaryWithCapacity: 1];
+    [fontTraits setObject: [NSNumber numberWithInteger: cocoa_traits]
+		forKey: NSFontSymbolicTrait];
+    NSMutableDictionary *fontAttributes = [NSMutableDictionary dictionaryWithCapacity: 1];
+    [fontAttributes setObject: fontTraits forKey: NSFontTraitsAttribute];
+    NSFontDescriptor *fontDescriptor
+	= [NSFontDescriptor fontDescriptorWithFontAttributes: fontAttributes];
+    NSMutableSet *mandatoryKeys = [NSMutableSet setWithCapacity: 1];
+    [mandatoryKeys addObject: NSFontTraitsAttribute];
+    NSArray *unfilteredFontDescriptors
+	= [fontDescriptor matchingFontDescriptorsWithMandatoryKeys: mandatoryKeys];
+    
+    NSMutableArray *filteredFontNames
+	= [NSMutableArray arrayWithCapacity: [unfilteredFontDescriptors count]];
+    for(NSFontDescriptor *fontDescriptor in unfilteredFontDescriptors) {
+	if(negative_traits) {
+	    NSFont *font = [NSFont fontWithDescriptor: fontDescriptor
+				   size: 12.0];
+	    NSFontTraitMask actual_cocoa_traits = [fontManager traitsOfFont: font];
+	    
+	    if((negative_traits & EF_FONT_TRAIT_ITALIC)
+	       && (actual_cocoa_traits & NSItalicFontMask))
+		continue;
+	    if((negative_traits & EF_FONT_TRAIT_BOLD)
+	       && (actual_cocoa_traits & NSBoldFontMask))
+		continue;
+	    if((negative_traits & EF_FONT_TRAIT_EXPANDED)
+	       && (actual_cocoa_traits & NSExpandedFontMask))
+		continue;
+	    if((negative_traits & EF_FONT_TRAIT_CONDENSED)
+	       && (actual_cocoa_traits & NSCondensedFontMask))
+		continue;
+	    if((negative_traits & EF_FONT_TRAIT_FIXED_PITCH)
+	       && (actual_cocoa_traits & NSFixedPitchFontMask))
+		continue;
+	}
+	
+	[filteredFontNames addObject: [fontDescriptor postscriptName]];
+    }
+    
+    computed_font_name_buffer = filteredFontNames;
+    [computed_font_name_buffer retain];
+    
+    [pool drain];
 }
 
 
@@ -24,10 +116,28 @@ void ef_text_compute_available_members_of_font_family(utf8 *family_name) {
 
 
 int32_t ef_text_computed_count() {
+    if(!computed_font_name_buffer)
+	return 0;
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    int32_t result = [computed_font_name_buffer count];
+    [pool drain];
+    return result;
 }
 
 
 utf8 *ef_text_computed_name_n(int32_t which) {
+    if(!computed_font_name_buffer)
+	return NULL;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(which >= [computed_font_name_buffer count]) {
+	[pool drain];
+	return NULL;
+    }
+    NSString *string = [computed_font_name_buffer objectAtIndex: which];
+    utf8 *result = utf8_dup((utf8 *) [string UTF8String]);
+    [pool drain];
+    return result;
 }
 
 
@@ -44,6 +154,12 @@ EF_Font_Traits ef_text_computed_traits_n(int32_t which) {
 
 
 void ef_text_discard_computed() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if(computed_font_name_buffer) {
+	[computed_font_name_buffer release];
+	computed_font_name_buffer = nil;
+    }
+    [pool drain];
 }
 
 
@@ -80,6 +196,17 @@ EF_Font ef_font_convert_to_family(EF_Font font, utf8 *family_name) {
 
 
 EF_Font ef_font_convert_to_have_traits(EF_Font font, EF_Font_Traits traits) {
+    NSFontTraitMask cocoa_traits = 0;
+    if(traits & EF_FONT_TRAIT_ITALIC)
+	cocoa_traits |= NSItalicFontMask;
+    if(traits & EF_FONT_TRAIT_BOLD)
+	cocoa_traits |= NSBoldFontMask;
+    if(traits & EF_FONT_TRAIT_EXPANDED)
+	cocoa_traits |= NSExpandedFontMask;
+    if(traits & EF_FONT_TRAIT_CONDENSED)
+	cocoa_traits |= NSCondensedFontMask;
+    if(traits & EF_FONT_TRAIT_FIXED_PITCH)
+	cocoa_traits |= NSFixedPitchFontMask;
 }
 
 
@@ -467,14 +594,14 @@ void ef_text_attributes_set_kerning(EF_Text_Attributes attributes,
 }
 
 
-void ef_text_attributes_outline_style(EF_Text_Attributes attributes,
-				      EF_Outline_Style outline_style)
+void ef_text_attributes_set_outline_style(EF_Text_Attributes attributes,
+					  EF_Outline_Style outline_style)
 {
 }
 
 
-void ef_text_attributes_stroke_width(EF_Text_Attributes attributes,
-				     double stroke_width)
+void ef_text_attributes_set_stroke_width(EF_Text_Attributes attributes,
+					 double stroke_width)
 {
 }
 

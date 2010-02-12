@@ -16,6 +16,14 @@ void utf8_cpy(utf8 *a, utf8 *b) {
 }
 
 
+utf8 *utf8_dup(utf8 *string) {
+    size_t length = utf8_len(string);
+    utf8 *result = malloc((length+1)*sizeof(utf8));
+    utf8_cpy(result, string);
+    return result;
+}
+
+
 utf16 *utf8_to_utf16(utf8 *in) {
     size_t length = utf8_len(in);
     utf16 *out = malloc((length+1)*sizeof(utf16));

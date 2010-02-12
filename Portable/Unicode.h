@@ -6,6 +6,7 @@
 
 size_t utf8_len(utf8 *string);
 void utf8_cpy(utf8 *a, utf8 *b);
+utf8 *utf8_dup(utf8 *string);
 
 size_t utf16_len(utf16 *string);
 

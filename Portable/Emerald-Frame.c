@@ -6,6 +6,7 @@
 extern EF_Error ef_internal_video_init();
 extern EF_Error ef_internal_audio_init();
 extern EF_Error ef_internal_time_init();
+extern EF_Error ef_internal_text_init();
 extern EF_Error ef_internal_configuration_init();
 
 
@@ -33,6 +34,8 @@ EF_Error ef_init(utf8 *new_application_name) {
     // Input
     
     // Text
+    error = ef_internal_text_init();
+    if(error) return error;
     
     // Configuration
     error = ef_internal_configuration_init();

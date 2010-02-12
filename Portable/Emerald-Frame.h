@@ -103,17 +103,10 @@ typedef uint32_t utf32;
 #define EF_FONT_WEIGHT_W9 12
 
 #define EF_FONT_TRAIT_ITALIC 0x0001
-#define EF_FONT_TRAIT_UNITALIC 0x0002
-#define EF_FONT_TRAIT_BOLD 0x0004
-#define EF_FONT_TRAIT_UNBOLD 0x0008
-#define EF_FONT_TRAIT_NARROW 0x0010
-#define EF_FONT_TRAIT_EXPANDED 0x0020
-#define EF_FONT_TRAIT_CONDENSED 0x0040
-#define EF_FONT_TRAIT_SMALL_CAPS 0x0080
-#define EF_FONT_TRAIT_POSTER 0x0100
-#define EF_FONT_TRAIT_COMPRESSED 0x0200
-#define EF_FONT_TRAIT_FIXED_PITCH 0x0400
-#define EF_FONT_TRAIT_NON_STANDARD_CHARACTER_SET 0x0800
+#define EF_FONT_TRAIT_BOLD 0x0002
+#define EF_FONT_TRAIT_EXPANDED 0x0010
+#define EF_FONT_TRAIT_CONDENSED 0x0020
+#define EF_FONT_TRAIT_FIXED_PITCH 0x0040
 
 #define EF_UNDERLINE_STYLE_NONE 0
 #define EF_UNDERLINE_STYLE_SINGLE 1
@@ -247,7 +240,8 @@ int32_t ef_event_mouse_y(EF_Event event);
 // Text - Fonts
 void ef_text_compute_available_fonts();
 void ef_text_compute_available_font_families();
-void ef_text_compute_available_fonts_with_traits(EF_Font_Traits);
+void ef_text_compute_available_fonts_with_traits(EF_Font_Traits traits,
+						 EF_Font_Traits negative_traits);
 void ef_text_compute_available_members_of_font_family(utf8 *family_name);
 int32_t ef_text_computed_count();
 utf8 *ef_text_computed_name_n(int32_t which);
@@ -406,10 +400,10 @@ void ef_text_attributes_set_baseline_offset(EF_Text_Attributes attributes,
 void ef_text_attributes_set_kerning_default(EF_Text_Attributes attributes);
 void ef_text_attributes_set_kerning(EF_Text_Attributes attributes,
 				    double kerning);
-void ef_text_attributes_outline_style(EF_Text_Attributes attributes,
-				      EF_Outline_Style outline_style);
-void ef_text_attributes_stroke_width(EF_Text_Attributes attributes,
-				     double stroke_width);
+void ef_text_attributes_set_outline_style(EF_Text_Attributes attributes,
+					  EF_Outline_Style outline_style);
+void ef_text_attributes_set_stroke_width(EF_Text_Attributes attributes,
+				         double stroke_width);
 void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 					double obliqueness);
 void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
