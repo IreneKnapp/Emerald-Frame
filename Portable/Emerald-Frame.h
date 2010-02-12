@@ -254,33 +254,41 @@ EF_Font ef_text_specific_font(utf8 *family_name,
 			      EF_Font_Weight weight,
 			      double size);
 void ef_font_delete(EF_Font font);
+utf8 *ef_font_name(EF_Font font);
+utf8 *ef_font_family_name(EF_Font font);
+utf8 *ef_font_display_name(EF_Font font);
 EF_Font_Traits ef_font_traits(EF_Font font);
 int32_t ef_font_weight(EF_Font font);
-int ef_font_is_fixed_pitch(EF_Font font);
 EF_Font ef_font_convert_to_face(EF_Font font, utf8 *face_name);
 EF_Font ef_font_convert_to_family(EF_Font font, utf8 *family_name);
 EF_Font ef_font_convert_to_have_traits(EF_Font font, EF_Font_Traits traits);
 EF_Font ef_font_convert_to_not_have_traits(EF_Font font, EF_Font_Traits traits);
 EF_Font ef_font_convert_to_size(EF_Font font, double size);
-EF_Font ef_font_convert_to_weight(EF_Font font, EF_Font_Weight weight);
-double ef_font_advancement_for_glyph(EF_Font font, EF_Glyph glyph);
+EF_Font ef_font_convert_to_lighter_weight(EF_Font font);
+EF_Font ef_font_convert_to_heavier_weight(EF_Font font);
+double ef_font_horizontal_advancement_for_glyph(EF_Font font, EF_Glyph glyph);
+double ef_font_vertical_advancement_for_glyph(EF_Font font, EF_Glyph glyph);
 double ef_font_ascender(EF_Font font);
 double ef_font_descender(EF_Font font);
 double ef_font_x_height(EF_Font font);
 double ef_font_cap_height(EF_Font font);
 double ef_font_italic_angle(EF_Font font);
 double ef_font_leading(EF_Font font);
-double ef_font_maximum_advancement(EF_Font font);
+double ef_font_maximum_horizontal_advancement(EF_Font font);
+double ef_font_maximum_vertical_advancement(EF_Font font);
 double ef_font_underline_position(EF_Font font);
 double ef_font_underline_thickness(EF_Font font);
-double ef_font_bounding_rectangle_top(EF_Font font);
-double ef_font_bounding_rectangle_left(EF_Font font);
-double ef_font_bounding_rectangle_bottom(EF_Font font);
-double ef_font_bounding_rectangle_right(EF_Font font);
-double ef_font_glyph_bounding_rectangle_top(EF_Font font, EF_Glyph glyph);
-double ef_font_glyph_bounding_rectangle_left(EF_Font font, EF_Glyph glyph);
-double ef_font_glyph_bounding_rectangle_bottom(EF_Font font, EF_Glyph glyph);
-double ef_font_glyph_bounding_rectangle_right(EF_Font font, EF_Glyph glyph);
+void ef_font_bounding_rectangle(EF_Font font,
+				double *left,
+				double *top,
+				double *width,
+				double *height);
+void ef_font_glyph_bounding_rectangle(EF_Font font,
+				      EF_Glyph glyph,
+				      double *left,
+				      double *top,
+				      double *width,
+				      double *height);
 
 // Text - Attributed Strings
 EF_Attributed_String ef_text_new_attributed_string();
@@ -312,9 +320,11 @@ void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
 					 int32_t start,
 					 int32_t end);
 void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
+					EF_Drawable drawable,
 					double x,
 					double y);
 void ef_attributed_string_draw_in_rectangle(EF_Attributed_String attributed_string,
+					    EF_Drawable drawable,
 					    double left,
 					    double top,
 					    double width,

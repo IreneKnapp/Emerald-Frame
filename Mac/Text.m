@@ -118,7 +118,7 @@ void ef_text_compute_available_members_of_font_family(utf8 *family_name) {
 	computed_font_name_buffer = nil;
     }
     NSFontManager *fontManager = [NSFontManager sharedFontManager];
-    NSString *familyNameString = [NSString stringWithUTF8String: family_name];
+    NSString *familyNameString = [NSString stringWithUTF8String: (char *) family_name];
     computed_font_name_buffer
 	= [fontManager availableMembersOfFontFamily: familyNameString];
     [computed_font_name_buffer retain];
@@ -258,129 +258,353 @@ EF_Font ef_text_specific_font(utf8 *family_name,
 			      EF_Font_Weight weight,
 			      double size)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSString *familyName = [NSString stringWithUTF8String: (char *) family_name];
+    
+    NSFontTraitMask cocoaTraits = 0;
+    if(traits & EF_FONT_TRAIT_ITALIC)
+	cocoaTraits |= NSItalicFontMask;
+    if(traits & EF_FONT_TRAIT_BOLD)
+	cocoaTraits |= NSBoldFontMask;
+    if(traits & EF_FONT_TRAIT_EXPANDED)
+	cocoaTraits |= NSExpandedFontMask;
+    if(traits & EF_FONT_TRAIT_CONDENSED)
+	cocoaTraits |= NSCondensedFontMask;
+    if(traits & EF_FONT_TRAIT_FIXED_PITCH)
+	cocoaTraits |= NSFixedPitchFontMask;
+    
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *font = [fontManager fontWithFamily: familyName
+				traits: cocoaTraits
+				weight: weight
+				size: size];
+    [font retain];
+    
+    [pool drain];
+    return (EF_Font) font;
 }
 
 
 void ef_font_delete(EF_Font font) {
+    [(NSFont *) font release];
+}
+
+
+utf8 *ef_font_name(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    utf8 *result = utf8_dup((utf8 *) [[(NSFont *) font fontName] UTF8String]);
+    [pool drain];
+    return result;
+}
+
+
+utf8 *ef_font_family_name(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    utf8 *result = utf8_dup((utf8 *) [[(NSFont *) font familyName] UTF8String]);
+    [pool drain];
+    return result;
+}
+
+
+utf8 *ef_font_display_name(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    utf8 *result = utf8_dup((utf8 *) [[(NSFont *) font displayName] UTF8String]);
+    [pool drain];
+    return result;
 }
 
 
 EF_Font_Traits ef_font_traits(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSFont *cocoaFont = (NSFont *) font;
+
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFontTraitMask cocoaTraits = [fontManager traitsOfFont: cocoaFont];
+    
+    EF_Font_Traits traits = 0;
+    if(cocoaTraits & NSItalicFontMask)
+	traits |= EF_FONT_TRAIT_ITALIC;
+    if(cocoaTraits & NSBoldFontMask)
+	traits |= EF_FONT_TRAIT_BOLD;
+    if(cocoaTraits & NSExpandedFontMask)
+	traits |= EF_FONT_TRAIT_EXPANDED;
+    if(cocoaTraits & NSCondensedFontMask)
+	traits |= EF_FONT_TRAIT_CONDENSED;
+    if(cocoaTraits & NSFixedPitchFontMask)
+	traits |= EF_FONT_TRAIT_FIXED_PITCH;
+    
+    [pool drain];
+    return traits;
 }
 
 
 int32_t ef_font_weight(EF_Font font) {
-}
-
-
-int ef_font_is_fixed_pitch(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSFont *cocoaFont = (NSFont *) font;
+    
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    int32_t weight = [fontManager weightOfFont: cocoaFont];
+    
+    [pool drain];
+    return weight;
 }
 
 
 EF_Font ef_font_convert_to_face(EF_Font font, utf8 *face_name) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSString *faceNameString = [NSString stringWithUTF8String: (char *) face_name];
+    NSFont *convertedFont = [fontManager convertFont: (NSFont *) font
+					 toFace: faceNameString];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
 }
 
 
 EF_Font ef_font_convert_to_family(EF_Font font, utf8 *family_name) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSString *familyNameString = [NSString stringWithUTF8String: (char *) family_name];
+    NSFont *convertedFont = [fontManager convertFont: (NSFont *) font
+					 toFamily: familyNameString];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
 }
 
 
 EF_Font ef_font_convert_to_have_traits(EF_Font font, EF_Font_Traits traits) {
-    NSFontTraitMask cocoa_traits = 0;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *convertedFont = [(NSFont *) font copyWithZone: nil];
+    [convertedFont autorelease];
     if(traits & EF_FONT_TRAIT_ITALIC)
-	cocoa_traits |= NSItalicFontMask;
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toHaveTrait: NSItalicFontMask];
     if(traits & EF_FONT_TRAIT_BOLD)
-	cocoa_traits |= NSBoldFontMask;
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toHaveTrait: NSBoldFontMask];
     if(traits & EF_FONT_TRAIT_EXPANDED)
-	cocoa_traits |= NSExpandedFontMask;
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toHaveTrait: NSExpandedFontMask];
     if(traits & EF_FONT_TRAIT_CONDENSED)
-	cocoa_traits |= NSCondensedFontMask;
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toHaveTrait: NSCondensedFontMask];
     if(traits & EF_FONT_TRAIT_FIXED_PITCH)
-	cocoa_traits |= NSFixedPitchFontMask;
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toHaveTrait: NSFixedPitchFontMask];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
 }
 
 
 EF_Font ef_font_convert_to_not_have_traits(EF_Font font, EF_Font_Traits traits) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *convertedFont = [(NSFont *) font copyWithZone: nil];
+    [convertedFont autorelease];
+    if(traits & EF_FONT_TRAIT_ITALIC)
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toNotHaveTrait: NSItalicFontMask];
+    if(traits & EF_FONT_TRAIT_BOLD)
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toNotHaveTrait: NSBoldFontMask];
+    if(traits & EF_FONT_TRAIT_EXPANDED)
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toNotHaveTrait: NSExpandedFontMask];
+    if(traits & EF_FONT_TRAIT_CONDENSED)
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toNotHaveTrait: NSCondensedFontMask];
+    if(traits & EF_FONT_TRAIT_FIXED_PITCH)
+	if(convertedFont)
+	    convertedFont = [fontManager convertFont: convertedFont
+					 toNotHaveTrait: NSFixedPitchFontMask];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
 }
 
 
 EF_Font ef_font_convert_to_size(EF_Font font, double size) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *convertedFont = [fontManager convertFont: (NSFont *) font
+					 toSize: size];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
 }
 
 
-EF_Font ef_font_convert_to_weight(EF_Font font, EF_Font_Weight weight) {
+EF_Font ef_font_convert_to_lighter_weight(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *convertedFont = [fontManager convertWeight: NO
+					 ofFont: (NSFont *) font];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
 }
 
 
-double ef_font_advancement_for_glyph(EF_Font font, EF_Glyph glyph) {
+EF_Font ef_font_convert_to_heavier_weight(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *convertedFont = [fontManager convertWeight: YES
+					 ofFont: (NSFont *) font];
+    if(convertedFont)
+	[convertedFont retain];
+    [pool drain];
+    return (EF_Font) convertedFont;
+}
+
+
+double ef_font_horizontal_advancement_for_glyph(EF_Font font, EF_Glyph glyph) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font advancementForGlyph: (NSGlyph) glyph].width;
+    [pool drain];
+    return result;
+}
+
+
+double ef_font_vertical_advancement_for_glyph(EF_Font font, EF_Glyph glyph) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font advancementForGlyph: (NSGlyph) glyph].height;
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_ascender(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font ascender];
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_descender(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font descender];
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_x_height(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font xHeight];
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_cap_height(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font capHeight];
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_italic_angle(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font italicAngle];
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_leading(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font leading];
+    [pool drain];
+    return result;
 }
 
 
-double ef_font_maximum_advancement(EF_Font font) {
+double ef_font_maximum_horizontal_advancement(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font maximumAdvancement].width;
+    [pool drain];
+    return result;
+}
+
+
+double ef_font_maximum_vertical_advancement(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font maximumAdvancement].height;
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_underline_position(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font underlinePosition];
+    [pool drain];
+    return result;
 }
 
 
 double ef_font_underline_thickness(EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSFont *) font underlineThickness];
+    [pool drain];
+    return result;
 }
 
 
-double ef_font_bounding_rectangle_top(EF_Font font) {
+void ef_font_bounding_rectangle(EF_Font font,
+				double *left,
+				double *top,
+				double *width,
+				double *height)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSRect rectangle = [(NSFont *) font boundingRectForFont];
+    if(left) *left = rectangle.origin.x;
+    if(top) *top = rectangle.origin.y;
+    if(width) *width = rectangle.size.width;
+    if(height) *height = rectangle.size.height;
+    [pool drain];
 }
 
 
-double ef_font_bounding_rectangle_left(EF_Font font) {
-}
-
-
-double ef_font_bounding_rectangle_bottom(EF_Font font) {
-}
-
-
-double ef_font_bounding_rectangle_right(EF_Font font) {
-}
-
-
-double ef_font_glyph_bounding_rectangle_top(EF_Font font, EF_Glyph glyph) {
-}
-
-
-double ef_font_glyph_bounding_rectangle_left(EF_Font font, EF_Glyph glyph) {
-}
-
-
-double ef_font_glyph_bounding_rectangle_bottom(EF_Font font, EF_Glyph glyph) {
-}
-
-
-double ef_font_glyph_bounding_rectangle_right(EF_Font font, EF_Glyph glyph) {
+void ef_font_glyph_bounding_rectangle(EF_Font font,
+				      EF_Glyph glyph,
+				      double *left,
+				      double *top,
+				      double *width,
+				      double *height)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSRect rectangle = [(NSFont *) font boundingRectForGlyph: (NSGlyph) glyph];
+    if(left) *left = rectangle.origin.x;
+    if(top) *top = rectangle.origin.y;
+    if(width) *width = rectangle.size.width;
+    if(height) *height = rectangle.size.height;
+    [pool drain];
 }
 
 
@@ -452,6 +676,7 @@ void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
 
 
 void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
+					EF_Drawable drawable,
 					double x,
 					double y)
 {
@@ -459,6 +684,7 @@ void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
 
 
 void ef_attributed_string_draw_in_rectangle(EF_Attributed_String attributed_string,
+					    EF_Drawable drawable,
 					    double left,
 					    double top,
 					    double width,
