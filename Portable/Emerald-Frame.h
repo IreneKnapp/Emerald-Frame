@@ -301,6 +301,7 @@ utf8 *ef_attributed_string_text(EF_Attributed_String attributed_string);
 int32_t ef_attributed_string_length(EF_Attributed_String attributed_string);
 EF_Text_Attributes
   ef_attributed_string_attributes_at_index(EF_Attributed_String attributed_string,
+					   int32_t index,
 					   int32_t *effective_start,
 					   int32_t *effective_end);
 void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_string,
@@ -316,21 +317,14 @@ void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
 				      int32_t start,
 				      int32_t end);
 void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
-					 EF_Text_Attributes ef_text_attributes,
+					 EF_Text_Attributes text_attributes,
 					 int32_t start,
 					 int32_t end);
-void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
-					EF_Drawable drawable,
-					double x,
-					double y);
-void ef_attributed_string_draw_in_rectangle(EF_Attributed_String attributed_string,
-					    EF_Drawable drawable,
-					    double left,
-					    double top,
-					    double width,
-					    double height);
-double ef_attributed_string_width(EF_Attributed_String attributed_string);
-double ef_attributed_string_height(EF_Attributed_String attributed_string);
+void ef_attributed_string_draw(EF_Attributed_String attributed_string,
+			       EF_Drawable drawable);
+void ef_attributed_string_size(EF_Attributed_String attributed_string,
+			       double *width,
+			       double *height);
 EF_Text_Attributes ef_text_new_attributes();
 void ef_text_attributes_delete(EF_Text_Attributes attributes);
 EF_Font ef_text_attributes_font(EF_Text_Attributes attributes);

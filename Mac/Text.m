@@ -14,6 +14,12 @@
 
 static id computed_font_name_buffer;
 
+static NSBezierPath *ef_internal_transform_bezier_path(NSBezierPath *untransformedPath,
+						       NSPoint (^block)(NSPoint));
+static void ef_internal_tesselation_begin(GLenum type);
+static void ef_internal_tesselation_end();
+static void ef_internal_tesselation_vertex(void *vertexContext, void *polygonContext);
+
 
 EF_Error ef_internal_text_init() {
     computed_font_name_buffer = nil;
@@ -609,10 +615,19 @@ void ef_font_glyph_bounding_rectangle(EF_Font font,
 
 
 EF_Attributed_String ef_text_new_attributed_string() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = [[NSTextStorage alloc] init];
+    [pool drain];
+    return (EF_Attributed_String) textStorage;
 }
 
 
 EF_Attributed_String ef_text_new_attributed_string_with_text(utf8 *text) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSString *string = [NSString stringWithUTF8String: (char *) text];
+    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: string];
+    [pool drain];
+    return (EF_Attributed_String) textStorage;
 }
 
 
@@ -620,26 +635,63 @@ EF_Attributed_String
   ef_text_new_attributed_string_with_text_and_attributes(utf8 *text,
 							 EF_Text_Attributes attributes)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSString *string = [NSString stringWithUTF8String: (char *) text];
+    NSTextStorage *textStorage
+	= [[NSTextStorage alloc] initWithString: string
+				 attributes: (NSMutableDictionary *) attributes];
+    [pool drain];
+    return (EF_Attributed_String) textStorage;
 }
 
 
 void ef_attributed_string_delete(EF_Attributed_String attributed_string) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    for(NSLayoutManager *layoutManager in [textStorage layoutManagers]) {
+	[textStorage removeLayoutManager: layoutManager];
+    }
+    [textStorage release];
+    [pool drain];
 }
 
 
 utf8 *ef_attributed_string_text(EF_Attributed_String attributed_string) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    utf8 *result = utf8_dup((utf8 *) [[textStorage string] UTF8String]);
+    [pool drain];
+    return result;
 }
 
 
 int32_t ef_attributed_string_length(EF_Attributed_String attributed_string) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    int32_t result = [textStorage length];
+    [pool drain];
+    return result;
 }
 
 
 EF_Text_Attributes
   ef_attributed_string_attributes_at_index(EF_Attributed_String attributed_string,
+					   int32_t index,
 					   int32_t *effective_start,
 					   int32_t *effective_end)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSRange effectiveRange;
+    NSDictionary *attributesDictionary
+	= [(NSTextStorage *) attributed_string attributesAtIndex: index
+			     effectiveRange: &effectiveRange];
+    if(effective_start)
+	*effective_start = effectiveRange.location;
+    if(effective_end)
+	*effective_end = effectiveRange.location + effectiveRange.length;
+    NSMutableDictionary *attributes = [attributesDictionary mutableCopyWithZone: nil];
+    [pool drain];
+    return (EF_Text_Attributes) attributes;
 }
 
 
@@ -649,6 +701,28 @@ void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_s
 							       int32_t start,
 							       int32_t end))
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+
+    NSRange fullRange = NSMakeRange(0, [textStorage length]);
+    [textStorage enumerateAttributesInRange: fullRange
+		 options: NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+		 usingBlock: ^(NSDictionary *attributesDictionary,
+			       NSRange range,
+			       BOOL *stop)
+		 {
+		     NSMutableDictionary *attributes
+			 = [attributesDictionary mutableCopyWithZone: nil];
+		     [attributes autorelease];
+		     int shouldStop = callback(attributes,
+					       range.location,
+					       range.location + range.length);
+		     if(shouldStop == 1)
+			 *stop = YES;
+		 }];
+    
+    [pool drain];
 }
 
 
@@ -657,6 +731,15 @@ void ef_attributed_string_replace_text(EF_Attributed_String attributed_string,
 				       int32_t start,
 				       int32_t end)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+
+    NSString *string = [NSString stringWithUTF8String: (char *) text];
+    NSRange range = NSMakeRange(start, end - start);
+    [textStorage replaceCharactersInRange: range withString: string];
+    
+    [pool drain];
 }
 
 
@@ -664,52 +747,390 @@ void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
 				      int32_t start,
 				      int32_t end)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+
+    NSRange range = NSMakeRange(start, end - start);
+    [textStorage deleteCharactersInRange: range];
+    
+    [pool drain];
 }
 
 
 void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
-					 EF_Text_Attributes ef_text_attributes,
+					 EF_Text_Attributes text_attributes,
 					 int32_t start,
 					 int32_t end)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSMutableDictionary *attributes = (NSMutableDictionary *) text_attributes;
+    
+    NSRange range = NSMakeRange(start, end - start);
+    [textStorage setAttributes: attributes range: range];
+    
+    [pool drain];
 }
 
 
-void ef_attributed_string_draw_at_point(EF_Attributed_String attributed_string,
-					EF_Drawable drawable,
-					double x,
-					double y)
+void ef_attributed_string_draw(EF_Attributed_String attributed_string,
+			       EF_Drawable drawable)
 {
+    ef_drawable_make_current(drawable);
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    
+    BOOL alreadyHadLayoutManager = [[textStorage layoutManagers] count] > 0;
+
+    NSLayoutManager *layoutManager;
+    NSTextContainer *textContainer;
+    if(!alreadyHadLayoutManager) {
+	layoutManager = [[NSLayoutManager alloc] init];
+	[textStorage addLayoutManager: layoutManager];
+	[layoutManager release];
+	
+	textContainer = [[NSTextContainer alloc]
+			    initWithContainerSize: NSMakeSize(1.0e10, 1.0e10)];
+	[textContainer setLineFragmentPadding: 0.0];
+	[layoutManager addTextContainer: textContainer];
+	[textContainer release];
+    } else {
+	textContainer = [[NSTextContainer alloc]
+			    initWithContainerSize: NSMakeSize(1.0e10, 1.0e10)];
+	[textContainer setLineFragmentPadding: 0.0];
+	[layoutManager insertTextContainer: textContainer
+		       atIndex: 0];
+	[textContainer release];
+    }
+    
+    NSUInteger fullGlyphCount = [layoutManager numberOfGlyphs];
+    if(fullGlyphCount > 0) {
+	NSGlyph *fullGlyphs = malloc(sizeof(NSGlyph) * fullGlyphCount);
+	[layoutManager getGlyphsInRange: NSMakeRange(0, fullGlyphCount)
+		       glyphs: fullGlyphs
+		       characterIndexes: NULL
+		       glyphInscriptions: NULL
+		       elasticBits: NULL
+		       bidiLevels: NULL];
+	[textStorage enumerateAttributesInRange: NSMakeRange(0, [textStorage length])
+		     options: 0
+		     usingBlock: ^(NSDictionary *attributes,
+				   NSRange attributeRunCharacterRange,
+				   BOOL *stop)
+		     {
+			 NSFont *font = [attributes objectForKey: NSFontAttributeName];
+			 
+			 NSRange attributeRunGlyphRange
+			     = [layoutManager glyphRangeForCharacterRange:
+						  attributeRunCharacterRange
+					      actualCharacterRange: NULL];
+			 
+			 while(1) {
+			     NSRange lineFragmentGlyphRange;
+			     NSRect lineFragmentRect
+				 = [layoutManager lineFragmentRectForGlyphAtIndex:
+						      attributeRunGlyphRange.location
+						  effectiveRange:
+						      &lineFragmentGlyphRange];
+			     
+			     NSRange shownPartOfLineFragmentGlyphRange;
+			     shownPartOfLineFragmentGlyphRange.location
+				 = attributeRunGlyphRange.location;
+			     if(lineFragmentGlyphRange.location
+				+ lineFragmentGlyphRange.length
+				< attributeRunGlyphRange.location
+				+ attributeRunGlyphRange.length)
+			     {
+				 shownPartOfLineFragmentGlyphRange.length
+				     = lineFragmentGlyphRange.location
+				     + lineFragmentGlyphRange.length
+				     - attributeRunGlyphRange.location;
+			     } else {
+				 shownPartOfLineFragmentGlyphRange.length
+				     = attributeRunGlyphRange.length;
+			     }
+			     
+			     NSGlyph *glyphs = fullGlyphs
+				 + shownPartOfLineFragmentGlyphRange.location;
+				 
+			     NSPoint locationWithinLineFragment
+				 = [layoutManager
+				       locationForGlyphAtIndex:
+					   shownPartOfLineFragmentGlyphRange.location];
+			     NSPoint glyphOrigin = locationWithinLineFragment;
+			     
+			     NSBezierPath *unflattenedUnscaledPath
+				 = [NSBezierPath bezierPath];
+			     [unflattenedUnscaledPath moveToPoint: glyphOrigin];
+			     [unflattenedUnscaledPath
+				 appendBezierPathWithGlyphs: glyphs
+				 count: shownPartOfLineFragmentGlyphRange.length
+				 inFont: font];
+			     
+			     NSBezierPath *unflattenedScaledPath
+				 = ef_internal_transform_bezier_path
+				   (unflattenedUnscaledPath,
+				    ^(NSPoint point)
+				    {
+					return NSMakePoint(point.x * 4.0,
+							   point.y * 4.0);
+				    });
+			     
+			     NSBezierPath *flattenedScaledPath
+				 = [unflattenedScaledPath bezierPathByFlatteningPath];
+			     
+			     NSBezierPath *flattenedUnscaledPath
+				 = ef_internal_transform_bezier_path
+				   (flattenedScaledPath,
+				    ^(NSPoint point)
+				    {
+					return NSMakePoint(point.x / 4.0,
+							   point.y / 4.0);
+				    });
+			     
+			     glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+			     glBegin(GL_QUADS);
+			     glVertex2d(lineFragmentRect.origin.x,
+					lineFragmentRect.origin.y
+					+ [font descender]);
+			     glVertex2d(lineFragmentRect.origin.x
+					+ lineFragmentRect.size.width,
+					lineFragmentRect.origin.y
+					+ [font descender]);
+			     glVertex2d(lineFragmentRect.origin.x
+					+ lineFragmentRect.size.width,
+					lineFragmentRect.origin.y
+					+ lineFragmentRect.size.height
+					+ [font descender]);
+			     glVertex2d(lineFragmentRect.origin.x,
+					lineFragmentRect.origin.y
+					+ lineFragmentRect.size.height
+					+ [font descender]);
+			     glEnd();
+			     
+			     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+
+			     NSInteger elementCount
+				 = [flattenedUnscaledPath elementCount];
+			     NSMutableArray *vertices
+				 = [NSMutableArray arrayWithCapacity: elementCount];
+			     
+			     GLUtesselator *tesselator = gluNewTess();
+			     gluTessCallback(tesselator,
+					     GLU_TESS_BEGIN,
+					     ef_internal_tesselation_begin);
+			     gluTessCallback(tesselator,
+					     GLU_TESS_END,
+					     ef_internal_tesselation_end);
+			     gluTessCallback(tesselator,
+					     GLU_TESS_VERTEX_DATA,
+					     ef_internal_tesselation_vertex);
+			     gluTessBeginPolygon(tesselator, (void *) vertices);
+			     
+			     for(NSInteger i = 0; i < elementCount; i++) {
+				 NSPoint points[3];
+				 NSBezierPathElement element
+				     = [flattenedUnscaledPath elementAtIndex: i
+							      associatedPoints: points];
+				 switch(element) {
+				 case NSMoveToBezierPathElement:
+				     {
+					 if(i == elementCount - 1)
+					     break;
+					 
+					 NSPoint point = points[0];
+					 point.x = lineFragmentRect.origin.x
+					           + point.x;
+					 point.y = lineFragmentRect.origin.y
+					           - lineFragmentRect.size.height
+					           + [font pointSize] / 2.0
+					           + [font descender]
+					           + point.y;
+					 NSValue *pointValue
+					     = [NSValue valueWithPoint: point];
+					 NSUInteger pointIndex = [vertices count];
+					 [vertices addObject: pointValue];
+					 
+					 GLdouble vertex[3];
+					 vertex[0] = point.x;
+					 vertex[1] = point.y;
+					 vertex[2] = 0.0;
+					 
+					 gluTessBeginContour(tesselator);
+					 gluTessVertex(tesselator,
+						       vertex,
+						       (void *) pointIndex);
+					 break;
+				     }
+				 case NSLineToBezierPathElement:
+				     {
+					 NSPoint point = points[0];
+					 point.x = lineFragmentRect.origin.x
+					           + point.x;
+					 point.y = lineFragmentRect.origin.y
+					           - lineFragmentRect.size.height
+					           + [font pointSize] / 2.0
+					           + [font descender]
+					           + point.y;
+					 NSValue *pointValue
+					     = [NSValue valueWithPoint: point];
+					 NSUInteger pointIndex = [vertices count];
+					 [vertices addObject: pointValue];
+					 
+					 GLdouble vertex[3];
+					 vertex[0] = point.x;
+					 vertex[1] = point.y;
+					 vertex[2] = 0.0;
+					 
+					 gluTessVertex(tesselator,
+						       vertex,
+						       (void *) pointIndex);
+					 break;
+				     }
+				 case NSClosePathBezierPathElement:
+				     {
+					 gluTessEndContour(tesselator);
+					 break;
+				     }
+				 }
+			     }
+			     gluTessEndPolygon(tesselator);
+			     
+			     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+			     
+			     if(lineFragmentGlyphRange.location
+				+ lineFragmentGlyphRange.length
+				>= attributeRunGlyphRange.location
+				+ attributeRunGlyphRange.length)
+				 break;
+			     attributeRunGlyphRange.length
+				 = attributeRunGlyphRange.location
+				 + attributeRunGlyphRange.length
+				 - lineFragmentGlyphRange.location
+				 - lineFragmentGlyphRange.length;
+			     attributeRunGlyphRange.location
+				 = lineFragmentGlyphRange.location
+				 + lineFragmentGlyphRange.length;
+			 }
+		     }];
+	free(fullGlyphs);
+    }
+    
+    if(!alreadyHadLayoutManager) {
+	[textStorage removeLayoutManager: layoutManager];
+    } else {
+	[layoutManager removeTextContainerAtIndex: 0];
+    }
+    
+    [pool drain];
 }
 
 
-void ef_attributed_string_draw_in_rectangle(EF_Attributed_String attributed_string,
-					    EF_Drawable drawable,
-					    double left,
-					    double top,
-					    double width,
-					    double height)
+static NSBezierPath *ef_internal_transform_bezier_path(NSBezierPath *untransformedPath,
+						       NSPoint (^block)(NSPoint))
 {
+    NSBezierPath *transformedPath = [NSBezierPath bezierPath];
+    NSInteger elementCount = [untransformedPath elementCount];
+    for(NSInteger i = 0; i < elementCount; i++) {
+	NSPoint points[3];
+	NSBezierPathElement element
+	    = [untransformedPath elementAtIndex: i
+				 associatedPoints: points];
+	switch(element) {
+	case NSMoveToBezierPathElement:
+	    {
+		NSPoint point = block(points[0]);
+		[transformedPath moveToPoint: point];
+		break;
+	    }
+	case NSLineToBezierPathElement:
+	    {
+		NSPoint point = block(points[0]);
+		[transformedPath lineToPoint: point];
+		break;
+	    }
+	case NSCurveToBezierPathElement:
+	    {
+		NSPoint controlPoint1 = block(points[0]);
+		NSPoint controlPoint2 = block(points[1]);
+		NSPoint endPoint = block(points[2]);
+		[transformedPath curveToPoint: endPoint
+				 controlPoint1: controlPoint1
+				 controlPoint2: controlPoint2];
+		break;
+	    }
+	case NSClosePathBezierPathElement:
+	    {
+		[transformedPath closePath];
+		break;
+	    }
+	}
+    }
+    return transformedPath;
 }
 
 
-double ef_attributed_string_width(EF_Attributed_String attributed_string) {
+static void ef_internal_tesselation_begin(GLenum type) {
+    glBegin(type);
 }
 
 
-double ef_attributed_string_height(EF_Attributed_String attributed_string) {
+static void ef_internal_tesselation_end() {
+    glEnd();
+}
+
+
+static void ef_internal_tesselation_vertex(void *vertexContext, void *polygonContext) {
+    NSUInteger pointIndex = (NSUInteger) vertexContext;
+    NSMutableArray *vertices = (NSMutableArray *) polygonContext;
+    NSValue *pointValue = [vertices objectAtIndex: pointIndex];
+    NSPoint point = [pointValue pointValue];
+    glVertex2d(point.x, point.y);
+}
+
+
+void ef_attributed_string_size(EF_Attributed_String attributed_string,
+			       double *width,
+			       double *height)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSSize size = [textStorage size];
+    if(width)
+	*width = size.width;
+    if(height)
+	*height = size.height;
+    [pool drain];
 }
 
 
 EF_Text_Attributes ef_text_new_attributes() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity: 8];
+    [attributes retain];
+    [pool drain];
+    return (EF_Text_Attributes) attributes;
 }
 
 
 void ef_text_attributes_delete(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableDictionary *) attributes release];
+    [pool drain];
 }
 
 
 EF_Font ef_text_attributes_font(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    EF_Font result
+	= (EF_Font) [(NSMutableDictionary *) attributes
+					     objectForKey: NSFontAttributeName];
+    [pool drain];
+    return result;
 }
 
 
@@ -812,6 +1233,11 @@ double ef_text_attributes_expansion(EF_Text_Attributes attributes) {
 
 
 void ef_text_attributes_set_font(EF_Text_Attributes attributes, EF_Font font) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableDictionary *) attributes
+			     setObject: (NSFont *) font
+			     forKey: NSFontAttributeName];
+    [pool drain];
 }
 
 
