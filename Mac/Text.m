@@ -614,40 +614,79 @@ void ef_font_glyph_bounding_rectangle(EF_Font font,
 }
 
 
-EF_Attributed_String ef_text_new_attributed_string() {
+EF_Text_Flow ef_text_new_text_flow() {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
     NSTextStorage *textStorage = [[NSTextStorage alloc] init];
+
+    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+    [textStorage addLayoutManager: layoutManager];
+    [layoutManager release];
+
+    NSTextContainer *textContainer = [[NSTextContainer alloc]
+					 initWithContainerSize:
+					     NSMakeSize(INFINITY, INFINITY)];
+    [textContainer setLineFragmentPadding: 0.0];
+    [layoutManager addTextContainer: textContainer];
+    [textContainer release];
+    
     [pool drain];
-    return (EF_Attributed_String) textStorage;
+    return (EF_Text_Flow) textStorage;
 }
 
 
-EF_Attributed_String ef_text_new_attributed_string_with_text(utf8 *text) {
+EF_Text_Flow ef_text_new_text_flow_with_text(utf8 *text) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *string = [NSString stringWithUTF8String: (char *) text];
+    
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString: string];
+    
+    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+    [textStorage addLayoutManager: layoutManager];
+    [layoutManager release];
+
+    NSTextContainer *textContainer = [[NSTextContainer alloc]
+					 initWithContainerSize:
+					     NSMakeSize(INFINITY, INFINITY)];
+    [textContainer setLineFragmentPadding: 0.0];
+    [layoutManager addTextContainer: textContainer];
+    [textContainer release];
+    
     [pool drain];
-    return (EF_Attributed_String) textStorage;
+    return (EF_Text_Flow) textStorage;
 }
 
 
-EF_Attributed_String
-  ef_text_new_attributed_string_with_text_and_attributes(utf8 *text,
-							 EF_Text_Attributes attributes)
+EF_Text_Flow
+  ef_text_new_text_flow_with_text_and_attributes(utf8 *text,
+						 EF_Text_Attributes attributes)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *string = [NSString stringWithUTF8String: (char *) text];
+    
     NSTextStorage *textStorage
 	= [[NSTextStorage alloc] initWithString: string
 				 attributes: (NSMutableDictionary *) attributes];
+    
+    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+    [textStorage addLayoutManager: layoutManager];
+    [layoutManager release];
+
+    NSTextContainer *textContainer = [[NSTextContainer alloc]
+					 initWithContainerSize:
+					     NSMakeSize(INFINITY, INFINITY)];
+    [textContainer setLineFragmentPadding: 0.0];
+    [layoutManager addTextContainer: textContainer];
+    [textContainer release];
+    
     [pool drain];
-    return (EF_Attributed_String) textStorage;
+    return (EF_Text_Flow) textStorage;
 }
 
 
-void ef_attributed_string_delete(EF_Attributed_String attributed_string) {
+void ef_text_flow_delete(EF_Text_Flow text_flow) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
     for(NSLayoutManager *layoutManager in [textStorage layoutManagers]) {
 	[textStorage removeLayoutManager: layoutManager];
     }
@@ -656,18 +695,18 @@ void ef_attributed_string_delete(EF_Attributed_String attributed_string) {
 }
 
 
-utf8 *ef_attributed_string_text(EF_Attributed_String attributed_string) {
+utf8 *ef_text_flow_text(EF_Text_Flow text_flow) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
     utf8 *result = utf8_dup((utf8 *) [[textStorage string] UTF8String]);
     [pool drain];
     return result;
 }
 
 
-int32_t ef_attributed_string_length(EF_Attributed_String attributed_string) {
+int32_t ef_text_flow_length(EF_Text_Flow text_flow) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
     int32_t result = [textStorage length];
     [pool drain];
     return result;
@@ -675,15 +714,15 @@ int32_t ef_attributed_string_length(EF_Attributed_String attributed_string) {
 
 
 EF_Text_Attributes
-  ef_attributed_string_attributes_at_index(EF_Attributed_String attributed_string,
-					   int32_t index,
-					   int32_t *effective_start,
-					   int32_t *effective_end)
+  ef_text_flow_attributes_at_index(EF_Text_Flow text_flow,
+				   int32_t index,
+				   int32_t *effective_start,
+				   int32_t *effective_end)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSRange effectiveRange;
     NSDictionary *attributesDictionary
-	= [(NSTextStorage *) attributed_string attributesAtIndex: index
+	= [(NSTextStorage *) text_flow attributesAtIndex: index
 			     effectiveRange: &effectiveRange];
     if(effective_start)
 	*effective_start = effectiveRange.location;
@@ -695,15 +734,15 @@ EF_Text_Attributes
 }
 
 
-void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_string,
-					       int (*callback)(EF_Text_Attributes
-							         text_attributes,
-							       int32_t start,
-							       int32_t end))
+void ef_text_flow_enumerate_attributes(EF_Text_Flow text_flow,
+				       int (*callback)(EF_Text_Attributes
+						       text_attributes,
+						       int32_t start,
+						       int32_t end))
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
 
     NSRange fullRange = NSMakeRange(0, [textStorage length]);
     [textStorage enumerateAttributesInRange: fullRange
@@ -726,14 +765,14 @@ void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_s
 }
 
 
-void ef_attributed_string_replace_text(EF_Attributed_String attributed_string,
-				       utf8 *text,
-				       int32_t start,
-				       int32_t end)
+void ef_text_flow_replace_text(EF_Text_Flow text_flow,
+			       utf8 *text,
+			       int32_t start,
+			       int32_t end)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
 
     NSString *string = [NSString stringWithUTF8String: (char *) text];
     NSRange range = NSMakeRange(start, end - start);
@@ -743,13 +782,13 @@ void ef_attributed_string_replace_text(EF_Attributed_String attributed_string,
 }
 
 
-void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
-				      int32_t start,
-				      int32_t end)
+void ef_text_flow_delete_text(EF_Text_Flow text_flow,
+			      int32_t start,
+			      int32_t end)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
 
     NSRange range = NSMakeRange(start, end - start);
     [textStorage deleteCharactersInRange: range];
@@ -758,14 +797,14 @@ void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
 }
 
 
-void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
-					 EF_Text_Attributes text_attributes,
-					 int32_t start,
-					 int32_t end)
+void ef_text_flow_set_attributes(EF_Text_Flow text_flow,
+				 EF_Text_Attributes text_attributes,
+				 int32_t start,
+				 int32_t end)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
     NSMutableDictionary *attributes = (NSMutableDictionary *) text_attributes;
     
     NSRange range = NSMakeRange(start, end - start);
@@ -775,37 +814,37 @@ void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
 }
 
 
-void ef_attributed_string_draw(EF_Attributed_String attributed_string,
-			       EF_Drawable drawable)
+void ef_text_flow_natural_size(EF_Text_Flow text_flow,
+			       double *width,
+			       double *height)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
+    NSSize size = [textStorage size];
+    if(width)
+	*width = size.width;
+    if(height)
+	*height = size.height;
+    [pool drain];
+}
+
+
+void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height) {
+}
+
+
+void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height) {
+}
+
+
+void ef_text_flow_draw(EF_Text_Flow text_flow, EF_Drawable drawable) {
     ef_drawable_make_current(drawable);
     
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
-    
-    BOOL alreadyHadLayoutManager = [[textStorage layoutManagers] count] > 0;
-
-    NSLayoutManager *layoutManager;
-    NSTextContainer *textContainer;
-    if(!alreadyHadLayoutManager) {
-	layoutManager = [[NSLayoutManager alloc] init];
-	[textStorage addLayoutManager: layoutManager];
-	[layoutManager release];
-	
-	textContainer = [[NSTextContainer alloc]
-			    initWithContainerSize: NSMakeSize(1.0e10, 1.0e10)];
-	[textContainer setLineFragmentPadding: 0.0];
-	[layoutManager addTextContainer: textContainer];
-	[textContainer release];
-    } else {
-	textContainer = [[NSTextContainer alloc]
-			    initWithContainerSize: NSMakeSize(1.0e10, 1.0e10)];
-	[textContainer setLineFragmentPadding: 0.0];
-	[layoutManager insertTextContainer: textContainer
-		       atIndex: 0];
-	[textContainer release];
-    }
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
+    NSLayoutManager *layoutManager = [[textStorage layoutManagers]
+					 objectAtIndex: 0];
     
     NSUInteger fullGlyphCount = [layoutManager numberOfGlyphs];
     if(fullGlyphCount > 0) {
@@ -1020,12 +1059,6 @@ void ef_attributed_string_draw(EF_Attributed_String attributed_string,
 	free(fullGlyphs);
     }
     
-    if(!alreadyHadLayoutManager) {
-	[textStorage removeLayoutManager: layoutManager];
-    } else {
-	[layoutManager removeTextContainerAtIndex: 0];
-    }
-    
     [pool drain];
 }
 
@@ -1090,21 +1123,6 @@ static void ef_internal_tesselation_vertex(void *vertexContext, void *polygonCon
     NSValue *pointValue = [vertices objectAtIndex: pointIndex];
     NSPoint point = [pointValue pointValue];
     glVertex2d(point.x, point.y);
-}
-
-
-void ef_attributed_string_size(EF_Attributed_String attributed_string,
-			       double *width,
-			       double *height)
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTextStorage *textStorage = (NSTextStorage *) attributed_string;
-    NSSize size = [textStorage size];
-    if(width)
-	*width = size.width;
-    if(height)
-	*height = size.height;
-    [pool drain];
 }
 
 
@@ -1473,46 +1491,4 @@ void ef_paragraph_style_set_paragraph_spacing(EF_Paragraph_Style paragraph_style
 void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
 						     double paragraph_spacing_before)
 {
-}
-
-
-void ef_text_new_text_flow(EF_Drawable drawable) {
-}
-
-
-void ef_text_flow_delete(EF_Text_Flow text_flow) {
-}
-
-
-EF_Attributed_String ef_text_flow_attributed_string(EF_Text_Flow text_flow) {
-}
-
-
-void ef_text_flow_set_attributed_string(EF_Text_Flow text_flow,
-					EF_Attributed_String attributed_string)
-{
-}
-
-
-void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height) {
-}
-
-
-void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height) {
-}
-
-
-void ef_text_flow_draw(EF_Text_Flow text_flow) {
-}
-
-
-void ef_text_flow_draw_background(EF_Text_Flow text_flow) {
-}
-
-
-void ef_text_flow_draw_glyphs(EF_Text_Flow text_flow) {
-}
-
-
-void ef_text_flow_draw_decorations(EF_Text_Flow text_flow) {
 }

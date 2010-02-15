@@ -245,25 +245,27 @@ div.title {
 <li><a href="#ef_font_glyph_bounding_rectangle"><span class="code">ef_font_glyph_bounding_rectangle</span></a></li>
 </ul></li>
 </ul></li>
-<li><a href="#S_reference_text_attributed_strings"><b>3.6.2.</b> Attributed Strings</a> <ul>
-<li><a href="#S_reference_text_attributed_strings_general"><b>3.6.2.1.</b> General</a> <ul>
-<li><a href="#ef_text_new_attributed_string"><span class="code">ef_text_new_attributed_string</span></a></li>
-<li><a href="#ef_text_new_attributed_string_with_text"><span class="code">ef_text_new_attributed_string_with_text</span></a></li>
-<li><a href="#ef_text_new_attributed_string_with_text_and_attributes"><span class="code">ef_text_new_attributed_string_with_text_and_attributes</span></a></li>
-<li><a href="#ef_attributed_string_delete"><span class="code">ef_attributed_string_delete</span></a></li>
-<li><a href="#ef_attributed_string_text"><span class="code">ef_attributed_string_text</span></a></li>
-<li><a href="#ef_attributed_string_length"><span class="code">ef_attributed_string_length</span></a></li>
-<li><a href="#ef_attributed_string_attributes_at_index"><span class="code">ef_attributed_string_attributes_at_index</span></a></li>
-<li><a href="#ef_attributed_string_enumerate_attributes"><span class="code">ef_attributed_string_enumerate_attributes</span></a></li>
-<li><a href="#ef_attributed_string_replace_text"><span class="code">ef_attributed_string_replace_text</span></a></li>
-<li><a href="#ef_attributed_string_delete_text"><span class="code">ef_attributed_string_delete_text</span></a></li>
-<li><a href="#ef_attributed_string_set_attributes"><span class="code">ef_attributed_string_set_attributes</span></a></li>
+<li><a href="#S_reference_text_text_flows"><b>3.6.2.</b> Text Flows</a> <ul>
+<li><a href="#S_reference_text_text_flows_general"><b>3.6.2.1.</b> General</a> <ul>
+<li><a href="#ef_text_new_text_flow"><span class="code">ef_text_new_text_flow</span></a></li>
+<li><a href="#ef_text_new_text_flow_with_text"><span class="code">ef_text_new_text_flow_with_text</span></a></li>
+<li><a href="#ef_text_new_text_flow_with_text_and_attributes"><span class="code">ef_text_new_text_flow_with_text_and_attributes</span></a></li>
+<li><a href="#ef_text_flow_delete"><span class="code">ef_text_flow_delete</span></a></li>
+<li><a href="#ef_text_flow_text"><span class="code">ef_text_flow_text</span></a></li>
+<li><a href="#ef_text_flow_length"><span class="code">ef_text_flow_length</span></a></li>
+<li><a href="#ef_text_flow_attributes_at_index"><span class="code">ef_text_flow_attributes_at_index</span></a></li>
+<li><a href="#ef_text_flow_enumerate_attributes"><span class="code">ef_text_flow_enumerate_attributes</span></a></li>
+<li><a href="#ef_text_flow_replace_text"><span class="code">ef_text_flow_replace_text</span></a></li>
+<li><a href="#ef_text_flow_delete_text"><span class="code">ef_text_flow_delete_text</span></a></li>
+<li><a href="#ef_text_flow_set_attributes"><span class="code">ef_text_flow_set_attributes</span></a></li>
 </ul></li>
-<li><a href="#S_reference_text_attributed_strings_drawing"><b>3.6.2.2.</b> Drawing</a> <ul>
-<li><a href="#ef_attributed_string_draw"><span class="code">ef_attributed_string_draw</span></a></li>
-<li><a href="#ef_attributed_string_size"><span class="code">ef_attributed_string_size</span></a></li>
+<li><a href="#S_reference_text_text_flows_drawing"><b>3.6.2.2.</b> Drawing</a> <ul>
+<li><a href="#ef_text_flow_natural_size"><span class="code">ef_text_flow_natural_size</span></a></li>
+<li><a href="#ef_text_flow_size"><span class="code">ef_text_flow_size</span></a></li>
+<li><a href="#ef_text_flow_set_size"><span class="code">ef_text_flow_set_size</span></a></li>
+<li><a href="#ef_text_flow_draw"><span class="code">ef_text_flow_draw</span></a></li>
 </ul></li>
-<li><a href="#S_reference_text_attributed_strings_text_attributes"><b>3.6.2.3.</b> Text Attributes</a> <ul>
+<li><a href="#S_reference_text_text_flows_text_attributes"><b>3.6.2.3.</b> Text Attributes</a> <ul>
 <li><a href="#ef_text_new_attributes"><span class="code">ef_text_new_attributes</span></a></li>
 <li><a href="#ef_text_attributes_delete"><span class="code">ef_text_attributes_delete</span></a></li>
 <li><a href="#ef_text_attributes_font"><span class="code">ef_text_attributes_font</span></a></li>
@@ -307,7 +309,7 @@ div.title {
 <li><a href="#ef_text_attributes_set_obliqueness"><span class="code">ef_text_attributes_set_obliqueness</span></a></li>
 <li><a href="#ef_text_attributes_set_expansion"><span class="code">ef_text_attributes_set_expansion</span></a></li>
 </ul></li>
-<li><a href="#S_reference_text_attributed_strings_paragraph_styles"><b>3.6.2.4.</b> Paragraph Styles</a> <ul>
+<li><a href="#S_reference_text_text_flows_paragraph_styles"><b>3.6.2.4.</b> Paragraph Styles</a> <ul>
 <li><a href="#ef_text_new_paragraph_style"><span class="code">ef_text_new_paragraph_style</span></a></li>
 <li><a href="#ef_paragraph_style_delete"><span class="code">ef_paragraph_style_delete</span></a></li>
 <li><a href="#ef_paragraph_style_alignment"><span class="code">ef_paragraph_style_alignment</span></a></li>
@@ -332,23 +334,6 @@ div.title {
 <li><a href="#ef_paragraph_style_set_line_spacing"><span class="code">ef_paragraph_style_set_line_spacing</span></a></li>
 <li><a href="#ef_paragraph_style_set_paragraph_spacing"><span class="code">ef_paragraph_style_set_paragraph_spacing</span></a></li>
 <li><a href="#ef_paragraph_style_set_paragraph_spacing_before"><span class="code">ef_paragraph_style_set_paragraph_spacing_before</span></a></li>
-</ul></li>
-</ul></li>
-<li><a href="#S_reference_text_flows"><b>3.6.3.</b> Flows</a> <ul>
-<li><a href="#S_reference_text_flows_general"><b>3.6.3.1.</b> General</a> <ul>
-<li><a href="#ef_text_new_text_flow"><span class="code">ef_text_new_text_flow</span></a></li>
-<li><a href="#ef_text_flow_delete"><span class="code">ef_text_flow_delete</span></a></li>
-<li><a href="#ef_text_flow_attributed_string"><span class="code">ef_text_flow_attributed_string</span></a></li>
-<li><a href="#ef_text_flow_set_attributed_string"><span class="code">ef_text_flow_set_attributed_string</span></a></li>
-<li><a href="#ef_text_flow_size"><span class="code">ef_text_flow_size</span></a></li>
-<li><a href="#ef_text_flow_set_size"><span class="code">ef_text_flow_set_size</span></a></li>
-</ul></li>
-<li><a href="#S_reference_text_flows_drawing"><b>3.6.3.2.</b> Drawing</a> <ul>
-<li><a href="#ef_text_flow_draw"><span class="code">ef_text_flow_draw</span></a></li>
-<li><a href="#ef_text_flow_draw_background"><span class="code">ef_text_flow_draw_background</span></a></li>
-<li><a href="#ef_text_flow_draw_glyphs"><span class="code">ef_text_flow_draw_glyphs</span></a></li>
-<li><a href="#ef_text_flow_draw_decorations"><span class="code">ef_text_flow_draw_decorations</span></a></li>
-</ul></li>
 </ul></li>
 </ul></li>
 <li><a href="#S_reference_configuration"><b>3.7.</b> Configuration</a> <ul>
@@ -963,7 +948,7 @@ all the code you need to draw a simple textual label on the screen:</p>
 #include "stdio.h"
 
 
-static EF_Attributed_String label;
+static EF_Text_Flow label;
 
 void init_gl(EF_Drawable drawable);
 void draw(EF_Drawable drawable, void *context);
@@ -998,7 +983,7 @@ int main(int argc, char **argv) {
     ef_text_attributes_set_font(attributes, font);
     ef_font_delete(font);
 
-    label = ef_text_new_attributed_string_with_text_and_attributes
+    label = ef_text_new_text_flow_with_text_and_attributes
 	((utf8 *) "Sphinx of black quartz, judge my vow.", attributes);
     
     ef_text_attributes_delete(attributes);
@@ -1025,25 +1010,24 @@ void draw(EF_Drawable drawable, void *context) {
     
     glPushMatrix();
     glTranslatef(0.0f, 40.0f, 0.0f);
-    ef_attributed_string_draw(label, drawable);
+    ef_text_flow_draw(label, drawable);
     glPopMatrix();
 
     ef_drawable_swap_buffers(drawable);
 }
 </div>
 
-<p>The way you communicate what you want to do to the text system, regardless of whether
-you're using the short path as here or the long path that I'll illustrate in a minute,
-is through an <span class="code">EF_Attributed_String</span>.  This is a mutable string
+<p>The way you communicate what you want to do to the text system
+is through an <span class="code">EF_Text_Flow</span>.  This is a mutable string
 object that, loosely speaking, tracks both text and style information for it.  In this
 case we create one with the call to
-<a href="#ef_text_new_attributed_string_with_text_and_attributes">ef_text_new_attributed_string_with_text_and_attributes</a>,
+<a href="#ef_text_new_text_flow_with_text_and_attributes">ef_text_new_text_flow_with_text_and_attributes</a>,
 and keep it around for the life of our program.  If we only needed it temporarily, we
 would destroy it when we were done, with
-<a href="#ef_attributed_string_delete">ef_attributed_string_delete</a>.</p>
+<a href="#ef_text_flow_delete">ef_text_flow_delete</a>.</p>
 
 <p>The rest of that code in <span class="code">main</span> is dedicated to helping to
-set up the <span class="code">EF_Attributed_String</span>.  In particular, you'll note
+set up the <span class="code">EF_Text_Flow</span>.  In particular, you'll note
 that we construct an object called an <span class="code">EF_Text_Attributes</span>.
 These objects represent sets of style information.  In this case, we only set one
 attribute, the font, and leave the others at their defaults.  We create the text
@@ -1052,12 +1036,12 @@ attributes object with the call to
 set the font attribute in it with the call to
 <a href="#ef_text_attributes_set_font">ef_text_attributes_set_font</a>,
 utilize it in the call to
-<a href="#ef_text_new_attributed_string_with_text_and_attributes">ef_text_new_attributed_string_with_text_and_attributes</a>,
+<a href="#ef_text_new_text_flow_with_text_and_attributes">ef_text_new_text_flow_with_text_and_attributes</a>,
 and finally dispose of it by calling
 <a href="#ef_text_attributes_delete">ef_text_attributes_delete</a>.</p>
 
 <p>"Wait," you may be thinking if you're experienced in the ways of memory management,
-"We dispose of it?  Isn't it still in use because the attributed string still exists?"
+"We dispose of it?  Isn't it still in use because the text flow still exists?"
 No.  To make your life easier, Emerald Frame copies the style information out of it.
 You only need it as a communication tool; once you've used it to set the attributes, its
 job is done.  Unless of course you wish to keep it around to set the same attributes
@@ -1069,14 +1053,14 @@ In this case we know in advance what font we want, so all we have to do is reque
 with <a href="#ef_text_specific_font">ef_text_specific_font</a>.  Then we utilize it in
 the call to <a href="#ef_text_attributes_set_font">ef_text_attributes_set_font</a>, and
 dispose of it in the call to <a href="#ef_font_delete">ef_font_delete</a>.  Much like
-text-attributes objects are copied into attributed-string objects, a font object is
+text-attributes objects are copied into text-flow objects, a font object is
 copied instead of referenced when another structure needs it, so there's no need to
 worry about keeping it alive as long as the text-attributes object is alive.</p>
 
 <p>Now, direct your attention to the implementation of <span class="code">draw</span>.
 The core here is the call to
-<a href="#ef_attributed_string_draw">ef_attributed_string_draw</a>,
-which is given both the attributed-string object we've already set up, and the
+<a href="#ef_text_flow_draw">ef_text_flow_draw</a>,
+which is given both the text-flow object we've already set up, and the
 drawable we want to display in.  In this case we carefully set up our drawable such that
 positive values of Y point upwards (this is done by the call to
 <span class="code">glOrtho</span> in <span class="code">init_gl</span>),
@@ -1086,7 +1070,7 @@ coordinate system immediately before drawing with a call to
 <span class="code">glScalef</span>.
 
 <p>Also note the call to <span class="code">glTranslatef</span>.  There's no parameters
-in <a href="#ef_attributed_string_draw">ef_attributed_string_draw</a> to set where to
+in <a href="#ef_text_flow_draw">ef_text_flow_draw</a> to set where to
 draw the text; instead, text is drawn at the origin, and to draw somewhere else, you
 translate before drawing.  The left edge of the text is aligned with X value zero, and
 the baseline of the first line (in this case, the only line) with Y value 0.  If you want
@@ -1095,24 +1079,20 @@ the font's ascender or descender with
 <a href="#ef_font_ascender">ef_font_ascender</a> or
 <a href="#ef_font_descender">ef_font_descender</a>, respectively, and translate by that
 amount.  If you want to align the right edge or center instead of the left edge, you'll
-have to check the size the attributed string will require when drawn with
-<a href="#ef_attributed_string_size">ef_attributed_string_size</a>, and translate by
+have to check the size the text flow will require when drawn with
+<a href="#ef_text_flow_natural_size">ef_text_flow_natural_size</a>, and translate by
 the width it gives to right-align, or half that amount to center-align.</p>
 
 <p>So far, we've covered
 <span class="code">EF_Font</span>s,
 <span class="code">EF_Text_Attributes</span>es,
-and <span class="code">EF_Attributed_String</span>s.
+and basic use of <span class="code">EF_Text_Flow</span>s.
 If you skimmed the reference section before coming here, you're probably wondering how
-<span class="code">EF_Paragraph_Style</span>s and
-<span class="code">EF_Text_Flow</span>s
-come into the picture.  The answer is that there are two ways to draw.  We have just
-seen the "short path", which does not use a text-flow (actually, internally it does,
-but it spares us from creating one by hand).  This short path is useful for text that's
-to be used as titles or labels, which is a very frequent need in games.  However, it's
-not too good for paragraphs.  In particular there's no way to control wrapping or
-indendation.  We'll now add some text that uses a flow, the "long path".  Once we have
-a working example with a flow, we'll play a bit with paragraph styles.</p>
+<span class="code">EF_Paragraph_Style</span>s
+come into the picture.  The answer is that text is wrapped into paragraphs when and only
+when the text flow has its size set to something finite.  We'll now add some text that
+has multiple paragraphs.  Once we have a working example with paragraphs, we'll play a
+bit with paragraph styles.</p>
 
 <p>That's it for our main example, but I'm going to close this section with a little
 scrapbook of other snippets that exemplify parts of the text system that don't really
@@ -2342,7 +2322,7 @@ have minimal explanation here.</p>
 
 <p>Font attributes are not to be confused with text attributes, which are settings that
 control how text is laid out or drawn; text attributes are described in
-<a href="#S_reference_text_attributed_strings_text_attributes">their own section</a>.</p>
+<a href="#S_reference_text_text_flows_text_attributes">their own section</a>.</p>
 
 <a name="ef_font_horizontal_advancement_for_glyph"><h4>double ef_font_horizontal_advancement_for_glyph(EF_Font font, EF_Glyph glyph)</h4></a>
 
@@ -2417,79 +2397,75 @@ provided pointers may be NULL.</p>
 <p>Returns the smallest rectangle enclosing the given glyph in the given font.
 Any of the provided pointers may be NULL.</p>
 
-<a name="S_reference_text_attributed_strings"><h3>3.6.2. Text - Attributed Strings</h3></a>
+<a name="S_reference_text_text_flows"><h3>3.6.2. Text - Text Flows</h3></a>
 
-<p>An attributed string is the means by which your program communicates textual data to
+<p>A text flow is the means by which your program communicates textual data to
 Emerald Frame.  It consists conceptually of a plain string, with <i>attributes</i>
 such as font, color, and paragraph style associated with <i>runs</i> of text within the
 string.  Its actual representation is platform-dependent, but it has no size limit and
 is high-performance.</p>
 
-<a name="S_reference_text_attributed_strings_general"><h3>3.6.2.1. Text - Attributed Strings - General</h3></a>
+<a name="S_reference_text_text_flows_general"><h3>3.6.2.1. Text - Text Flows - General</h3></a>
 
-<a name="ef_text_new_attributed_string"><h4>EF_Attributed_String ef_text_new_attributed_string()</h4></a>
+<a name="ef_text_new_text_flow"><h4>EF_Text_Flow ef_text_new_text_flow()</h4></a>
 
-<p>This function allocates and returns a new attributed string with no text or
-attributes.</p>
+<p>This function allocates and returns a new text flow with no text or attributes.</p>
 
-<a name="ef_text_new_attributed_string_with_text"><h4>EF_Attributed_String ef_text_new_attributed_string_with_text(utf8 *text)</h4></a>
+<a name="ef_text_new_text_flow_with_text"><h4>EF_Text_Flow ef_text_new_text_flow_with_text(utf8 *text)</h4></a>
 
-<p>This function allocates and returns a new attributed string with (a copy of) the given
+<p>This function allocates and returns a new text flow with (a copy of) the given
 text, and no attributes.</p>
 
-<a name="ef_text_new_attributed_string_with_text_and_attributes"><h4>EF_Attributed_String
-  ef_text_new_attributed_string_with_text_and_attributes(utf8 *text,
-							 EF_Text_Attributes attributes)</h4></a>
+<a name="ef_text_new_text_flow_with_text_and_attributes"><h4>EF_Text_Flow
+  ef_text_new_text_flow_with_text_and_attributes(utf8 *text,
+					         EF_Text_Attributes attributes)</h4></a>
 
-<p>This function allocates and returns a new attributed string with (a copy of) the
+<p>This function allocates and returns a new text flow with (a copy of) the
 given text, and (copies of) the given attributes in a single run that spans the entire
 text.</p>
 
-<a name="ef_attributed_string_delete"><h4>void ef_attributed_string_delete(EF_Attributed_String attributed_string)</h4></a>
+<a name="ef_text_flow_delete"><h4>void ef_text_flow_delete(EF_Text_Flow text_flow)</h4></a>
 
-<p>This function disposes of an attributed string, freeing all the memory used for it,
+<p>This function disposes of a text flow, freeing all the memory used for it,
 its text, and its attribute runs.</p>
 
-<p>It is important to note that an attributed string must not be deleted while it belongs
-to a text flow.</p>
+<a name="ef_text_flow_text"><h4>utf8 *ef_text_flow_text(EF_Text_Flow text_flow)</h4></a>
 
-<a name="ef_attributed_string_text"><h4>utf8 *ef_attributed_string_text(EF_Attributed_String attributed_string)</h4></a>
-
-<p>This function returns a copy of the textual data contained in the given attributed
-string.  The copy is alllocated with <span class="code">malloc</span> and must be freed
+<p>This function returns a copy of the textual data contained in the given text flow.
+The copy is allocated with <span class="code">malloc</span> and must be freed
 with <span class="code">free</span>.</p>
 
-<a name="ef_attributed_string_length"><h4>int32_t ef_attributed_string_length(EF_Attributed_String attributed_string)</h4></a>
+<a name="ef_text_flow_length"><h4>int32_t ef_text_flow_length(EF_Text_Flow text_flow)</h4></a>
 
 <p>This function returns the number of characters comprising the textual data contained
-in the given allocated string.</p>
+in the given text flow.</p>
 
-<a name="ef_attributed_string_attributes_at_index"><h4>EF_Text_Attributes
-  ef_attributed_string_attributes_at_index(EF_Attributed_String attributed_string,
-					   int32_t index,
-					   int32_t *effective_start,
-					   int32_t *effective_end)</h4></a>
+<a name="ef_text_flow_attributes_at_index"><h4>EF_Text_Attributes
+  ef_text_flow_attributes_at_index(EF_Text_Flow text_flow,
+                                   int32_t index,
+                                   int32_t *effective_start,
+                                   int32_t *effective_end)</h4></a>
 
-<p>This function returns a copy of the attributes effective in the given attributed
-string at the given index, with zero being the start of the string.  If the index is
-out of bounds, behavior is undefined.  If either of
+<p>This function returns a copy of the attributes effective in the given text flow
+at the given index, with zero being the start.  If the index is out of bounds, behavior
+is undefined.  If either of
 <span class="code">effective_start</span>
 or
 <span class="code">effective_end</span>
 is not NULL, they are filled with the indices, respectively, of the start and end of the
-longest enclosing range of characters in the attributed string which Emerald Frame is
+longest enclosing range of characters in the text flow which Emerald Frame is
 easily able to determine to have the same attributes as the given index.</p>
 
 <p>The returned text-attributes object is freshly allocated, and must be freed with
 <a href="ef_text_attributes_delete">ef_text_attributes_delete</a>.</p>
 
-<a name="ef_attributed_string_enumerate_attributes"><h4>void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_string,
+<a name="ef_text_flow_enumerate_attributes"><h4>void ef_text_flow_enumerate_attributes(EF_Text_Flow text_flow,
 					       int (*callback)(EF_Text_Attributes
 							         text_attributes,
 							       int32_t start,
 							       int32_t end))</h4></a>
 
-<p>This function iterates through the given attributed string, calling the provided
+<p>This function iterates through the given text flow, calling the provided
 callback function on consecutive runs of attributes (not necessarily the longest possible
 such runs), such that the entire string is traversed in order.  The string can be
 mutated by the callback, but only the portion of it within the range passed; mutations
@@ -2501,41 +2477,52 @@ iteration to terminate immediately.</p>
 this function, so that client code does not need to do anything special in that
 regard.</p>
 
-<a name="ef_attributed_string_replace_text"><h4>void ef_attributed_string_replace_text(EF_Attributed_String attributed_string,
+<a name="ef_text_flow_replace_text"><h4>void ef_text_flow_replace_text(EF_Text_Flow text_flow,
 				       utf8 *text,
 				       int32_t start,
 				       int32_t end)</h4></a>
 
-<p>Modifies the given attributed string, replacing text in the range beginning at
+<p>Modifies the given text flow, replacing text in the range beginning at
 zero-based index <span class="code">start</span> and ending immediately before
 index <span class="code">end</span> with (a copy of) the given text.</p>
 
-<a name="ef_attributed_string_delete_text"><h4>void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
+<a name="ef_text_flow_delete_text"><h4>void ef_text_flow_delete_text(EF_Text_Flow text_flow,
 				      int32_t start,
 				      int32_t end)</h4></a>
 
-<p>Modifies the given attributed string, deleting text in the range beginning at
+<p>Modifies the given text flow, deleting text in the range beginning at
 zero-based index <span class="code">start</span> and ending immediately before
 index <span class="code">end</span>.</p>
 
-<a name="ef_attributed_string_set_attributes"><h4>void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
+<a name="ef_text_flow_set_attributes"><h4>void ef_text_flow_set_attributes(EF_Text_Flow text_flow,
 					 EF_Text_Attributes text_attributes,
 					 int32_t start,
 					 int32_t end)</h4></a>
 
-<p>Modifies the given attributed string, overwriting the attributes of the given range
+<p>Modifies the given text flow, overwriting the attributes of the given range
 with those in the given attributes.  Only the attributes which have been modified in
 the <span class="code">EF_Text_Attributes</span> since it was created are altered; other
-attributes already present in the attributed string for that range, if any, are
+attributes already present in the text flow for that range, if any, are
 preserved.  The range operated on begins at
 zero-based index <span class="code">start</span> and ends immediately before
 index <span class="code">end</span>.</p>
 
-<a name="S_reference_text_attributed_strings_drawing"><h3>3.6.2.2. Text - Attributed Strings - Drawing</h3></a>
-<a name="ef_attributed_string_draw"><h4>void ef_attributed_string_draw(EF_Attributed_String attributed_string,
+<a name="S_reference_text_text_flows_drawing"><h3>3.6.2.2. Text - Text Flows - Drawing</h3></a>
+
+<a name="ef_text_flow_natural_size"><h4>double ef_text_flow_natural_size(EF_Text_Flow text_flow, double *width, double *height)</h4></a>
+
+<p>Determines the size that the given text flow would require if drawn, and
+places this size in the locations pointed to by <span class="code">width</span> and
+<span class="code">height</span>, which may not be <span class="code">NULL</span>.</p>
+
+<a name="ef_text_flow_size"><h4>void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height)</h4></a>
+
+<a name="ef_text_flow_set_size"><h4>void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height)</h4></a>
+
+<a name="ef_text_flow_draw"><h4>void ef_text_flow_draw(EF_Text_Flow text_flow,
 			       EF_Drawable drawable)</h4></a>
 
-<p>Issues OpenGL calls which draw the given attributed string into the given drawable,
+<p>Issues OpenGL calls which draw the given text flow into the given drawable,
 with the left end (or, for vertical text, the top end) of the first baseline at the
 origin.  To draw text at another location, or to align text, simply perform a
 translation prior to this call.  Rotated text is also possible.  Furthermore, because
@@ -2545,13 +2532,7 @@ static text needs to be drawn repeatedly.  If you have a large amount of text wh
 changes, consider using a text flow instead of this function, as there is an efficiency
 gain.  Text flows are also the only way to achieve wrapping of text.</p>
 
-<a name="ef_attributed_string_size"><h4>double ef_attributed_string_size(EF_Attributed_String attributed_string, double *width, double *height)</h4></a>
-
-<p>Determines the size that the given attributed string would require if drawn, and
-places this size in the locations pointed to by <span class="code">width</span> and
-<span class="code">height</span>, which may not be <span class="code">NULL</span>.</p>
-
-<a name="S_reference_text_attributed_strings_text_attributes"><h3>3.6.2.3. Text - Attributed Strings - Text Attributes</h3></a>
+<a name="S_reference_text_text_flows_text_attributes"><h3>3.6.2.3. Text - Text Flows - Text Attributes</h3></a>
 
 <p>Text attributes describe how text is laid out or drawn.  They are applied to ranges
 of attributed strings.  A set of attributes is a separate object in its own right;
@@ -2702,7 +2683,7 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 <a name="ef_text_attributes_set_expansion"><h4>void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
 				      double expansion)</h4></a>
 
-<a name="S_reference_text_attributed_strings_paragraph_styles"><h3>3.6.2.4. Text - Attributed Strings - Paragraph Styles</h3></a>
+<a name="S_reference_text_text_flows_paragraph_styles"><h3>3.6.2.4. Text - Text Flows - Paragraph Styles</h3></a>
 
 <a name="ef_text_new_paragraph_style"><h4>EF_Paragraph_Style ef_text_new_paragraph_style()</h4></a>
 
@@ -2761,33 +2742,6 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 
 <a name="ef_paragraph_style_set_paragraph_spacing_before"><h4>void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
 						     double paragraph_spacing_before)</h4></a>
-
-<a name="S_reference_text_flows"><h3>3.6.3. Text - Flows</h3></a>
-
-<a name="S_reference_text_flows_general"><h3>3.6.3.1. Text - Flows - General</h3></a>
-
-<a name="ef_text_new_text_flow"><h4>void ef_text_new_text_flow(EF_Drawable drawable)</h4></a>
-
-<a name="ef_text_flow_delete"><h4>void ef_text_flow_delete(EF_Text_Flow text_flow)</h4></a>
-
-<a name="ef_text_flow_attributed_string"><h4>EF_Attributed_String ef_text_flow_attributed_string(EF_Text_Flow text_flow)</h4></a>
-
-<a name="ef_text_flow_set_attributed_string"><h4>void ef_text_flow_set_attributed_string(EF_Text_Flow text_flow,
-					EF_Attributed_String attributed_string)</h4></a>
-
-<a name="ef_text_flow_size"><h4>void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height)</h4></a>
-
-<a name="ef_text_flow_set_size"><h4>void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height)</h4></a>
-
-<a name="S_reference_text_flows_drawing"><h3>3.6.3.2. Text - Flows - Drawing</h3></a>
-
-<a name="ef_text_flow_draw"><h4>void ef_text_flow_draw(EF_Text_Flow text_flow)</h4></a>
-
-<a name="ef_text_flow_draw_background"><h4>void ef_text_flow_draw_background(EF_Text_Flow text_flow)</h4></a>
-
-<a name="ef_text_flow_draw_glyphs"><h4>void ef_text_flow_draw_glyphs(EF_Text_Flow text_flow)</h4></a>
-
-<a name="ef_text_flow_draw_decorations"><h4>void ef_text_flow_draw_decorations(EF_Text_Flow text_flow)</h4></a>
 
 <a name="S_reference_configuration"><h2>3.7. Configuration</h2></a>
 

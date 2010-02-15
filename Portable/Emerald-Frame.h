@@ -40,10 +40,9 @@ typedef void *EF_Display;
 typedef void *EF_Timer;
 typedef void *EF_Event;
 typedef void *EF_Font;
-typedef void *EF_Attributed_String;
+typedef void *EF_Text_Flow;
 typedef void *EF_Text_Attributes;
 typedef void *EF_Paragraph_Style;
-typedef void *EF_Text_Flow;
 typedef uint32_t EF_Keycode;
 typedef uint32_t EF_Modifiers;
 typedef uint32_t EF_Dead_Key_State;
@@ -290,41 +289,41 @@ void ef_font_glyph_bounding_rectangle(EF_Font font,
 				      double *width,
 				      double *height);
 
-// Text - Attributed Strings
-EF_Attributed_String ef_text_new_attributed_string();
-EF_Attributed_String ef_text_new_attributed_string_with_text(utf8 *text);
-EF_Attributed_String
-  ef_text_new_attributed_string_with_text_and_attributes(utf8 *text,
-							 EF_Text_Attributes attributes);
-void ef_attributed_string_delete(EF_Attributed_String attributed_string);
-utf8 *ef_attributed_string_text(EF_Attributed_String attributed_string);
-int32_t ef_attributed_string_length(EF_Attributed_String attributed_string);
-EF_Text_Attributes
-  ef_attributed_string_attributes_at_index(EF_Attributed_String attributed_string,
-					   int32_t index,
-					   int32_t *effective_start,
-					   int32_t *effective_end);
-void ef_attributed_string_enumerate_attributes(EF_Attributed_String attributed_string,
-					       int (*callback)(EF_Text_Attributes
-							         text_attributes,
-							       int32_t start,
-							       int32_t end));
-void ef_attributed_string_replace_text(EF_Attributed_String attributed_string,
-				       utf8 *text,
-				       int32_t start,
-				       int32_t end);
-void ef_attributed_string_delete_text(EF_Attributed_String attributed_string,
-				      int32_t start,
-				      int32_t end);
-void ef_attributed_string_set_attributes(EF_Attributed_String attributed_string,
-					 EF_Text_Attributes text_attributes,
-					 int32_t start,
-					 int32_t end);
-void ef_attributed_string_draw(EF_Attributed_String attributed_string,
-			       EF_Drawable drawable);
-void ef_attributed_string_size(EF_Attributed_String attributed_string,
+// Text - Flows
+EF_Text_Flow ef_text_new_text_flow();
+EF_Text_Flow ef_text_new_text_flow_with_text(utf8 *text);
+EF_Text_Flow
+  ef_text_new_text_flow_with_text_and_attributes(utf8 *text,
+						 EF_Text_Attributes attributes);
+void ef_text_flow_delete(EF_Text_Flow text_flow);
+utf8 *ef_text_flow_text(EF_Text_Flow text_flow);
+int32_t ef_text_flow_length(EF_Text_Flow text_flow);
+EF_Text_Attributes ef_text_flow_attributes_at_index(EF_Text_Flow text_flow,
+						    int32_t index,
+						    int32_t *effective_start,
+						    int32_t *effective_end);
+void ef_text_flow_enumerate_attributes(EF_Text_Flow text_flow,
+				       int (*callback)(EF_Text_Attributes
+						         text_attributes,
+						       int32_t start,
+						       int32_t end));
+void ef_text_flow_replace_text(EF_Text_Flow text_flow,
+			       utf8 *text,
+			       int32_t start,
+			       int32_t end);
+void ef_text_flow_delete_text(EF_Text_Flow text_flow,
+			      int32_t start,
+			      int32_t end);
+void ef_text_flow_set_attributes(EF_Text_Flow text_flow,
+				 EF_Text_Attributes text_attributes,
+				 int32_t start,
+				 int32_t end);
+void ef_text_flow_natural_size(EF_Text_Flow text_flow,
 			       double *width,
 			       double *height);
+void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height);
+void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height);
+void ef_text_flow_draw(EF_Text_Flow text_flow, EF_Drawable drawable);
 EF_Text_Attributes ef_text_new_attributes();
 void ef_text_attributes_delete(EF_Text_Attributes attributes);
 EF_Font ef_text_attributes_font(EF_Text_Attributes attributes);
@@ -446,19 +445,6 @@ void ef_paragraph_style_set_paragraph_spacing(EF_Paragraph_Style paragraph_style
 					      double paragraph_spacing);
 void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
 						     double paragraph_spacing_before);
-
-// Text - Flows
-void ef_text_new_text_flow(EF_Drawable drawable);
-void ef_text_flow_delete(EF_Text_Flow text_flow);
-EF_Attributed_String ef_text_flow_attributed_string(EF_Text_Flow text_flow);
-void ef_text_flow_set_attributed_string(EF_Text_Flow text_flow,
-					EF_Attributed_String attributed_string);
-void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height);
-void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height);
-void ef_text_flow_draw(EF_Text_Flow text_flow);
-void ef_text_flow_draw_background(EF_Text_Flow text_flow);
-void ef_text_flow_draw_glyphs(EF_Text_Flow text_flow);
-void ef_text_flow_draw_decorations(EF_Text_Flow text_flow);
 
 // Configuration
 utf8 *ef_configuration_resource_directory();

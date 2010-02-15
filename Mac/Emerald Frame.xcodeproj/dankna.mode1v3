@@ -362,7 +362,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 570}, {186, 445}}</string>
+							<string>{{0, 609}, {186, 445}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -409,7 +409,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E28191171128C57D00837E3D</string>
+										<string>E28191631129A6D500837E3D</string>
 										<key>history</key>
 										<array>
 											<string>E235D82E107F2A1800A7BD66</string>
@@ -438,7 +438,7 @@
 											<string>E2974A951124D32800A726F1</string>
 											<string>E2AF0476112530FA0063C4EF</string>
 											<string>E2AF056311261B200063C4EF</string>
-											<string>E2AF07B01128366D0063C4EF</string>
+											<string>E281915A1129A69E00837E3D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -621,7 +621,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>287884669.862791</real>
+	<real>287942357.36044002</real>
 	<key>ToolbarConfigUserDefaultsMinorVersion</key>
 	<string>2</string>
 	<key>ToolbarDisplayMode</key>
@@ -638,13 +638,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E28191181128C57D00837E3D</string>
+		<string>E28191641129A6D500837E3D</string>
 		<string>E28190E71128390800837E3D</string>
 		<string>E28190E81128390800837E3D</string>
+		<string>E235D6D5107EF2D000A7BD66</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/dankna/Projects/Emerald-Frame/Mac/Emerald Frame.xcodeproj</string>
-		<string>E235D6D5107EF2D000A7BD66</string>
 	</array>
 	<key>WindowString</key>
 	<string>506 353 788 504 0 0 1440 878 </string>
@@ -668,7 +668,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>Text.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -739,7 +739,7 @@
 			<key>WindowToolGUID</key>
 			<string>E235D6D5107EF2D000A7BD66</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
