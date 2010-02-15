@@ -453,11 +453,7 @@ void ef_text_flow_delete(EF_Text_Flow text_flow);
 EF_Attributed_String ef_text_flow_attributed_string(EF_Text_Flow text_flow);
 void ef_text_flow_set_attributed_string(EF_Text_Flow text_flow,
 					EF_Attributed_String attributed_string);
-double ef_text_flow_left(EF_Text_Flow text_flow);
-double ef_text_flow_top(EF_Text_Flow text_flow);
-void ef_text_flow_set_origin(EF_Text_Flow text_flow, double left, double top);
-double ef_text_flow_width(EF_Text_Flow text_flow);
-double ef_text_flow_height(EF_Text_Flow text_flow);
+void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height);
 void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height);
 void ef_text_flow_draw(EF_Text_Flow text_flow);
 void ef_text_flow_draw_background(EF_Text_Flow text_flow);

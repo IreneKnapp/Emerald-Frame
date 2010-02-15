@@ -891,7 +891,8 @@ void ef_attributed_string_draw(EF_Attributed_String attributed_string,
 					return NSMakePoint(point.x / 4.0,
 							   point.y / 4.0);
 				    });
-			     
+
+			     /*
 			     glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
 			     glBegin(GL_QUADS);
 			     glVertex2d(lineFragmentRect.origin.x,
@@ -911,6 +912,7 @@ void ef_attributed_string_draw(EF_Attributed_String attributed_string,
 					+ lineFragmentRect.size.height
 					+ [font descender]);
 			     glEnd();
+			     */
 			     
 			     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -943,9 +945,9 @@ void ef_attributed_string_draw(EF_Attributed_String attributed_string,
 					     break;
 					 
 					 NSPoint point = points[0];
-					 point.x = lineFragmentRect.origin.x
+					 point.x = - lineFragmentRect.origin.x
 					           + point.x;
-					 point.y = lineFragmentRect.origin.y
+					 point.y = - lineFragmentRect.origin.y
 					           - lineFragmentRect.size.height
 					           + [font pointSize] / 2.0
 					           + [font descender]
@@ -969,9 +971,9 @@ void ef_attributed_string_draw(EF_Attributed_String attributed_string,
 				 case NSLineToBezierPathElement:
 				     {
 					 NSPoint point = points[0];
-					 point.x = lineFragmentRect.origin.x
+					 point.x = - lineFragmentRect.origin.x
 					           + point.x;
-					 point.y = lineFragmentRect.origin.y
+					 point.y = - lineFragmentRect.origin.y
 					           - lineFragmentRect.size.height
 					           + [font pointSize] / 2.0
 					           + [font descender]
@@ -999,8 +1001,6 @@ void ef_attributed_string_draw(EF_Attributed_String attributed_string,
 				 }
 			     }
 			     gluTessEndPolygon(tesselator);
-			     
-			     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 			     
 			     if(lineFragmentGlyphRange.location
 				+ lineFragmentGlyphRange.length
@@ -1494,23 +1494,7 @@ void ef_text_flow_set_attributed_string(EF_Text_Flow text_flow,
 }
 
 
-double ef_text_flow_left(EF_Text_Flow text_flow) {
-}
-
-
-double ef_text_flow_top(EF_Text_Flow text_flow) {
-}
-
-
-void ef_text_flow_set_origin(EF_Text_Flow text_flow, double left, double top) {
-}
-
-
-double ef_text_flow_width(EF_Text_Flow text_flow) {
-}
-
-
-double ef_text_flow_height(EF_Text_Flow text_flow) {
+void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height) {
 }
 
 
