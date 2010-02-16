@@ -49,6 +49,7 @@ typedef uint32_t EF_Dead_Key_State;
 typedef uint32_t EF_Font_Weight;
 typedef uint32_t EF_Font_Traits;
 typedef uint32_t EF_Glyph;
+typedef uint32_t EF_Text_Attribute_Identifier;
 typedef uint32_t EF_Underline_Style;
 typedef uint32_t EF_Strikethrough_Style;
 typedef uint32_t EF_Ligature_Style;
@@ -106,6 +107,22 @@ typedef uint32_t utf32;
 #define EF_FONT_TRAIT_EXPANDED 0x0010
 #define EF_FONT_TRAIT_CONDENSED 0x0020
 #define EF_FONT_TRAIT_FIXED_PITCH 0x0040
+
+#define EF_TEXT_ATTRIBUTE_FONT 1
+#define EF_TEXT_ATTRIBUTE_PARAGRAPH_STYLE 2
+#define EF_TEXT_ATTRIBUTE_FOREGROUND_COLOR 3
+#define EF_TEXT_ATTRIBUTE_BACKGROUND_COLOR 4
+#define EF_TEXT_ATTRIBUTE_UNDERLINE_STYLE 5
+#define EF_TEXT_ATTRIBUTE_UNDERLINE_COLOR 6
+#define EF_TEXT_ATTRIBUTE_STRIKETHROUGH_STYLE 7
+#define EF_TEXT_ATTRIBUTE_STRIKETHROUGH_COLOR 8
+#define EF_TEXT_ATTRIBUTE_LIGATURE_STYLE 9
+#define EF_TEXT_ATTRIBUTE_BASELINE_OFFSET 10
+#define EF_TEXT_ATTRIBUTE_KERNING 11
+#define EF_TEXT_ATTRIBUTE_OUTLINE_STYLE 12
+#define EF_TEXT_ATTRIBUTE_STROKE_WIDTH 13
+#define EF_TEXT_ATTRIBUTE_OBLIQUENESS 14
+#define EF_TEXT_ATTRIBUTE_EXPANSION 15
 
 #define EF_UNDERLINE_STYLE_NONE 0
 #define EF_UNDERLINE_STYLE_SINGLE 1
@@ -318,6 +335,10 @@ void ef_text_flow_set_attributes(EF_Text_Flow text_flow,
 				 EF_Text_Attributes text_attributes,
 				 int32_t start,
 				 int32_t end);
+void ef_text_flow_remove_attribute(EF_Text_Flow text_flow,
+				   EF_Text_Attribute_Identifier text_attribute_type,
+				   int32_t start,
+				   int32_t end);
 void ef_text_flow_natural_size(EF_Text_Flow text_flow,
 			       double *width,
 			       double *height);
@@ -327,7 +348,6 @@ void ef_text_flow_draw(EF_Text_Flow text_flow, EF_Drawable drawable);
 EF_Text_Attributes ef_text_new_attributes();
 void ef_text_attributes_delete(EF_Text_Attributes attributes);
 EF_Font ef_text_attributes_font(EF_Text_Attributes attributes);
-int ef_text_attributes_paragraph_style_is_default(EF_Text_Attributes attributes);
 EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes);
 void ef_text_attributes_foreground_color(EF_Text_Attributes attributes,
 					 double *red,
@@ -354,7 +374,6 @@ void ef_text_attributes_strikethrough_color(EF_Text_Attributes attributes,
 					    double *green,
 					    double *blue,
 					    double *alpha);
-int ef_text_attributes_superscript(EF_Text_Attributes attributes);
 EF_Ligature_Style ef_text_attributes_ligature_style(EF_Text_Attributes attributes);
 double ef_text_attributes_baseline_offset(EF_Text_Attributes attributes);
 int ef_text_attributes_kerning_is_default(EF_Text_Attributes attributes);
@@ -364,7 +383,6 @@ double ef_text_attributes_stroke_width(EF_Text_Attributes attributes);
 double ef_text_attributes_obliqueness(EF_Text_Attributes attributes);
 double ef_text_attributes_expansion(EF_Text_Attributes attributes);
 void ef_text_attributes_set_font(EF_Text_Attributes attributes, EF_Font font);
-void ef_text_attributes_set_paragraph_style_default(EF_Text_Attributes attributes);
 void ef_text_attributes_set_paragraph_style(EF_Text_Attributes attributes,
 					    EF_Paragraph_Style paragraph_style);
 void ef_text_attributes_set_foreground_color(EF_Text_Attributes attributes,
@@ -379,7 +397,6 @@ void ef_text_attributes_set_background_color(EF_Text_Attributes attributes,
 					     double alpha);
 void ef_text_attributes_set_underline_style(EF_Text_Attributes attributes,
 					    EF_Underline_Style underline_style);
-void ef_text_attributes_set_underline_uncolored(EF_Text_Attributes attributes);
 void ef_text_attributes_set_underline_color(EF_Text_Attributes attributes,
 					    double red,
 					    double green,
@@ -388,19 +405,15 @@ void ef_text_attributes_set_underline_color(EF_Text_Attributes attributes,
 void
   ef_text_attributes_set_strikethrough_style(EF_Text_Attributes attributes,
 					     EF_Strikethrough_Style strikethrough_style);
-void ef_text_attributes_set_strikethrough_uncolored(EF_Text_Attributes attributes);
 void ef_text_attributes_set_strikethrough_color(EF_Text_Attributes attributes,
 						double red,
 						double green,
 						double blue,
 						double alpha);
-void ef_text_attributes_set_superscript(EF_Text_Attributes attributes,
-					int superscript);
 void ef_text_attributes_set_ligature_style(EF_Text_Attributes attributes,
 					   EF_Ligature_Style ligature_style);
 void ef_text_attributes_set_baseline_offset(EF_Text_Attributes attributes,
 					    double baseline_offset);
-void ef_text_attributes_set_kerning_default(EF_Text_Attributes attributes);
 void ef_text_attributes_set_kerning(EF_Text_Attributes attributes,
 				    double kerning);
 void ef_text_attributes_set_outline_style(EF_Text_Attributes attributes,
@@ -411,6 +424,21 @@ void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 					double obliqueness);
 void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
 				      double expansion);
+void ef_text_attributes_unset_font(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_paragraph_style(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_foreground_color(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_background_color(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_underline_style(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_underline_color(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_strikethrough_style(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_strikethrough_color(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_ligature_style(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_baseline_offset(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_kerning(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_outline_style(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_stroke_width(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_obliqueness(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_expansion(EF_Text_Attributes attributes);
 EF_Paragraph_Style ef_text_new_paragraph_style();
 void ef_paragraph_style_delete(EF_Paragraph_Style paragraph_style);
 EF_Paragraph_Alignment ef_paragraph_style_alignment(EF_Paragraph_Style paragraph_style);

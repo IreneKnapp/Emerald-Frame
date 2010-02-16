@@ -814,6 +814,15 @@ void ef_text_flow_set_attributes(EF_Text_Flow text_flow,
 }
 
 
+void ef_text_flow_remove_attribute(EF_Text_Flow text_flow,
+				   EF_Text_Attribute_Identifier
+				     text_attribute_identifier,
+				   int32_t start,
+				   int32_t end)
+{
+}
+
+
 void ef_text_flow_natural_size(EF_Text_Flow text_flow,
 			       double *width,
 			       double *height)
@@ -1152,10 +1161,6 @@ EF_Font ef_text_attributes_font(EF_Text_Attributes attributes) {
 }
 
 
-int ef_text_attributes_paragraph_style_is_default(EF_Text_Attributes attributes) {
-}
-
-
 EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes) {
 }
 
@@ -1211,10 +1216,6 @@ void ef_text_attributes_strikethrough_color(EF_Text_Attributes attributes,
 					    double *blue,
 					    double *alpha)
 {
-}
-
-
-int ef_text_attributes_superscript(EF_Text_Attributes attributes) {
 }
 
 
@@ -1326,12 +1327,6 @@ void ef_text_attributes_set_strikethrough_color(EF_Text_Attributes attributes,
 }
 
 
-void ef_text_attributes_set_superscript(EF_Text_Attributes attributes,
-					int superscript)
-{
-}
-
-
 void ef_text_attributes_set_ligature_style(EF_Text_Attributes attributes,
 					   EF_Ligature_Style ligature_style)
 {
@@ -1375,6 +1370,66 @@ void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
 				      double expansion)
 {
+}
+
+
+void ef_text_attributes_unset_font(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_paragraph_style(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_foreground_color(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_background_color(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_underline_style(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_underline_color(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_strikethrough_style(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_strikethrough_color(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_ligature_style(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_baseline_offset(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_kerning(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_outline_style(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_stroke_width(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_obliqueness(EF_Text_Attributes attributes) {
+}
+
+
+void ef_text_attributes_unset_expansion(EF_Text_Attributes attributes) {
 }
 
 

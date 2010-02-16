@@ -258,6 +258,7 @@ div.title {
 <li><a href="#ef_text_flow_replace_text"><span class="code">ef_text_flow_replace_text</span></a></li>
 <li><a href="#ef_text_flow_delete_text"><span class="code">ef_text_flow_delete_text</span></a></li>
 <li><a href="#ef_text_flow_set_attributes"><span class="code">ef_text_flow_set_attributes</span></a></li>
+<li><a href="#ef_text_flow_remove_attribute"><span class="code">ef_text_flow_remove_attribute</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_text_flows_drawing"><b>3.6.2.2.</b> Drawing</a> <ul>
 <li><a href="#ef_text_flow_natural_size"><span class="code">ef_text_flow_natural_size</span></a></li>
@@ -269,7 +270,6 @@ div.title {
 <li><a href="#ef_text_new_attributes"><span class="code">ef_text_new_attributes</span></a></li>
 <li><a href="#ef_text_attributes_delete"><span class="code">ef_text_attributes_delete</span></a></li>
 <li><a href="#ef_text_attributes_font"><span class="code">ef_text_attributes_font</span></a></li>
-<li><a href="#ef_text_attributes_paragraph_style_is_default"><span class="code">ef_text_attributes_paragraph_style_is_default</span></a></li>
 <li><a href="#ef_text_attributes_paragraph_style"><span class="code">ef_text_attributes_paragraph_style</span></a></li>
 <li><a href="#ef_text_attributes_foreground_color"><span class="code">ef_text_attributes_foreground_color</span></a></li>
 <li><a href="#ef_text_attributes_background_color"><span class="code">ef_text_attributes_background_color</span></a></li>
@@ -279,7 +279,6 @@ div.title {
 <li><a href="#ef_text_attributes_strikethrough_style"><span class="code">ef_text_attributes_strikethrough_style</span></a></li>
 <li><a href="#ef_text_attributes_strikethrough_is_colored"><span class="code">ef_text_attributes_strikethrough_is_colored</span></a></li>
 <li><a href="#ef_text_attributes_strikethrough_color"><span class="code">ef_text_attributes_strikethrough_color</span></a></li>
-<li><a href="#ef_text_attributes_superscript"><span class="code">ef_text_attributes_superscript</span></a></li>
 <li><a href="#ef_text_attributes_ligature_style"><span class="code">ef_text_attributes_ligature_style</span></a></li>
 <li><a href="#ef_text_attributes_baseline_offset"><span class="code">ef_text_attributes_baseline_offset</span></a></li>
 <li><a href="#ef_text_attributes_kerning_is_default"><span class="code">ef_text_attributes_kerning_is_default</span></a></li>
@@ -289,25 +288,35 @@ div.title {
 <li><a href="#ef_text_attributes_obliqueness"><span class="code">ef_text_attributes_obliqueness</span></a></li>
 <li><a href="#ef_text_attributes_expansion"><span class="code">ef_text_attributes_expansion</span></a></li>
 <li><a href="#ef_text_attributes_set_font"><span class="code">ef_text_attributes_set_font</span></a></li>
-<li><a href="#ef_text_attributes_set_paragraph_style_default"><span class="code">ef_text_attributes_set_paragraph_style_default</span></a></li>
 <li><a href="#ef_text_attributes_set_paragraph_style"><span class="code">ef_text_attributes_set_paragraph_style</span></a></li>
 <li><a href="#ef_text_attributes_set_foreground_color"><span class="code">ef_text_attributes_set_foreground_color</span></a></li>
 <li><a href="#ef_text_attributes_set_background_color"><span class="code">ef_text_attributes_set_background_color</span></a></li>
 <li><a href="#ef_text_attributes_set_underline_style"><span class="code">ef_text_attributes_set_underline_style</span></a></li>
-<li><a href="#ef_text_attributes_set_underline_uncolored"><span class="code">ef_text_attributes_set_underline_uncolored</span></a></li>
 <li><a href="#ef_text_attributes_set_underline_color"><span class="code">ef_text_attributes_set_underline_color</span></a></li>
 <li><a href="#ef_text_attributes_set_strikethrough_style"><span class="code">ef_text_attributes_set_strikethrough_style</span></a></li>
-<li><a href="#ef_text_attributes_set_strikethrough_uncolored"><span class="code">ef_text_attributes_set_strikethrough_uncolored</span></a></li>
 <li><a href="#ef_text_attributes_set_strikethrough_color"><span class="code">ef_text_attributes_set_strikethrough_color</span></a></li>
-<li><a href="#ef_text_attributes_set_superscript"><span class="code">ef_text_attributes_set_superscript</span></a></li>
 <li><a href="#ef_text_attributes_set_ligature_style"><span class="code">ef_text_attributes_set_ligature_style</span></a></li>
 <li><a href="#ef_text_attributes_set_baseline_offset"><span class="code">ef_text_attributes_set_baseline_offset</span></a></li>
-<li><a href="#ef_text_attributes_set_kerning_default"><span class="code">ef_text_attributes_set_kerning_default</span></a></li>
 <li><a href="#ef_text_attributes_set_kerning"><span class="code">ef_text_attributes_set_kerning</span></a></li>
 <li><a href="#ef_text_attributes_set_outline_style"><span class="code">ef_text_attributes_set_outline_style</span></a></li>
 <li><a href="#ef_text_attributes_set_stroke_width"><span class="code">ef_text_attributes_set_stroke_width</span></a></li>
 <li><a href="#ef_text_attributes_set_obliqueness"><span class="code">ef_text_attributes_set_obliqueness</span></a></li>
 <li><a href="#ef_text_attributes_set_expansion"><span class="code">ef_text_attributes_set_expansion</span></a></li>
+<li><a href="#ef_text_attributes_unset_font"><span class="code">ef_text_attributes_unset_font</span></a></li>
+<li><a href="#ef_text_attributes_unset_paragraph_style"><span class="code">ef_text_attributes_unset_paragraph_style</span></a></li>
+<li><a href="#ef_text_attributes_unset_foreground_color"><span class="code">ef_text_attributes_unset_foreground_color</span></a></li>
+<li><a href="#ef_text_attributes_unset_background_color"><span class="code">ef_text_attributes_unset_background_color</span></a></li>
+<li><a href="#ef_text_attributes_unset_underline_style"><span class="code">ef_text_attributes_unset_underline_style</span></a></li>
+<li><a href="#ef_text_attributes_unset_underline_color"><span class="code">ef_text_attributes_unset_underline_color</span></a></li>
+<li><a href="#ef_text_attributes_unset_strikethrough_style"><span class="code">ef_text_attributes_unset_strikethrough_style</span></a></li>
+<li><a href="#ef_text_attributes_unset_strikethrough_color"><span class="code">ef_text_attributes_unset_strikethrough_color</span></a></li>
+<li><a href="#ef_text_attributes_unset_ligature_style"><span class="code">ef_text_attributes_unset_ligature_style</span></a></li>
+<li><a href="#ef_text_attributes_unset_baseline_offset"><span class="code">ef_text_attributes_unset_baseline_offset</span></a></li>
+<li><a href="#ef_text_attributes_unset_kerning"><span class="code">ef_text_attributes_unset_kerning</span></a></li>
+<li><a href="#ef_text_attributes_unset_outline_style"><span class="code">ef_text_attributes_unset_outline_style</span></a></li>
+<li><a href="#ef_text_attributes_unset_stroke_width"><span class="code">ef_text_attributes_unset_stroke_width</span></a></li>
+<li><a href="#ef_text_attributes_unset_obliqueness"><span class="code">ef_text_attributes_unset_obliqueness</span></a></li>
+<li><a href="#ef_text_attributes_unset_expansion"><span class="code">ef_text_attributes_unset_expansion</span></a></li>
 </ul></li>
 <li><a href="#S_reference_text_text_flows_paragraph_styles"><b>3.6.2.4.</b> Paragraph Styles</a> <ul>
 <li><a href="#ef_text_new_paragraph_style"><span class="code">ef_text_new_paragraph_style</span></a></li>
@@ -1088,11 +1097,43 @@ the width it gives to right-align, or half that amount to center-align.</p>
 <span class="code">EF_Text_Attributes</span>,
 and basic use of <span class="code">EF_Text_Flow</span>.
 If you skimmed the reference section before coming here, you're probably wondering how
-<span class="code">EF_Paragraph_Style</span>s
-come into the picture.  The answer is that text is wrapped into paragraphs when and only
+<span class="code">EF_Paragraph_Style</span>
+comes into the picture.  The answer is that text is wrapped into paragraphs when and only
 when the text flow has its size set to something finite.  We'll now add some text that
 has multiple paragraphs.  Once we have a working example with paragraphs, we'll play a
 bit with paragraph styles.</p>
+
+<p>Right after the line in <span class="code">main</span> that initializes
+<span class="code">label</span>, add the following:</p>
+
+<div class="code">    paragraphs = ef_text_new_text_flow_with_text_and_attributes
+	((utf8 *) "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Vestibulum purus tellus, fermentum a dictum nec, pulvinar ac nibh.  Suspendisse potenti.  Mauris fringilla consectetur volutpat.  Fusce sed sem non augue eleifend faucibus at a augue.  Donec consectetur, neque in vehicula vulputate, magna magna iaculis ante, eget sodales est metus vel nisi.\nSed non quam a dolor aliquam accumsan eu id augue.  Pellentesque hendrerit nisl at nulla porta vel vestibulum neque sodales.  Maecenas malesuada leo vitae est varius viverra ultrices massa lobortis.  Duis ac porttitor est.  Maecenas eu libero nibh, et tempor nisl.\nPraesent fringilla augue id risus euismod commodo eu at massa.  Nullam tortor arcu, facilisis in sodales at, consectetur vel dolor.  Quisque non mauris bibendum dolor rhoncus vehicula ac vel mi.  Suspendisse eu quam a orci blandit volutpat a vel risus.  Proin ac dui eu diam dapibus bibendum.  Proin sagittis facilisis sagittis.  In hac habitasse platea dictumst.  Maecenas eu ante vitae massa dictum tincidunt.  Suspendisse sit amet porttitor diam.",
+	 attributes);
+    
+    ef_text_flow_set_size(paragraphs, 640.0, INFINITY);
+</div>
+
+<p>At the top of the file, add the following line:</p>
+
+<div class="code">#include "math.h"
+</div>
+
+<p>Now build and run.  You will see the text wrapped into paragraphs.  However, it's
+a litle difficult to make out the boundaries, because there's neither a gap between
+them nor any indentation.  Let's add a paragraph style that resolves that.</p>
+
+<p>Immediately after the call to <span class="code">ef_text_flow_set_size</span>,
+add the following lines:</p>
+
+<div class="code">    EF_Paragraph_Style paragraph_style = ef_text_new_paragraph_style();
+    ef_paragraph_style_set_first_line_head_indent(paragraph_style, 96.0);
+    ef_text_attributes_set_paragraph_style(attributes, paragraph_style);
+    ef_paragraph_style_delete(paragraph_style);
+</div>
+
+<p>Now build and run again.  The indentation should make it clearer where the paragraph
+boundaries are.  You should now take some time to play around with other text attribute
+and paragraph styles, to explore their effects.  Have fun!</p>
 
 <p>That's it for our main example, but I'm going to close this section with a little
 scrapbook of other snippets that exemplify parts of the text system that don't really
@@ -2409,7 +2450,9 @@ is high-performance.</p>
 
 <a name="ef_text_new_text_flow"><h4>EF_Text_Flow ef_text_new_text_flow()</h4></a>
 
-<p>This function allocates and returns a new text flow with no text or attributes.</p>
+<p>This function allocates and returns a new text flow with no text or attributes, and
+width and height of <span class="code">INFINITY</span>, which suppresses line
+wrapping.</p>
 
 <a name="ef_text_new_text_flow_with_text"><h4>EF_Text_Flow ef_text_new_text_flow_with_text(utf8 *text)</h4></a>
 
@@ -2500,10 +2543,20 @@ index <span class="code">end</span>.</p>
 					 int32_t end)</h4></a>
 
 <p>Modifies the given text flow, overwriting the attributes of the given range
-with those in the given attributes.  Only the attributes which have been modified in
-the <span class="code">EF_Text_Attributes</span> since it was created are altered; other
+with those in the given attributes.  Only the attributes which are set in
+the <span class="code">EF_Text_Attributes</span> are altered; other
 attributes already present in the text flow for that range, if any, are
 preserved.  The range operated on begins at
+zero-based index <span class="code">start</span> and ends immediately before
+index <span class="code">end</span>.</p>
+
+<a name="ef_text_flow_remove_attribute"><h4>void ef_text_flow_remove_attribute(EF_Text_Flow text_flow,
+				   EF_Text_Attribute_Identifier text_attribute_type,
+				   int32_t start,
+				   int32_t end)</h4></a>
+
+<p>Modifies the given text flow, removing the identified attribute from the given range.
+The range operated on begins at
 zero-based index <span class="code">start</span> and ends immediately before
 index <span class="code">end</span>.</p>
 
@@ -2535,21 +2588,21 @@ gain.  Text flows are also the only way to achieve wrapping of text.</p>
 <a name="S_reference_text_text_flows_text_attributes"><h3>3.6.2.3. Text - Text Flows - Text Attributes</h3></a>
 
 <p>Text attributes describe how text is laid out or drawn.  They are applied to ranges
-of attributed strings.  A set of attributes is a separate object in its own right;
+of text flows.  A set of attributes is a separate object in its own right;
 typically, you will allocate an <span class="code">EF_Text_Attributes</span> object
 with <a href="#ef_text_new_attributes">ef_text_new_attributes</a>, configure it with the
-other functions in this section, apply it to an attributed string with
-<a href="#ef_attributed_string_set_attributes">ef_attributed_string_set_attributes</a>,
+other functions in this section, apply it to a text flow with
+<a href="#ef_text_flow_set_attributes">ef_text_flow_set_attributes</a>,
 and then dispose of it with
 <a href="#ef_text_attributes_delete">ef_text_attributes_delete</a>.  However, you might
 not always delete it immediately, so as to apply it to more than one range of text.</p>
 
-<p>It is important to note that <span class="code">EF_Attributed_String</span> objects
+<p>It is important to note that <span class="code">EF_Text_Flow</span> objects
 neither contain nor reference <span class="code">EF_Text_Attributes</span> objects;
 rather, they contain the same information, but in some platform-specific form.  This
 vastly simplifies the memory management associated with them, because they own all the
-data they contain and are responsible for freeing it as appropriate.  Therefore an
-attributed string will never in any sense take ownership of a text-attributes object;
+data they contain and are responsible for freeing it as appropriate.  Therefore a
+text flow will never in any sense take ownership of a text-attributes object;
 you always have to free anything you allocate.</p>
 
 <p>Text attributes are not to be confused with font attributes, which are metrics that
@@ -2558,13 +2611,22 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 
 <a name="ef_text_new_attributes"><h4>EF_Text_Attributes ef_text_new_attributes()</h4></a>
 
+<p>Allocates and returns a new text-attributes object, with all attributes initially
+unset.</p>
+
 <a name="ef_text_attributes_delete"><h4>void ef_text_attributes_delete(EF_Text_Attributes attributes)</h4></a>
+
+<p>Releases the memory used by the given text-attributes object.</p>
 
 <a name="ef_text_attributes_font"><h4>EF_Font ef_text_attributes_font(EF_Text_Attributes attributes)</h4></a>
 
-<a name="ef_text_attributes_paragraph_style_is_default"><h4>int ef_text_attributes_paragraph_style_is_default(EF_Text_Attributes attributes)</h4></a>
+<p>Returns the font attribute of the given text-attributes object, or
+<span class="code">NULL</span> if it is unset.</p>
 
 <a name="ef_text_attributes_paragraph_style"><h4>EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns the paragraph-style object set in the given text-attributes object, or
+<span class="code">NULL</span> if it is unset.</p>
 
 <a name="ef_text_attributes_foreground_color"><h4>void ef_text_attributes_foreground_color(EF_Text_Attributes attributes,
 					 double *red,
@@ -2572,15 +2634,31 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 					 double *blue,
 					 double *alpha)</h4></a>
 
+<p>Returns the foreground color of the given text-attributes object in the provided
+pointers, which must not be <span class="code">NULL</span>.  The value for each channel
+ranges from <span class="code">0.0</span> to <span class="code">1.0</span>.  If the
+foreground color is unset, the pointers are not modified.</p>
+
 <a name="ef_text_attributes_background_color"><h4>void ef_text_attributes_background_color(EF_Text_Attributes attributes,
 					 double *red,
 					 double *green,
 					 double *blue,
 					 double *alpha)</h4></a>
 
+<p>Returns the background color of the given text-attributes object in the provided
+pointers, which must not be <span class="code">NULL</span>.  The value for each channel
+ranges from <span class="code">0.0</span> to <span class="code">1.0</span>.  If the
+background color is unset, the pointers are not modified.</p>
+
 <a name="ef_text_attributes_underline_style"><h4>EF_Underline_Style ef_text_attributes_underline_style(EF_Text_Attributes attributes)</h4></a>
 
+<p>Returns the underline style of the given text-attributes object, or
+<span class="code">EF_UNDERLINE_STYLE_NONE</span> if it is unset.</p>
+
 <a name="ef_text_attributes_underline_is_colored"><h4>int ef_text_attributes_underline_is_colored(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns <span class="code">1</span> if the given text-attributes object has an
+underline color set, or <span class="code">0</span> if it does not.</p>
 
 <a name="ef_text_attributes_underline_color"><h4>void ef_text_attributes_underline_color(EF_Text_Attributes attributes,
 					double *red,
@@ -2588,9 +2666,20 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 					double *blue,
 					double *alpha)</h4></a>
 
+<p>Returns the underline color of the given text-attributes object in the provided
+pointers, which must not be <span class="code">NULL</span>.  The value for each channel
+ranges from <span class="code">0.0</span> to <span class="code">1.0</span>.  If the
+underline color is unset, the pointers are not modified.</p>
+
 <a name="ef_text_attributes_strikethrough_style"><h4>EF_Strikethrough_Style ef_text_attributes_strikethrough_style(EF_Text_Attributes attributes)</h4></a>
 
+<p>Returns the strikethrough style of the given text-attributes object, or
+<span class="code">EF_STRIKETHROUGH_STYLE_NONE</span> if it is unset.</p>
+
 <a name="ef_text_attributes_strikethrough_is_colored"><h4>int ef_text_attributes_strikethrough_is_colored(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns <span class="code">1</span> if the given text-attributes object has a
+strikethrough color set, or <span class="code">0</span> if it does not.</p>
 
 <a name="ef_text_attributes_strikethrough_color"><h4>void ef_text_attributes_strikethrough_color(EF_Text_Attributes attributes,
 					    double *red,
@@ -2598,30 +2687,64 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 					    double *blue,
 					    double *alpha)</h4></a>
 
-<a name="ef_text_attributes_superscript"><h4>int ef_text_attributes_superscript(EF_Text_Attributes attributes)</h4></a>
+<p>Returns the strikethrough color of the given text-attributes object in the provided
+pointers, which must not be <span class="code">NULL</span>.  The value for each channel
+ranges from <span class="code">0.0</span> to <span class="code">1.0</span>.  If the
+strikethrough color is unset, the pointers are not modified.</p>
 
 <a name="ef_text_attributes_ligature_style"><h4>EF_Ligature_Style ef_text_attributes_ligature_style(EF_Text_Attributes attributes)</h4></a>
 
+<p>Returns the ligature style of the given text-attributes object, or
+<span class="code">EF_LIGATURE_STYLE_STANDARD</span> if it is unset.</p>
+
 <a name="ef_text_attributes_baseline_offset"><h4>double ef_text_attributes_baseline_offset(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns the baseline offset, in abstract points with positive being upward, of the
+given text-attributes object, or <span class="code">0.0</span> if it is unset.</p>
 
 <a name="ef_text_attributes_kerning_is_default"><h4>int ef_text_attributes_kerning_is_default(EF_Text_Attributes attributes)</h4></a>
 
+<p>Returns <span class="code">1</span> if the given text-attributes object has
+kerning set to default mode or has kerning unset, or <span class="code">0</span>
+if it has kerning set to custom mode.</span>
+
 <a name="ef_text_attributes_kerning"><h4>double ef_text_attributes_kerning(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns the custom kerning amount set in the given text-attributes object,
+in abstract points, with positive being further apart, or <span class="code">0.0</span>
+if kerning is set to default mode or is unset.</p>
 
 <a name="ef_text_attributes_outline_style"><h4>EF_Outline_Style ef_text_attributes_outline_style(EF_Text_Attributes attributes)</h4></a>
 
+<p>Returns the outlining mode set in the given text-attributes object, or
+<span class="code">EF_OUTLINE_STYLE_FILL_ONLY</span> if it is unset.</span>
+
 <a name="ef_text_attributes_stroke_width"><h4>double ef_text_attributes_stroke_width(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns the stroke width for outlining set in the given text-attributes object,
+in abstract points, or <span class="code">0.0</span> if it is unset.</p>
 
 <a name="ef_text_attributes_obliqueness"><h4>double ef_text_attributes_obliqueness(EF_Text_Attributes attributes)</h4></a>
 
+<p>Returns the obliqueness set in the given text-attributes object, as degrees
+clockwise, or <span class="code">0.0</span> if it is unset.</p>
+
 <a name="ef_text_attributes_expansion"><h4>double ef_text_attributes_expansion(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns the expansion or contraction set in the given text-attributes object,
+as abstract points, with positive being expansion, or <span class="code">0.0</span>
+if it is unset.</p>
 
 <a name="ef_text_attributes_set_font"><h4>void ef_text_attributes_set_font(EF_Text_Attributes attributes, EF_Font font)</h4></a>
 
-<a name="ef_text_attributes_set_paragraph_style_default"><h4>void ef_text_attributes_set_paragraph_style_default(EF_Text_Attributes attributes)</h4></a>
+<p>Sets the font attribute of the given text-attributes object to (a copy of) the given
+font object.</p>
 
 <a name="ef_text_attributes_set_paragraph_style"><h4>void ef_text_attributes_set_paragraph_style(EF_Text_Attributes attributes,
 					    EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Sets the paragraph-style attribute of the given text-attributes object to (a copy of)
+the given paragraph-style object.</p>
 
 <a name="ef_text_attributes_set_foreground_color"><h4>void ef_text_attributes_set_foreground_color(EF_Text_Attributes attributes,
 					     double red,
@@ -2629,16 +2752,25 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 					     double blue,
 					     double alpha)</h4></a>
 
+<p>Sets the foreground-color attribute of the given text-attributes object to the
+provided color.  The value for each channel ranges from <span class="code">0.0</span>
+to <span class="code">1.0</span>.</p>
+
 <a name="ef_text_attributes_set_background_color"><h4>void ef_text_attributes_set_background_color(EF_Text_Attributes attributes,
 					     double red,
 					     double green,
 					     double blue,
 					     double alpha)</h4></a>
 
+<p>Sets the background-color attribute of the given text-attributes object to the
+provided color.  The value for each channel ranges from <span class="code">0.0</span>
+to <span class="code">1.0</span>.</p>
+
 <a name="ef_text_attributes_set_underline_style"><h4>void ef_text_attributes_set_underline_style(EF_Text_Attributes attributes,
 				            EF_Underline_Style underline_style)</h4></a>
 
-<a name="ef_text_attributes_set_underline_uncolored"><h4>void ef_text_attributes_set_underline_uncolored(EF_Text_Attributes attributes)</h4></a>
+<p>Sets the underline-style attribute of the given text-attributes object to the
+provided underline style.</p>
 
 <a name="ef_text_attributes_set_underline_color"><h4>void ef_text_attributes_set_underline_color(EF_Text_Attributes attributes,
 					    double red,
@@ -2646,10 +2778,15 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 					    double blue,
 					    double alpha)</h4></a>
 
+<p>Sets the underline-color attribute of the given text-attributes object to the
+provided color.  The value for each channel ranges from <span class="code">0.0</span>
+to <span class="code">1.0</span>.</p>
+
 <a name="ef_text_attributes_set_strikethrough_style"><h4>void ef_text_attributes_strikethrough(EF_Text_Attributes attributes,
 				                EF_Strikethrough_Style strikethrough_style)</h4></a>
 
-<a name="ef_text_attributes_set_strikethrough_uncolored"><h4>void ef_text_attributes_set_strikethrough_uncolored(EF_Text_Attributes attributes)</h4></a>
+<p>Sets the strikethrough-style attribute of the given text-attributes object to the
+provided strikethrough style.</p>
 
 <a name="ef_text_attributes_set_strikethrough_color"><h4>void ef_text_attributes_set_strikethrough_color(EF_Text_Attributes attributes,
 						double red,
@@ -2657,91 +2794,235 @@ described in <a href="#S_reference_text_fonts_font_attributes">their own section
 						double blue,
 						double alpha)</h4></a>
 
-<a name="ef_text_attributes_set_superscript"><h4>void ef_text_attributes_set_superscript(EF_Text_Attributes attributes,
-					int superscript)</h4></a>
+<p>Sets the strikethrough-color attribute of the given text-attributes object to the
+provided color.  The value for each channel ranges from <span class="code">0.0</span>
+to <span class="code">1.0</span>.</p>
 
 <a name="ef_text_attributes_set_ligature_style"><h4>void ef_text_attributes_set_ligature_style(EF_Text_Attributes attributes,
 					   EF_Ligature_Style ligature_style)</h4></a>
 
+<p>Sets the ligature-style attribute of the given text-attributes object to the provided
+ligature style.</p>
+
 <a name="ef_text_attributes_set_baseline_offset"><h4>void ef_text_attributes_set_baseline_offset(EF_Text_Attributes attributes,
 					    double baseline_offset)</h4></a>
 
-<a name="ef_text_attributes_set_kerning_default"><h4>void ef_text_attributes_set_kerning_default(EF_Text_Attributes attributes)</h4></a>
+<p>Sets the baseline-offset attribute of the given text-attributes object to the provided
+baseline offset, in abstract points with positive being upward.</p>
 
 <a name="ef_text_attributes_set_kerning"><h4>void ef_text_attributes_set_kerning(EF_Text_Attributes attributes,
 				    double kerning)</h4></a>
 
+<p>Sets the kerning of the given text-attributes object to custom mode (as opposed to
+default mode) and sets the custom kerning amount of it to the given amount, in abstract
+points, with positive being further apart.</p>
+
 <a name="ef_text_attributes_set_outline_style"><h4>void ef_text_attributes_set_outline_style(EF_Text_Attributes attributes,
 				          EF_Outline_Style outline_style)</h4></a>
+
+<p>Sets the outline-style attribute of the given text-attributes object to the given
+outline style.</p>
 
 <a name="ef_text_attributes_set_stroke_width"><h4>void ef_text_attributes_set_stroke_width(EF_Text_Attributes attributes,
 				         double stroke_width)</h4></a>
 
+<p>Sets the stroke-width-for-outlining attribute of the given text-attributes object
+to the given stroke width, in abstract points.</p>
+
 <a name="ef_text_attributes_set_obliqueness"><h4>void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 					double obliqueness)</h4></a>
 
+<p>Sets the obliqueness attribute of the given text-attributes object to the given
+obliqueness, as degrees clockwise.</p>
+
 <a name="ef_text_attributes_set_expansion"><h4>void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
 				      double expansion)</h4></a>
+
+<p>Sets the expansion-or-contraction attribute of the given text-attributes object to
+the given value, as abstract points, with positive being expansion.</p>
+
+<a name="ef_text_attributes_unset_font"><h4>void ef_text_attributes_unset_font(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the font attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_paragraph_style"><h4>void ef_text_attributes_unset_paragraph_style(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the paragraph-style attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_foreground_color"><h4>void ef_text_attributes_unset_foreground_color(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the foreground-color attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_background_color"><h4>void ef_text_attributes_unset_background_color(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the background-color attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_underline_style"><h4>void ef_text_attributes_unset_underline_style(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the underline-style attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_underline_color"><h4>void ef_text_attributes_unset_underline_color(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the underline-color attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_strikethrough_style"><h4>void ef_text_attributes_unset_strikethrough_style(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the strikethrough-style attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_strikethrough_color"><h4>void ef_text_attributes_unset_strikethrough_color(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the strikethrough-color attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_ligature_style"><h4>void ef_text_attributes_unset_ligature_style(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the ligature-style attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_baseline_offset"><h4>void ef_text_attributes_unset_baseline_offset(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the baseline-offset attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_kerning"><h4>void ef_text_attributes_unset_kerning(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the custom-kerning attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_outline_style"><h4>void ef_text_attributes_unset_outline_style(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the outline-style attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_stroke_width"><h4>void ef_text_attributes_unset_stroke_width(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the stroke-width attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_obliqueness"><h4>void ef_text_attributes_unset_obliqueness(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the obliqueness attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_expansion"><h4>void ef_text_attributes_unset_expansion(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the expansion attribute of the given text-attributes object.</p>
 
 <a name="S_reference_text_text_flows_paragraph_styles"><h3>3.6.2.4. Text - Text Flows - Paragraph Styles</h3></a>
 
 <a name="ef_text_new_paragraph_style"><h4>EF_Paragraph_Style ef_text_new_paragraph_style()</h4></a>
 
+<p>Allocates and returns a new paragraph-style object.</p>
+
 <a name="ef_paragraph_style_delete"><h4>void ef_paragraph_style_delete(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Releases the memory used by a paragraph-style object.</p>
 
 <a name="ef_paragraph_style_alignment"><h4>EF_Paragraph_Alignment ef_paragraph_style_alignment(EF_Paragraph_Style paragraph_style)</h4></a>
 
+<p>Returns the paragraph-alignment attribute of the given paragraph-style object.</p>
+
 <a name="ef_paragraph_style_first_line_head_indent"><h4>double ef_paragraph_style_first_line_head_indent(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Returns the first-line-head-indent attribute of the given paragraph-style object.</p>
 
 <a name="ef_paragraph_style_head_indent"><h4>double ef_paragraph_style_head_indent(EF_Paragraph_Style paragraph_style)</h4></a>
 
+<p>Returns the head-indent attribute of the given paragraph-style object.</p>
+
 <a name="ef_paragraph_style_tail_indent"><h4>double ef_paragraph_style_tail_indent(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Returns the tail-indent attribute of the given paragraph-style object.</p>
 
 <a name="ef_paragraph_style_line_height_multiple"><h4>double ef_paragraph_style_line_height_multiple(EF_Paragraph_Style paragraph_style)</h4></a>
 
+<p>Returns the line-indent-multiple attribute of the given paragraph-style object.</p>
+
 <a name="ef_paragraph_style_minimum_line_height"><h4>double ef_paragraph_style_minimum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Returns the minimum-line-height attribute of the given paragraph-style object.</p>
 
 <a name="ef_paragraph_style_has_maximum_line_height"><h4>int ef_paragraph_style_has_maximum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
 
+<p>Returns whether the given paragraph-style object has a maximum-line-height attribute;
+<span class="code">1</span> if it does, or <span class="code">0</span> if it does
+not.</p>
+
 <a name="ef_paragraph_style_maximum_line_height"><h4>double ef_paragraph_style_maximum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Returns the maximum-line-height attribute of the given paragraph-style object, or
+<span class="code">0.0</span> if it does not have one.</p>
 
 <a name="ef_paragraph_style_line_spacing"><h4>double ef_paragraph_style_line_spacing(EF_Paragraph_Style paragraph_style)</h4></a>
 
+<p>Returns the line-spacing attribute of the given paragraph-style object.</p>
+
 <a name="ef_paragraph_style_paragraph_spacing"><h4>double ef_paragraph_style_paragraph_spacing(EF_Paragraph_Style paragraph_style)</h4></a>
 
+<p>Returns the paragraph-spacing attribute of the given paragraph-style object.</p>
+
 <a name="ef_paragraph_style_paragraph_spacing_before"><h4>double ef_paragraph_style_paragraph_spacing_before(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Returns the paragraph-spacing-before attribute of the given paragraph-style
+object.</p>
 
 <a name="ef_paragraph_style_set_alignment"><h4>void ef_paragraph_style_set_alignment(EF_Paragraph_Style paragraph_style,
 				      EF_Paragraph_Alignment paragraph_alignment)</h4></a>
 
+<p>Sets the alignment attribute of the given paragraph-style object to the given
+paragraph alignment.</p>
+
 <a name="ef_paragraph_style_set_first_line_head_indent"><h4>void ef_paragraph_style_set_first_line_head_indent(EF_Paragraph_Style paragraph_style,
 						   double first_line_head_indent)</h4></a>
+
+<p>Sets the first-line-head-indent attribute of the given paragraph-style object to the
+given value.</p>
 
 <a name="ef_paragraph_style_set_head_indent"><h4>void ef_paragraph_style_set_head_indent(EF_Paragraph_Style paragraph_style,
 					double head_indent)</h4></a>
 
+<p>Sets the head-indent attribute of the given paragraph-style object to the given
+value.</p>
+
 <a name="ef_paragraph_style_set_tail_indent"><h4>void ef_paragraph_style_set_tail_indent(EF_Paragraph_Style paragraph_style,
 					double tail_indent)</h4></a>
+
+<p>Sets the tail-indent attribute of the given paragraph-style object to the given
+value.</p>
 
 <a name="ef_paragraph_style_set_line_height_multiple"><h4>void ef_paragraph_style_set_line_height_multiple(EF_Paragraph_Style paragraph_style,
 						 double line_height_multiple)</h4></a>
 
+<p>Sets the line-height-multiple attribute of the given paragraph-style object to the
+given value.</p>
+
 <a name="ef_paragraph_style_set_minimum_line_height"><h4>void ef_paragraph_style_set_minimum_line_height(EF_Paragraph_Style paragraph_style,
 						double minimum_line_height)</h4></a>
 
+<p>Sets the minimum-line-height attribute of the given paragraph-style object to the
+given value.</p>
+
 <a name="ef_paragraph_style_set_no_maximum_line_height"><h4>void ef_paragraph_style_set_no_maximum_line_height(EF_Paragraph_Style paragraph_style)</h4></a>
+
+<p>Sets the maximum-line-height attribute of the given paragraph-style object to be
+no maximum line height.</p>
 
 <a name="ef_paragraph_style_set_maximum_line_height"><h4>void ef_paragraph_style_set_maximum_line_height(EF_Paragraph_Style paragraph_style,
 						double maximum_line_height)</h4></a>
 
+<p>Sets the maximum-line-height attribute of the given paragraph-style object to the
+given value.</p>
+
 <a name="ef_paragraph_style_set_line_spacing"><h4>void ef_paragraph_style_set_line_spacing(EF_Paragraph_Style paragraph_style,
 					 double line_spacing)</h4></a>
+
+<p>Sets the line-spacing attribute of the given paragraph-style object to the given
+value.</p>
 
 <a name="ef_paragraph_style_set_paragraph_spacing"><h4>void ef_paragraph_style_set_paragraph_spacing(EF_Paragraph_Style paragraph_style,
 					      double paragraph_spacing)</h4></a>
 
+<p>Sets the paragraph-spacing attribute of the given paragraph-style object to the given
+value.</p>
+
 <a name="ef_paragraph_style_set_paragraph_spacing_before"><h4>void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
 						     double paragraph_spacing_before)</h4></a>
+
+<p>Sets the paragraph-spacing-before attribute of the given paragraph-style object to
+the given value.</p>
 
 <a name="S_reference_configuration"><h2>3.7. Configuration</h2></a>
 
