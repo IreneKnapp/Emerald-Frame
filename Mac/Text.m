@@ -820,6 +820,65 @@ void ef_text_flow_remove_attribute(EF_Text_Flow text_flow,
 				   int32_t start,
 				   int32_t end)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
+    
+    NSRange range = NSMakeRange(start, end - start);
+
+    NSString *attributeName = nil;
+    switch(text_attribute_identifier) {
+    case EF_TEXT_ATTRIBUTE_FONT:
+	attributeName = NSFontAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_PARAGRAPH_STYLE:
+	attributeName = NSParagraphStyleAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_FOREGROUND_COLOR:
+	attributeName = NSForegroundColorAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_BACKGROUND_COLOR:
+	attributeName = NSBackgroundColorAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_UNDERLINE_STYLE:
+	attributeName = NSUnderlineStyleAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_UNDERLINE_COLOR:
+	attributeName = NSUnderlineColorAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_STRIKETHROUGH_STYLE:
+	attributeName = NSStrikethroughStyleAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_STRIKETHROUGH_COLOR:
+	attributeName = NSStrikethroughColorAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_LIGATURE_STYLE:
+	attributeName = NSLigatureAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_BASELINE_OFFSET:
+	attributeName = NSBaselineOffsetAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_KERNING:
+	attributeName = NSKernAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_OUTLINE_STYLE:
+	attributeName = NSStrokeWidthAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_STROKE_WIDTH:
+	attributeName = NSStrokeWidthAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_OBLIQUENESS:
+	attributeName = NSObliquenessAttributeName;
+	break;
+    case EF_TEXT_ATTRIBUTE_EXPANSION:
+	attributeName = NSExpansionAttributeName;
+	break;
+    }
+    
+    if(attributeName)
+	[textStorage removeAttribute: attributeName range: range];
+    
+    [pool drain];
 }
 
 
@@ -839,10 +898,27 @@ void ef_text_flow_natural_size(EF_Text_Flow text_flow,
 
 
 void ef_text_flow_size(EF_Text_Flow text_flow, double *width, double *height) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
+    NSLayoutManager *layoutManager = [[textStorage layoutManagers] objectAtIndex: 0];
+    NSTextContainer *textContainer = [[layoutManager textContainers] objectAtIndex: 0];
+    NSSize size = [textContainer containerSize];
+    if(width)
+	*width = size.width;
+    if(height)
+	*height = size.height;
+    [pool drain];
 }
 
 
 void ef_text_flow_set_size(EF_Text_Flow text_flow, double width, double height) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTextStorage *textStorage = (NSTextStorage *) text_flow;
+    NSLayoutManager *layoutManager = [[textStorage layoutManagers] objectAtIndex: 0];
+    NSTextContainer *textContainer = [[layoutManager textContainers] objectAtIndex: 0];
+    NSSize size = NSMakeSize(width, height);
+    [textContainer setContainerSize: size];
+    [pool drain];
 }
 
 
@@ -1162,6 +1238,16 @@ EF_Font ef_text_attributes_font(EF_Text_Attributes attributes) {
 
 
 EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSParagraphStyle *immutableParagraphStyle
+	= [dictionary objectForKey: NSParagraphStyleAttributeName];
+    NSParagraphStyle *paragraphStyle = nil;
+    if(immutableParagraphStyle) {
+	paragraphStyle = [immutableParagraphStyle mutableCopyWithZone: nil];
+    }
+    [pool drain];
+    return (EF_Paragraph_Style) paragraphStyle;
 }
 
 
@@ -1171,6 +1257,20 @@ void ef_text_attributes_foreground_color(EF_Text_Attributes attributes,
 					 double *blue,
 					 double *alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSForegroundColorAttributeName];
+    if(color) {
+	if(red)
+	    *red = [color redComponent];
+	if(green)
+	    *green = [color greenComponent];
+	if(blue)
+	    *blue = [color blueComponent];
+	if(alpha)
+	    *alpha = [color alphaComponent];
+    }
+    [pool drain];
 }
 
 
@@ -1180,14 +1280,62 @@ void ef_text_attributes_background_color(EF_Text_Attributes attributes,
 					 double *blue,
 					 double *alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSBackgroundColorAttributeName];
+    if(color) {
+	if(red)
+	    *red = [color redComponent];
+	if(green)
+	    *green = [color greenComponent];
+	if(blue)
+	    *blue = [color blueComponent];
+	if(alpha)
+	    *alpha = [color alphaComponent];
+    }
+    [pool drain];
 }
 
 
 EF_Underline_Style ef_text_attributes_underline_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSUnderlineStyleAttributeName];
+    EF_Underline_Style result;
+    if(!number) {
+	result = EF_UNDERLINE_STYLE_NONE;
+    } else {
+	NSInteger integer = [number integerValue];
+	switch(integer) {
+	case NSUnderlineStyleNone:
+	    result = EF_UNDERLINE_STYLE_NONE;
+	    break;
+	case NSUnderlineStyleSingle:
+	    result = EF_UNDERLINE_STYLE_SINGLE;
+	    break;
+	case NSUnderlineStyleDouble:
+	    result = EF_UNDERLINE_STYLE_DOUBLE;
+	    break;
+	case NSUnderlineStyleThick:
+	    result = EF_UNDERLINE_STYLE_THICK;
+	    break;
+	default:
+	    result = EF_UNDERLINE_STYLE_NONE;
+	    break;
+	}
+    }
+    [pool drain];
+    return result;
 }
 
 
-int ef_text_attributes_underline_colored(EF_Text_Attributes attributes) {
+int ef_text_attributes_underline_is_colored(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSUnderlineColorAttributeName];
+    int result = color ? 1 : 0;
+    [pool drain];
+    return result;
 }
 
 
@@ -1197,16 +1345,64 @@ void ef_text_attributes_underline_color(EF_Text_Attributes attributes,
 					double *blue,
 					double *alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSUnderlineColorAttributeName];
+    if(color) {
+	if(red)
+	    *red = [color redComponent];
+	if(green)
+	    *green = [color greenComponent];
+	if(blue)
+	    *blue = [color blueComponent];
+	if(alpha)
+	    *alpha = [color alphaComponent];
+    }
+    [pool drain];
 }
 
 
 EF_Strikethrough_Style
   ef_text_attributes_strikethrough_style(EF_Text_Attributes attributes)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSStrikethroughStyleAttributeName];
+    EF_Strikethrough_Style result;
+    if(!number) {
+	result = EF_STRIKETHROUGH_STYLE_NONE;
+    } else {
+	NSInteger integer = [number integerValue];
+	switch(integer) {
+	case NSUnderlineStyleNone:
+	    result = EF_STRIKETHROUGH_STYLE_NONE;
+	    break;
+	case NSUnderlineStyleSingle:
+	    result = EF_STRIKETHROUGH_STYLE_SINGLE;
+	    break;
+	case NSUnderlineStyleDouble:
+	    result = EF_STRIKETHROUGH_STYLE_DOUBLE;
+	    break;
+	case NSUnderlineStyleThick:
+	    result = EF_STRIKETHROUGH_STYLE_THICK;
+	    break;
+	default:
+	    result = EF_STRIKETHROUGH_STYLE_NONE;
+	    break;
+	}
+    }
+    [pool drain];
+    return result;
 }
 
 
-int ef_text_attributes_strikethrough_colored(EF_Text_Attributes attributes) {
+int ef_text_attributes_strikethrough_is_colored(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSStrikethroughColorAttributeName];
+    int result = color ? 1 : 0;
+    [pool drain];
+    return result;
 }
 
 
@@ -1216,38 +1412,174 @@ void ef_text_attributes_strikethrough_color(EF_Text_Attributes attributes,
 					    double *blue,
 					    double *alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSStrikethroughColorAttributeName];
+    if(color) {
+	if(red)
+	    *red = [color redComponent];
+	if(green)
+	    *green = [color greenComponent];
+	if(blue)
+	    *blue = [color blueComponent];
+	if(alpha)
+	    *alpha = [color alphaComponent];
+    }
+    [pool drain];
 }
 
 
 EF_Ligature_Style ef_text_attributes_ligature_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSLigatureAttributeName];
+    EF_Ligature_Style result;
+    if(!number) {
+	result = EF_LIGATURE_STYLE_STANDARD;
+    } else {
+	NSInteger integer = [number integerValue];
+	switch(integer) {
+	case 0:
+	    result = EF_LIGATURE_STYLE_NONE;
+	    break;
+	case 1:
+	    result = EF_LIGATURE_STYLE_STANDARD;
+	    break;
+	case 2:
+	    result = EF_LIGATURE_STYLE_ALL;
+	    break;
+	default:
+	    result = EF_LIGATURE_STYLE_STANDARD;
+	    break;
+	}
+    }
+    [pool drain];
+    return result;
 }
 
 
 double ef_text_attributes_baseline_offset(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSBaselineOffsetAttributeName];
+    double result = 0.0;
+    if(number)
+	result = [number doubleValue];
+    [pool drain];
+    return result;
 }
 
 
 int ef_text_attributes_kerning_is_default(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSKernAttributeName];
+    int result = number ? 0 : 1;
+    [pool drain];
+    return result;
 }
 
 
 double ef_text_attributes_kerning(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSKernAttributeName];
+    double result = 0.0;
+    if(number)
+	result = [number doubleValue];
+    [pool drain];
+    return result;
 }
 
 
 EF_Outline_Style ef_text_attributes_outline_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSStrokeWidthAttributeName];
+    EF_Outline_Style result;
+    if(!number) {
+	result = EF_OUTLINE_STYLE_FILL_ONLY;
+    } else {
+	double value = [number doubleValue];
+	if(value > 0.0) {
+	    result = EF_OUTLINE_STYLE_STROKE_ONLY;
+	} else if(value < 0.0) {
+	    result = EF_OUTLINE_STYLE_STROKE_AND_FILL;
+	} else {
+	    result = EF_OUTLINE_STYLE_FILL_ONLY;
+	}
+    }
+    [pool drain];
+    return result;
 }
 
 
 double ef_text_attributes_stroke_width(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSStrokeWidthAttributeName];
+    double result = 0.0;
+    if(number)
+	result = [number doubleValue];
+    [pool drain];
+    return result;
+}
+
+
+int ef_text_attributes_stroke_is_colored(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSStrokeColorAttributeName];
+    int result = color ? 1 : 0;
+    [pool drain];
+    return result;
+}
+
+
+void ef_text_attributes_stroke_color(EF_Text_Attributes attributes,
+				     double *red,
+				     double *green,
+				     double *blue,
+				     double *alpha)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSColor *color = [dictionary objectForKey: NSStrokeColorAttributeName];
+    if(color) {
+	if(red)
+	    *red = [color redComponent];
+	if(green)
+	    *green = [color greenComponent];
+	if(blue)
+	    *blue = [color blueComponent];
+	if(alpha)
+	    *alpha = [color alphaComponent];
+    }
+    [pool drain];
 }
 
 
 double ef_text_attributes_obliqueness(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSObliquenessAttributeName];
+    double result = 0.0;
+    if(number)
+	result = [number doubleValue];
+    [pool drain];
+    return result;
 }
 
 
 double ef_text_attributes_expansion(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSExpansionAttributeName];
+    double result = 0.0;
+    if(number)
+	result = [number doubleValue];
+    [pool drain];
+    return result;
 }
 
 
@@ -1260,13 +1592,14 @@ void ef_text_attributes_set_font(EF_Text_Attributes attributes, EF_Font font) {
 }
 
 
-void ef_text_attributes_set_paragraph_style_default(EF_Text_Attributes attributes) {
-}
-
-
 void ef_text_attributes_set_paragraph_style(EF_Text_Attributes attributes,
 					    EF_Paragraph_Style paragraph_style)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary setObject: (NSMutableParagraphStyle *) paragraph_style
+		forKey: NSParagraphStyleAttributeName];
+    [pool drain];
 }
 
 
@@ -1276,6 +1609,15 @@ void ef_text_attributes_set_foreground_color(EF_Text_Attributes attributes,
 					     double blue,
 					     double alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSColor *color = [NSColor colorWithDeviceRed: red
+			      green: green
+			      blue: blue
+			      alpha: alpha];
+    [(NSMutableDictionary *) attributes
+			     setObject: color
+			     forKey: NSForegroundColorAttributeName];
+    [pool drain];
 }
 
 
@@ -1285,16 +1627,44 @@ void ef_text_attributes_set_background_color(EF_Text_Attributes attributes,
 					     double blue,
 					     double alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSColor *color = [NSColor colorWithDeviceRed: red
+			      green: green
+			      blue: blue
+			      alpha: alpha];
+    [(NSMutableDictionary *) attributes
+			     setObject: color
+			     forKey: NSBackgroundColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_underline_style(EF_Text_Attributes attributes,
 					    EF_Underline_Style underline_style)
 {
-}
-
-
-void ef_text_attributes_set_underline_uncolored(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSInteger integer;
+    switch(underline_style) {
+    case EF_UNDERLINE_STYLE_NONE:
+	integer = NSUnderlineStyleNone;
+	break;
+    case EF_UNDERLINE_STYLE_SINGLE:
+	integer = NSUnderlineStyleSingle;
+	break;
+    case EF_UNDERLINE_STYLE_DOUBLE:
+	integer = NSUnderlineStyleDouble;
+	break;
+    case EF_UNDERLINE_STYLE_THICK:
+	integer = NSUnderlineStyleThick;
+	break;
+    default:
+	integer = NSUnderlineStyleNone;
+	break;
+    }
+    NSNumber *number = [NSNumber numberWithInteger: integer];
+    [dictionary setObject: number forKey: NSUnderlineStyleAttributeName];
+    [pool drain];
 }
 
 
@@ -1304,6 +1674,15 @@ void ef_text_attributes_set_underline_color(EF_Text_Attributes attributes,
 					    double blue,
 					    double alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSColor *color = [NSColor colorWithDeviceRed: red
+			      green: green
+			      blue: blue
+			      alpha: alpha];
+    [(NSMutableDictionary *) attributes
+			     setObject: color
+			     forKey: NSUnderlineColorAttributeName];
+    [pool drain];
 }
 
 
@@ -1311,10 +1690,29 @@ void
   ef_text_attributes_set_strikethrough_style(EF_Text_Attributes attributes,
 					     EF_Strikethrough_Style strikethrough_style)
 {
-}
-
-
-void ef_text_attributes_set_strikethrough_uncolored(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSInteger integer;
+    switch(strikethrough_style) {
+    case EF_STRIKETHROUGH_STYLE_NONE:
+	integer = NSUnderlineStyleNone;
+	break;
+    case EF_STRIKETHROUGH_STYLE_SINGLE:
+	integer = NSUnderlineStyleSingle;
+	break;
+    case EF_STRIKETHROUGH_STYLE_DOUBLE:
+	integer = NSUnderlineStyleDouble;
+	break;
+    case EF_STRIKETHROUGH_STYLE_THICK:
+	integer = NSUnderlineStyleThick;
+	break;
+    default:
+	integer = NSUnderlineStyleNone;
+	break;
+    }
+    NSNumber *number = [NSNumber numberWithInteger: integer];
+    [dictionary setObject: number forKey: NSStrikethroughStyleAttributeName];
+    [pool drain];
 }
 
 
@@ -1324,226 +1722,548 @@ void ef_text_attributes_set_strikethrough_color(EF_Text_Attributes attributes,
 						double blue,
 						double alpha)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSColor *color = [NSColor colorWithDeviceRed: red
+			      green: green
+			      blue: blue
+			      alpha: alpha];
+    [(NSMutableDictionary *) attributes
+			     setObject: color
+			     forKey: NSStrikethroughColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_ligature_style(EF_Text_Attributes attributes,
 					   EF_Ligature_Style ligature_style)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSInteger integer;
+    switch(ligature_style) {
+    case EF_LIGATURE_STYLE_NONE:
+	integer = 0;
+	break;
+    case EF_LIGATURE_STYLE_STANDARD:
+	integer = 1;
+	break;
+    case EF_LIGATURE_STYLE_ALL:
+	integer = 2;
+	break;
+    default:
+	integer = 0;
+	break;
+    }
+    NSNumber *number = [NSNumber numberWithInteger: integer];
+    [dictionary setObject: number forKey: NSLigatureAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_baseline_offset(EF_Text_Attributes attributes,
 					    double baseline_offset)
 {
-}
-
-
-void ef_text_attributes_set_kerning_default(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [NSNumber numberWithDouble: baseline_offset];
+    [dictionary setObject: number forKey: NSObliquenessAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_kerning(EF_Text_Attributes attributes,
 				    double kerning)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [NSNumber numberWithDouble: kerning];
+    [dictionary setObject: number forKey: NSKernAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_outline_style(EF_Text_Attributes attributes,
 					  EF_Outline_Style outline_style)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSStrokeWidthAttributeName];
+    double newValue;
+    if(number) {
+	double oldValue = [number doubleValue];
+	switch(outline_style) {
+	case EF_OUTLINE_STYLE_FILL_ONLY:
+	default:
+	    newValue = 0.0;
+	    break;
+	case EF_OUTLINE_STYLE_STROKE_ONLY:
+	    if(oldValue == 0.0)
+		newValue = 3.0;
+	    else
+		newValue = abs(oldValue);
+	    break;
+	case EF_OUTLINE_STYLE_STROKE_AND_FILL:
+	    if(oldValue == 0.0)
+		newValue = -3.0;
+	    else
+		newValue = -abs(oldValue);
+	    break;
+	}
+    } else {
+	switch(outline_style) {
+	case EF_OUTLINE_STYLE_FILL_ONLY:
+	default:
+	    newValue = 0.0;
+	    break;
+	case EF_OUTLINE_STYLE_STROKE_ONLY:
+	    newValue = 3.0;
+	    break;
+	case EF_OUTLINE_STYLE_STROKE_AND_FILL:
+	    newValue = -3.0;
+	    break;
+	}
+    }
+    [dictionary setObject: [NSNumber numberWithDouble: newValue]
+		forKey: NSStrokeWidthAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_stroke_width(EF_Text_Attributes attributes,
 					 double stroke_width)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [dictionary objectForKey: NSStrokeWidthAttributeName];
+    double newValue;
+    if(number) {
+	double oldValue = [number doubleValue];
+	if(oldValue > 0.0) {
+	    newValue = abs(stroke_width);
+	} else if(oldValue < 0.0) {
+	    newValue = -abs(stroke_width);
+	} else {
+	    newValue = abs(stroke_width);
+	}
+    } else {
+	newValue = abs(stroke_width);
+    }
+    [dictionary setObject: [NSNumber numberWithDouble: newValue]
+		forKey: NSStrokeWidthAttributeName];
+    [pool drain];
+}
+
+
+void ef_text_attributes_set_stroke_color(EF_Text_Attributes attributes,
+				         double red,
+					 double green,
+					 double blue,
+					 double alpha)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSColor *color = [NSColor colorWithDeviceRed: red
+			      green: green
+			      blue: blue
+			      alpha: alpha];
+    [(NSMutableDictionary *) attributes
+			     setObject: color
+			     forKey: NSStrokeColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 					double obliqueness)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [NSNumber numberWithDouble: obliqueness];
+    [dictionary setObject: number forKey: NSObliquenessAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
 				      double expansion)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    NSNumber *number = [NSNumber numberWithDouble: expansion];
+    [dictionary setObject: number forKey: NSExpansionAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_font(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSFontAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_paragraph_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSParagraphStyleAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_foreground_color(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSForegroundColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_background_color(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSBackgroundColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_underline_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSUnderlineStyleAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_underline_color(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSUnderlineColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_strikethrough_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSStrikethroughStyleAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_strikethrough_color(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSStrikethroughColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_ligature_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSLigatureAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_baseline_offset(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSBaselineOffsetAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_kerning(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSKernAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_outline_style(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSStrokeWidthAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_stroke_width(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSStrokeWidthAttributeName];
+    [pool drain];
+}
+
+
+void ef_text_attributes_unset_stroke_color(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSStrokeColorAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_obliqueness(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSObliquenessAttributeName];
+    [pool drain];
 }
 
 
 void ef_text_attributes_unset_expansion(EF_Text_Attributes attributes) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableDictionary *dictionary = (NSMutableDictionary *) attributes;
+    [dictionary removeObjectForKey: NSExpansionAttributeName];
+    [pool drain];
 }
 
 
 EF_Paragraph_Style ef_text_new_paragraph_style() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableParagraphStyle *paragraphStyle
+	= [[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil];
+    [pool drain];
+    return (EF_Paragraph_Style) paragraphStyle;
 }
 
 
 void ef_paragraph_style_delete(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style release];
+    [pool drain];
 }
 
 
 EF_Paragraph_Alignment ef_paragraph_style_alignment(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableParagraphStyle *paragraphStyle
+	= (NSMutableParagraphStyle *) paragraph_style;
+    NSTextAlignment alignment = [paragraphStyle alignment];
+    EF_Paragraph_Alignment result;
+    switch(alignment) {
+    case NSLeftTextAlignment:
+    default:
+	result = EF_PARAGRAPH_ALIGNMENT_LEFT;
+	break;
+    case NSRightTextAlignment:
+	result = EF_PARAGRAPH_ALIGNMENT_RIGHT;
+	break;
+    case NSCenterTextAlignment:
+	result = EF_PARAGRAPH_ALIGNMENT_CENTER;
+	break;
+    case NSJustifiedTextAlignment:
+	result = EF_PARAGRAPH_ALIGNMENT_JUSTIFIED;
+	break;
+    }
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_first_line_head_indent(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style firstLineHeadIndent];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_head_indent(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style headIndent];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_tail_indent(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style tailIndent];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_line_height_multiple(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style lineHeightMultiple];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_minimum_line_height(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style minimumLineHeight];
+    [pool drain];
+    return result;
 }
 
 
 int ef_paragraph_style_has_maximum_line_height(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style maximumLineHeight];
+    [pool drain];
+    return (result == 0.0) ? 0 : 1;
 }
 
 
 double ef_paragraph_style_maximum_line_height(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style maximumLineHeight];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_line_spacing(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style lineSpacing];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_paragraph_spacing(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style paragraphSpacing];
+    [pool drain];
+    return result;
 }
 
 
 double ef_paragraph_style_paragraph_spacing_before(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    double result = [(NSMutableParagraphStyle *) paragraph_style paragraphSpacingBefore];
+    [pool drain];
+    return result;
 }
 
 
 void ef_paragraph_style_set_alignment(EF_Paragraph_Style paragraph_style,
 				      EF_Paragraph_Alignment paragraph_alignment)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableParagraphStyle *paragraphStyle
+	= (NSMutableParagraphStyle *) paragraph_style;
+    NSTextAlignment alignment;
+    switch(paragraph_alignment) {
+    case EF_PARAGRAPH_ALIGNMENT_LEFT:
+    default:
+	alignment = NSLeftTextAlignment;
+	break;
+    case EF_PARAGRAPH_ALIGNMENT_RIGHT:
+	alignment = NSRightTextAlignment;
+	break;
+    case EF_PARAGRAPH_ALIGNMENT_CENTER:
+	alignment = NSCenterTextAlignment;
+	break;
+    case EF_PARAGRAPH_ALIGNMENT_JUSTIFIED:
+	alignment = NSJustifiedTextAlignment;
+	break;
+    }
+    [paragraphStyle setAlignment: alignment];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_first_line_head_indent(EF_Paragraph_Style paragraph_style,
 						   double first_line_head_indent)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setFirstLineHeadIndent: first_line_head_indent];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_head_indent(EF_Paragraph_Style paragraph_style,
 					double head_indent)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setHeadIndent: head_indent];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_tail_indent(EF_Paragraph_Style paragraph_style,
 					double tail_indent)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setTailIndent: tail_indent];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_line_height_multiple(EF_Paragraph_Style paragraph_style,
 						 double line_height_multiple)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setLineHeightMultiple: line_height_multiple];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_minimum_line_height(EF_Paragraph_Style paragraph_style,
 						double minimum_line_height)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setMinimumLineHeight: minimum_line_height];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_no_maximum_line_height(EF_Paragraph_Style paragraph_style) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setMaximumLineHeight: 0.0];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_maximum_line_height(EF_Paragraph_Style paragraph_style,
 						double maximum_line_height)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setMaximumLineHeight: maximum_line_height];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_line_spacing(EF_Paragraph_Style paragraph_style,
 					 double line_spacing)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setLineSpacing: line_spacing];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_paragraph_spacing(EF_Paragraph_Style paragraph_style,
 					      double paragraph_spacing)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setParagraphSpacing: paragraph_spacing];
+    [pool drain];
 }
 
 
 void ef_paragraph_style_set_paragraph_spacing_before(EF_Paragraph_Style paragraph_style,
 						     double paragraph_spacing_before)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [(NSMutableParagraphStyle *) paragraph_style
+				 setParagraphSpacingBefore: paragraph_spacing_before];
+    [pool drain];
 }

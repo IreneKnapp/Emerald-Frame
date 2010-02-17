@@ -285,6 +285,8 @@ div.title {
 <li><a href="#ef_text_attributes_kerning"><span class="code">ef_text_attributes_kerning</span></a></li>
 <li><a href="#ef_text_attributes_outline_style"><span class="code">ef_text_attributes_outline_style</span></a></li>
 <li><a href="#ef_text_attributes_stroke_width"><span class="code">ef_text_attributes_stroke_width</span></a></li>
+<li><a href="#ef_text_attributes_stroke_is_colored"><span class="code">ef_text_attributes_stroke_is_colored</span></a></li>
+<li><a href="#ef_text_attributes_stroke_color"><span class="code">ef_text_attributes_stroke_color</span></a></li>
 <li><a href="#ef_text_attributes_obliqueness"><span class="code">ef_text_attributes_obliqueness</span></a></li>
 <li><a href="#ef_text_attributes_expansion"><span class="code">ef_text_attributes_expansion</span></a></li>
 <li><a href="#ef_text_attributes_set_font"><span class="code">ef_text_attributes_set_font</span></a></li>
@@ -300,6 +302,7 @@ div.title {
 <li><a href="#ef_text_attributes_set_kerning"><span class="code">ef_text_attributes_set_kerning</span></a></li>
 <li><a href="#ef_text_attributes_set_outline_style"><span class="code">ef_text_attributes_set_outline_style</span></a></li>
 <li><a href="#ef_text_attributes_set_stroke_width"><span class="code">ef_text_attributes_set_stroke_width</span></a></li>
+<li><a href="#ef_text_attributes_set_stroke_color"><span class="code">ef_text_attributes_set_stroke_color</span></a></li>
 <li><a href="#ef_text_attributes_set_obliqueness"><span class="code">ef_text_attributes_set_obliqueness</span></a></li>
 <li><a href="#ef_text_attributes_set_expansion"><span class="code">ef_text_attributes_set_expansion</span></a></li>
 <li><a href="#ef_text_attributes_unset_font"><span class="code">ef_text_attributes_unset_font</span></a></li>
@@ -315,6 +318,7 @@ div.title {
 <li><a href="#ef_text_attributes_unset_kerning"><span class="code">ef_text_attributes_unset_kerning</span></a></li>
 <li><a href="#ef_text_attributes_unset_outline_style"><span class="code">ef_text_attributes_unset_outline_style</span></a></li>
 <li><a href="#ef_text_attributes_unset_stroke_width"><span class="code">ef_text_attributes_unset_stroke_width</span></a></li>
+<li><a href="#ef_text_attributes_unset_stroke_color"><span class="code">ef_text_attributes_unset_stroke_color</span></a></li>
 <li><a href="#ef_text_attributes_unset_obliqueness"><span class="code">ef_text_attributes_unset_obliqueness</span></a></li>
 <li><a href="#ef_text_attributes_unset_expansion"><span class="code">ef_text_attributes_unset_expansion</span></a></li>
 </ul></li>
@@ -343,6 +347,7 @@ div.title {
 <li><a href="#ef_paragraph_style_set_line_spacing"><span class="code">ef_paragraph_style_set_line_spacing</span></a></li>
 <li><a href="#ef_paragraph_style_set_paragraph_spacing"><span class="code">ef_paragraph_style_set_paragraph_spacing</span></a></li>
 <li><a href="#ef_paragraph_style_set_paragraph_spacing_before"><span class="code">ef_paragraph_style_set_paragraph_spacing_before</span></a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 <li><a href="#S_reference_configuration"><b>3.7.</b> Configuration</a> <ul>
@@ -1122,11 +1127,11 @@ bit with paragraph styles.</p>
 a litle difficult to make out the boundaries, because there's neither a gap between
 them nor any indentation.  Let's add a paragraph style that resolves that.</p>
 
-<p>Immediately after the call to <span class="code">ef_text_flow_set_size</span>,
+<p>Immediately before the line that initializes <span class="code">paragraphs</span>,
 add the following lines:</p>
 
 <div class="code">    EF_Paragraph_Style paragraph_style = ef_text_new_paragraph_style();
-    ef_paragraph_style_set_first_line_head_indent(paragraph_style, 96.0);
+    ef_paragraph_style_set_first_line_head_indent(paragraph_style, 36.0);
     ef_text_attributes_set_paragraph_style(attributes, paragraph_style);
     ef_paragraph_style_delete(paragraph_style);
 </div>
@@ -2551,7 +2556,7 @@ zero-based index <span class="code">start</span> and ends immediately before
 index <span class="code">end</span>.</p>
 
 <a name="ef_text_flow_remove_attribute"><h4>void ef_text_flow_remove_attribute(EF_Text_Flow text_flow,
-				   EF_Text_Attribute_Identifier text_attribute_type,
+				   EF_Text_Attribute_Identifier text_attribute_identifier,
 				   int32_t start,
 				   int32_t end)</h4></a>
 
@@ -2625,8 +2630,10 @@ unset.</p>
 
 <a name="ef_text_attributes_paragraph_style"><h4>EF_Paragraph_Style ef_text_attributes_paragraph_style(EF_Text_Attributes attributes)</h4></a>
 
-<p>Returns the paragraph-style object set in the given text-attributes object, or
-<span class="code">NULL</span> if it is unset.</p>
+<p>Returns a copy of the paragraph-style object set in the given text-attributes object,
+or <span class="code">NULL</span> if it is unset.  The paragraph style, if returned,
+is newly allocated and must be deleted when it is no longer needed, with
+<span class="code">ef_paragraph_style_delete</span>.</p>
 
 <a name="ef_text_attributes_foreground_color"><h4>void ef_text_attributes_foreground_color(EF_Text_Attributes attributes,
 					 double *red,
@@ -2722,7 +2729,24 @@ if kerning is set to default mode or is unset.</p>
 <a name="ef_text_attributes_stroke_width"><h4>double ef_text_attributes_stroke_width(EF_Text_Attributes attributes)</h4></a>
 
 <p>Returns the stroke width for outlining set in the given text-attributes object,
-in abstract points, or <span class="code">0.0</span> if it is unset.</p>
+as a percentage of the font's abstract-point size, or <span class="code">0.0</span>
+if it is unset.</p>
+
+<a name="ef_text_attributes_stroke_is_colored"><h4>int ef_text_attributes_stroke_is_colored(EF_Text_Attributes attributes)</h4></a>
+
+<p>Returns <span class="code">1</span> if the given text-attributes object has a
+stroke color set, or <span class="code">0</span> if it does not.</p>
+
+<a name="ef_text_attributes_stroke_color"><h4>void ef_text_attributes_stroke_color(EF_Text_Attributes attributes,
+				     double *red,
+				     double *green,
+				     double *blue,
+				     double *alpha)</h4></a>
+
+<p>Returns the stroke color of the given text-attributes object in the provided
+pointers, which must not be <span class="code">NULL</span>.  The value for each channel
+ranges from <span class="code">0.0</span> to <span class="code">1.0</span>.  If the
+stroke color is unset, the pointers are not modified.</p>
 
 <a name="ef_text_attributes_obliqueness"><h4>double ef_text_attributes_obliqueness(EF_Text_Attributes attributes)</h4></a>
 
@@ -2827,7 +2851,17 @@ outline style.</p>
 				         double stroke_width)</h4></a>
 
 <p>Sets the stroke-width-for-outlining attribute of the given text-attributes object
-to the given stroke width, in abstract points.</p>
+to the given stroke width, as a percentage of the font's abstract-point size.</p>
+
+<a name="ef_text_attributes_set_stroke_color"><h4>void ef_text_attributes_set_stroke_color(EF_Text_Attributes attributes,
+				         double red,
+					 double green,
+					 double blue,
+					 double alpha)</h4></a>
+
+<p>Sets the stroke-color attribute of the given text-attributes object to the
+provided color.  The value for each channel ranges from <span class="code">0.0</span>
+to <span class="code">1.0</span>.</p>
 
 <a name="ef_text_attributes_set_obliqueness"><h4>void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 					double obliqueness)</h4></a>
@@ -2892,6 +2926,10 @@ the given value, as abstract points, with positive being expansion.</p>
 <a name="ef_text_attributes_unset_stroke_width"><h4>void ef_text_attributes_unset_stroke_width(EF_Text_Attributes attributes)</h4></a>
 
 <p>Unsets the stroke-width attribute of the given text-attributes object.</p>
+
+<a name="ef_text_attributes_unset_stroke_color"><h4>void ef_text_attributes_unset_stroke_color(EF_Text_Attributes attributes)</h4></a>
+
+<p>Unsets the stroke-color attribute of the given text-attributes object.</p>
 
 <a name="ef_text_attributes_unset_obliqueness"><h4>void ef_text_attributes_unset_obliqueness(EF_Text_Attributes attributes)</h4></a>
 

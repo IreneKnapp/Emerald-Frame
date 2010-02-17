@@ -336,7 +336,7 @@ void ef_text_flow_set_attributes(EF_Text_Flow text_flow,
 				 int32_t start,
 				 int32_t end);
 void ef_text_flow_remove_attribute(EF_Text_Flow text_flow,
-				   EF_Text_Attribute_Identifier text_attribute_type,
+				   EF_Text_Attribute_Identifier text_attribute_identifier,
 				   int32_t start,
 				   int32_t end);
 void ef_text_flow_natural_size(EF_Text_Flow text_flow,
@@ -380,6 +380,12 @@ int ef_text_attributes_kerning_is_default(EF_Text_Attributes attributes);
 double ef_text_attributes_kerning(EF_Text_Attributes attributes);
 EF_Outline_Style ef_text_attributes_outline_style(EF_Text_Attributes attributes);
 double ef_text_attributes_stroke_width(EF_Text_Attributes attributes);
+int ef_text_attributes_stroke_is_colored(EF_Text_Attributes attributes);
+void ef_text_attributes_stroke_color(EF_Text_Attributes attributes,
+				     double *red,
+				     double *green,
+				     double *blue,
+				     double *alpha);
 double ef_text_attributes_obliqueness(EF_Text_Attributes attributes);
 double ef_text_attributes_expansion(EF_Text_Attributes attributes);
 void ef_text_attributes_set_font(EF_Text_Attributes attributes, EF_Font font);
@@ -420,6 +426,11 @@ void ef_text_attributes_set_outline_style(EF_Text_Attributes attributes,
 					  EF_Outline_Style outline_style);
 void ef_text_attributes_set_stroke_width(EF_Text_Attributes attributes,
 				         double stroke_width);
+void ef_text_attributes_set_stroke_color(EF_Text_Attributes attributes,
+				         double red,
+					 double green,
+					 double blue,
+					 double alpha);
 void ef_text_attributes_set_obliqueness(EF_Text_Attributes attributes,
 					double obliqueness);
 void ef_text_attributes_set_expansion(EF_Text_Attributes attributes,
@@ -437,6 +448,7 @@ void ef_text_attributes_unset_baseline_offset(EF_Text_Attributes attributes);
 void ef_text_attributes_unset_kerning(EF_Text_Attributes attributes);
 void ef_text_attributes_unset_outline_style(EF_Text_Attributes attributes);
 void ef_text_attributes_unset_stroke_width(EF_Text_Attributes attributes);
+void ef_text_attributes_unset_stroke_color(EF_Text_Attributes attributes);
 void ef_text_attributes_unset_obliqueness(EF_Text_Attributes attributes);
 void ef_text_attributes_unset_expansion(EF_Text_Attributes attributes);
 EF_Paragraph_Style ef_text_new_paragraph_style();
