@@ -852,14 +852,17 @@ foreign import ccall safe "ef_text_discard_computed" textDiscardComputed
 
 foreign import ccall safe "ef_text_specific_font" textSpecificFont'
     :: (Ptr UTF8) -> Word32 -> Word32 -> CDouble -> IO Font
-textSpecificFont :: String -> [FontTrait] -> FontWeight -> Double -> IO Font
+textSpecificFont :: String -> [FontTrait] -> FontWeight -> Double -> IO (Maybe Font)
 textSpecificFont string traits weight size = do
   byteString <- return $ fromString string
   useAsCString byteString (\cString -> do
-                             textSpecificFont' cString
-                                               (encodeBitmask traits)
-                                               (encode weight)
-                                               (realToFrac size))
+                             result <- textSpecificFont' cString
+                                                         (encodeBitmask traits)
+                                                         (encode weight)
+                                                         (realToFrac size)
+                             return $ case result of
+                                        Font ptr | ptr == nullPtr -> Nothing
+                                        _ -> Just result)
 
 foreign import ccall safe "ef_font_delete" fontDelete
     :: Font -> IO ()
@@ -1220,7 +1223,7 @@ textFlowSetSize textFlow (width, height) = do
   textFlowSetSize' textFlow (realToFrac width) (realToFrac height)
 
 foreign import ccall safe "ef_text_flow_draw" textFlowDraw
-    :: TextFlow -> Drawable
+    :: TextFlow -> Drawable -> IO ()
 
 foreign import ccall safe "ef_text_new_attributes" textNewAttributes
     :: IO TextAttributes
