@@ -606,7 +606,7 @@ foreign import ccall safe "ef_video_set_aux_depth_stencil" videoSetAuxDepthStenc
 videoSetAuxDepthStencil :: Bool -> IO ()
 videoSetAuxDepthStencil auxDepthStencil = do
     auxDepthStencil' <- return $ if auxDepthStencil then 1 else 0
-    videoSetStereo' auxDepthStencil'
+    videoSetAuxDepthStencil' auxDepthStencil'
 
 foreign import ccall safe "ef_video_set_color_float" videoSetColorFloat'
     :: CInt -> IO ()
