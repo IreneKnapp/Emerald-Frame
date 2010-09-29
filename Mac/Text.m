@@ -1037,9 +1037,22 @@ void ef_text_flow_draw(EF_Text_Flow text_flow, EF_Drawable drawable) {
 					+ [font descender]);
 			     glEnd();
 			     */
-			     
-			     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 
+			     NSColor *foregroundColor
+				 = [attributes
+				       objectForKey:
+					   NSForegroundColorAttributeName];
+			     foregroundColor
+				 = [foregroundColor
+				       colorUsingColorSpace:
+					   [NSColorSpace deviceRGBColorSpace]];
+			     CGFloat red, green, blue, alpha;
+			     [foregroundColor getRed: &red
+					      green: &green
+					      blue: &blue
+					      alpha: &alpha];
+			     glColor4f(red, green, blue, alpha);
+			     
 			     NSInteger elementCount
 				 = [flattenedUnscaledPath elementCount];
 			     NSMutableArray *vertices
