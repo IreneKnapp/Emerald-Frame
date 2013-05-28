@@ -47,12 +47,12 @@ EF_Error ef_internal_video_init() {
     drawable_parameters.supersample = False;
     drawable_parameters.sample_alpha = False;
     
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSApplication *application = [NSApplication sharedApplication];
-    ApplicationDelegate *delegate = [[ApplicationDelegate alloc] init];
-    [application setDelegate: delegate];
-    [application activateIgnoringOtherApps: YES];
-    [pool drain];
+    @autoreleasepool {
+        NSApplication *application = [NSApplication sharedApplication];
+        ApplicationDelegate *delegate = [[ApplicationDelegate alloc] init];
+        [application setDelegate: delegate];
+        [application activateIgnoringOtherApps: YES];
+    }
     
     return 0;
 }
@@ -66,108 +66,105 @@ EF_Drawable ef_video_new_drawable(int width,
     // Create the window-manager connection, if it doesn't exist.
     [NSApplication sharedApplication];
     
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSOpenGLPixelFormatAttribute attributes[30];
-    int point = 0;
+    @autoreleasepool {
+        NSOpenGLPixelFormatAttribute attributes[30];
+        int point = 0;
 
-    if(drawable_parameters.double_buffer) {
-	attributes[point] = NSOpenGLPFADoubleBuffer;
-	point++;
+        if(drawable_parameters.double_buffer) {
+            attributes[point] = NSOpenGLPFADoubleBuffer;
+            point++;
+        }
+    
+        if(drawable_parameters.stereo) {
+            attributes[point] = NSOpenGLPFAStereo;
+            point++;
+        }
+    
+        attributes[point] = NSOpenGLPFAAuxBuffers;
+        point++;
+        attributes[point] = drawable_parameters.aux_buffers;
+        point++;
+
+        attributes[point] = NSOpenGLPFAColorSize;
+        point++;
+        attributes[point] = drawable_parameters.color_size;
+        point++;
+    
+        attributes[point] = NSOpenGLPFAAlphaSize;
+        point++;
+        attributes[point] = drawable_parameters.alpha_size;
+        point++;
+    
+        attributes[point] = NSOpenGLPFADepthSize;
+        point++;
+        attributes[point] = drawable_parameters.depth_size;
+        point++;
+
+        attributes[point] = NSOpenGLPFAStencilSize;
+        point++;
+        attributes[point] = drawable_parameters.stencil_size;
+        point++;
+
+        attributes[point] = NSOpenGLPFAAccumSize;
+        point++;
+        attributes[point] = drawable_parameters.accumulation_size;
+        point++;
+    
+        if(drawable_parameters.multisample || drawable_parameters.supersample) {
+        attributes[point] = NSOpenGLPFASampleBuffers;
+        point++;
+        attributes[point] = 1;
+        point++;
+    
+        attributes[point] = NSOpenGLPFASamples;
+        point++;
+        attributes[point] = drawable_parameters.samples;
+        point++;
+
+        if(drawable_parameters.multisample) {
+            attributes[point] = NSOpenGLPFAMultisample;
+            point++;
+        }
+    
+        if(drawable_parameters.supersample) {
+            attributes[point] = NSOpenGLPFASupersample;
+            point++;
+        }
+        }
+    
+        if(drawable_parameters.aux_depth_stencil) {
+        attributes[point] = NSOpenGLPFAAuxDepthStencil;
+        point++;
+        }
+    
+        if(drawable_parameters.color_float) {
+        attributes[point] = NSOpenGLPFAColorFloat;
+        point++;
+        }
+
+        if(drawable_parameters.sample_alpha) {
+        attributes[point] = NSOpenGLPFASampleAlpha;
+        point++;
+        }
+    
+        attributes[point] = 0;
+    
+        NSOpenGLPixelFormat *pixelFormat
+        = [[NSOpenGLPixelFormat alloc] initWithAttributes: attributes];
+        Drawable *drawable = [[Drawable alloc] initWithWidth: width
+                           height: height
+                           display: nil
+                           fullScreen: full_screen
+                           pixelFormat: pixelFormat];
+        
+        return (__bridge EF_Drawable) drawable;
     }
-    
-    if(drawable_parameters.stereo) {
-	attributes[point] = NSOpenGLPFAStereo;
-	point++;
-    }
-    
-    attributes[point] = NSOpenGLPFAAuxBuffers;
-    point++;
-    attributes[point] = drawable_parameters.aux_buffers;
-    point++;
-
-    attributes[point] = NSOpenGLPFAColorSize;
-    point++;
-    attributes[point] = drawable_parameters.color_size;
-    point++;
-    
-    attributes[point] = NSOpenGLPFAAlphaSize;
-    point++;
-    attributes[point] = drawable_parameters.alpha_size;
-    point++;
-    
-    attributes[point] = NSOpenGLPFADepthSize;
-    point++;
-    attributes[point] = drawable_parameters.depth_size;
-    point++;
-
-    attributes[point] = NSOpenGLPFAStencilSize;
-    point++;
-    attributes[point] = drawable_parameters.stencil_size;
-    point++;
-
-    attributes[point] = NSOpenGLPFAAccumSize;
-    point++;
-    attributes[point] = drawable_parameters.accumulation_size;
-    point++;
-    
-    if(drawable_parameters.multisample || drawable_parameters.supersample) {
-	attributes[point] = NSOpenGLPFASampleBuffers;
-	point++;
-	attributes[point] = 1;
-	point++;
-    
-	attributes[point] = NSOpenGLPFASamples;
-	point++;
-	attributes[point] = drawable_parameters.samples;
-	point++;
-
-	if(drawable_parameters.multisample) {
-	    attributes[point] = NSOpenGLPFAMultisample;
-	    point++;
-	}
-	
-	if(drawable_parameters.supersample) {
-	    attributes[point] = NSOpenGLPFASupersample;
-	    point++;
-	}
-    }
-    
-    if(drawable_parameters.aux_depth_stencil) {
-	attributes[point] = NSOpenGLPFAAuxDepthStencil;
-	point++;
-    }
-    
-    if(drawable_parameters.color_float) {
-	attributes[point] = NSOpenGLPFAColorFloat;
-	point++;
-    }
-
-    if(drawable_parameters.sample_alpha) {
-	attributes[point] = NSOpenGLPFASampleAlpha;
-	point++;
-    }
-    
-    attributes[point] = 0;
-    
-    NSOpenGLPixelFormat *pixelFormat
-	= [[NSOpenGLPixelFormat alloc] initWithAttributes: attributes];
-    Drawable *drawable = [[Drawable alloc] initWithWidth: width
-					   height: height
-					   display: nil
-					   fullScreen: full_screen
-					   pixelFormat: pixelFormat];
-    [pixelFormat release];
-
-    [pool drain];
-    
-    return (EF_Drawable) drawable;
 }
 
 
 void ef_drawable_set_title(EF_Drawable drawable, utf8 *title) {
     NSString *titleString = [NSString stringWithUTF8String: (char *) title];
-    [(Drawable *) drawable setTitle: titleString];
+    [(__bridge Drawable *) drawable setTitle: titleString];
 }
 
 
@@ -176,22 +173,22 @@ void ef_drawable_set_draw_callback(EF_Drawable drawable,
 						    void *context),
 				   void *context)
 {
-    [(Drawable *) drawable setDrawCallback: callback context: context];
+    [(__bridge Drawable *) drawable setDrawCallback: callback context: context];
 }
 
 
 void ef_drawable_redraw(EF_Drawable drawable) {
-    [(Drawable *) drawable redraw];
+    [(__bridge Drawable *) drawable redraw];
 }
 
 
 void ef_drawable_make_current(EF_Drawable drawable) {
-    [(Drawable *) drawable makeCurrent];
+    [(__bridge Drawable *) drawable makeCurrent];
 }
 
 
 void ef_drawable_swap_buffers(EF_Drawable drawable) {
-    [(Drawable*) drawable swapBuffers];
+    [(__bridge Drawable*) drawable swapBuffers];
 }
 
 
@@ -266,7 +263,7 @@ void ef_video_set_sample_alpha(int sample_alpha) {
 
 
 EF_Display ef_video_current_display() {
-    return (EF_Display) [NSScreen mainScreen];
+    return (__bridge EF_Display) [NSScreen mainScreen];
 }
 
 
@@ -277,7 +274,7 @@ EF_Display ef_video_next_display(EF_Display previous) {
     if(!previous) {
 	index = 0;
     } else {
-	NSUInteger previousIndex = [screens indexOfObject: (NSScreen *) previous];
+	NSUInteger previousIndex = [screens indexOfObject: (__bridge NSScreen *) previous];
 	if(previousIndex == NSNotFound)
 	    return NULL;
 	else
@@ -285,26 +282,26 @@ EF_Display ef_video_next_display(EF_Display previous) {
     }
     
     if(index + 1 < [screens count])
-	return (EF_Display) [screens objectAtIndex: index];
+	return (__bridge EF_Display) [screens objectAtIndex: index];
     else
 	return NULL;
 }
 
 
 int ef_display_depth(EF_Display display) {
-    NSWindowDepth depth = [(NSScreen *) display depth];
+    NSWindowDepth depth = [(__bridge NSScreen *) display depth];
     return NSBitsPerPixelFromDepth(depth);
 }
 
 
 int ef_display_width(EF_Display display) {
-    NSRect frame = [(NSScreen *) display frame];
+    NSRect frame = [(__bridge NSScreen *) display frame];
     return floorf(frame.size.width);
 }
 
 
 int ef_display_height(EF_Display display) {
-    NSRect frame = [(NSScreen *) display frame];
+    NSRect frame = [(__bridge NSScreen *) display frame];
     return floorf(frame.size.height);
 }
 
@@ -313,17 +310,15 @@ EF_Error ef_video_load_texture_file(utf8 *filename,
 				    GLuint id,
 				    int build_mipmaps)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSString *filenameString = [NSString stringWithUTF8String: (char *) filename];
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile: filenameString];
-    if(!image) {
-	[pool drain];
-	return EF_ERROR_FILE;
+    @autoreleasepool {
+        NSString *filenameString = [NSString stringWithUTF8String: (char *) filename];
+        NSImage *image = [[NSImage alloc] initWithContentsOfFile: filenameString];
+        if(!image) {
+            return EF_ERROR_FILE;
+        }
+        EF_Error result = ef_internal_video_load_texture_nsimage(image, id, build_mipmaps);
+        return result;
     }
-    EF_Error result = ef_internal_video_load_texture_nsimage(image, id, build_mipmaps);
-    [image release];
-    [pool drain];
-    return result;
 }
 
 
@@ -331,13 +326,12 @@ EF_Error ef_video_load_texture_memory(uint8_t *bytes, size_t size,
 				      GLuint id,
 				      int build_mipmaps)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSData *data = [NSData dataWithBytes: (void *) bytes length: (NSUInteger) size];
-    NSImage *image = [[NSImage alloc] initWithData: data];
-    EF_Error result = ef_internal_video_load_texture_nsimage(image, id, build_mipmaps);
-    [image release];
-    [pool drain];
-    return result;
+    @autoreleasepool {
+        NSData *data = [NSData dataWithBytes: (void *) bytes length: (NSUInteger) size];
+        NSImage *image = [[NSImage alloc] initWithData: data];
+        EF_Error result = ef_internal_video_load_texture_nsimage(image, id, build_mipmaps);
+        return result;
+    }
 }
 
 
@@ -400,8 +394,8 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 	word_aligned = True;
 	break;
     default:
-	NSLog(@"Bitmap image representation has %i bits per pixel.",
-	      [imageRepresentation bitsPerPixel]);
+	NSLog(@"Bitmap image representation has %li bits per pixel.",
+	      (long)[imageRepresentation bitsPerPixel]);
 	return EF_ERROR_IMAGE_DATA;
     }
 
@@ -413,8 +407,8 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 	pixel_format = GL_RGBA;
 	break;
     default:
-	NSLog(@"Bitmap image representation has %i samples per pixel.",
-	      [imageRepresentation samplesPerPixel]);
+	NSLog(@"Bitmap image representation has %li samples per pixel.",
+	      (long)[imageRepresentation samplesPerPixel]);
 	return EF_ERROR_IMAGE_DATA;
     }
 
@@ -423,7 +417,7 @@ static EF_Error ef_internal_video_load_texture_nsimage(NSImage *image,
 	component_format = GL_UNSIGNED_BYTE;
 	break;
     default:
-	NSLog(@"Bitmap image representation has %i bits per sample.",
+	NSLog(@"Bitmap image representation has %li bits per sample.",
 	      [imageRepresentation bitsPerPixel] / [imageRepresentation samplesPerPixel]);
 	return EF_ERROR_IMAGE_DATA;
     }

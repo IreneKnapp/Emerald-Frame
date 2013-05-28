@@ -19,7 +19,7 @@ void ef_input_set_key_down_callback(EF_Drawable drawable,
 						     void *context),
 				    void *context)
 {
-    [(Drawable *) drawable setKeyDownCallback: callback context: context];
+    [(__bridge Drawable *) drawable setKeyDownCallback: callback context: context];
 }
 
 
@@ -29,7 +29,7 @@ void ef_input_set_key_up_callback(EF_Drawable drawable,
 						   void *context),
 				  void *context)
 {
-    [(Drawable *) drawable setKeyUpCallback: callback context: context];
+    [(__bridge Drawable *) drawable setKeyUpCallback: callback context: context];
 }
 
 
@@ -39,7 +39,7 @@ void ef_input_set_mouse_down_callback(EF_Drawable drawable,
 						       void *context),
 				      void *context)
 {
-    [(Drawable *) drawable setMouseDownCallback: callback context: context];
+    [(__bridge Drawable *) drawable setMouseDownCallback: callback context: context];
 }
 
 
@@ -49,7 +49,7 @@ void ef_input_set_mouse_up_callback(EF_Drawable drawable,
 						     void *context),
 				    void *context)
 {
-    [(Drawable *) drawable setMouseUpCallback: callback context: context];
+    [(__bridge Drawable *) drawable setMouseUpCallback: callback context: context];
 }
 
 
@@ -59,7 +59,7 @@ void ef_input_set_mouse_move_callback(EF_Drawable drawable,
 						       void *context),
 				      void *context)
 {
-    [(Drawable *) drawable setMouseMoveCallback: callback context: context];
+    [(__bridge Drawable *) drawable setMouseMoveCallback: callback context: context];
 }
 
 
@@ -69,7 +69,7 @@ void ef_input_set_mouse_enter_callback(EF_Drawable drawable,
 							void *context),
 				       void *context)
 {
-    [(Drawable *) drawable setMouseEnterCallback: callback context: context];
+    [(__bridge Drawable *) drawable setMouseEnterCallback: callback context: context];
 }
 
 
@@ -79,17 +79,17 @@ void ef_input_set_mouse_exit_callback(EF_Drawable drawable,
 						       void *context),
 				      void *context)
 {
-    [(Drawable *) drawable setMouseExitCallback: callback context: context];
+    [(__bridge Drawable *) drawable setMouseExitCallback: callback context: context];
 }
 
 
 uint64_t ef_event_timestamp(EF_Event event) {
-    return floor(1000.0 * [(NSEvent *) event timestamp]);
+    return floor(1000.0 * [(__bridge NSEvent *) event timestamp]);
 }
 
 
 EF_Modifiers ef_event_modifiers(EF_Event event) {
-    NSUInteger osModifiers = [(NSEvent *) event modifierFlags];
+    NSUInteger osModifiers = [(__bridge NSEvent *) event modifierFlags];
     EF_Modifiers efModifiers = 0;
     
     if(osModifiers & NSAlphaShiftKeyMask)
@@ -108,51 +108,49 @@ EF_Modifiers ef_event_modifiers(EF_Event event) {
 
 
 EF_Keycode ef_event_keycode(EF_Event event) {
-    return [(NSEvent *) event keyCode];
+    return [(__bridge NSEvent *) event keyCode];
 }
 
 
 utf8 *ef_event_string(EF_Event event) {
     static utf8 *result_buffer = NULL;
     static size_t result_buffer_size = 0;
-
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    NSString *string = [(NSEvent *) event characters];
-    
-    size_t required_buffer_size
-	= [string lengthOfBytesUsingEncoding: NSUTF8StringEncoding] + 1;
-    while(required_buffer_size > result_buffer_size) {
-	if(result_buffer_size == 0)
-	    result_buffer_size = 8;
-	else
-	    result_buffer_size *= 2;
+    @autoreleasepool {
+        NSString *string = [(__bridge NSEvent *) event characters];
+        
+        size_t required_buffer_size
+        = [string lengthOfBytesUsingEncoding: NSUTF8StringEncoding] + 1;
+        while(required_buffer_size > result_buffer_size) {
+        if(result_buffer_size == 0)
+            result_buffer_size = 8;
+        else
+            result_buffer_size *= 2;
 
-	result_buffer = realloc(result_buffer, result_buffer_size * sizeof(uint8_t));
+        result_buffer = realloc(result_buffer, result_buffer_size * sizeof(uint8_t));
+        }
+        NSUInteger usedLength;
+        [string getBytes: result_buffer
+            maxLength: result_buffer_size
+            usedLength: &usedLength
+            encoding: NSUTF8StringEncoding
+            options: 0
+            range: NSMakeRange(0, [string length])
+            remainingRange: NULL];
+        result_buffer[usedLength] = '\0';
     }
-    NSUInteger usedLength;
-    [string getBytes: result_buffer
-	    maxLength: result_buffer_size
-	    usedLength: &usedLength
-	    encoding: NSUTF8StringEncoding
-	    options: 0
-	    range: NSMakeRange(0, [string length])
-	    remainingRange: NULL];
-    result_buffer[usedLength] = '\0';
-    
-    [pool drain];
 
     return result_buffer;
 }
 
 
 int ef_event_button_number(EF_Event event) {
-    return [(NSEvent *) event buttonNumber];
+    return [(__bridge NSEvent *) event buttonNumber];
 }
 
 
 int ef_event_click_count(EF_Event event) {
-    return [(NSEvent *) event clickCount];
+    return [(__bridge NSEvent *) event clickCount];
 }
 
 
@@ -334,10 +332,10 @@ utf8 *ef_input_keycode_string(EF_Keycode keycode,
 
 
 int32_t ef_event_mouse_x(EF_Event event) {
-    return floorf([(NSEvent *) event locationInWindow].x);
+    return floorf([(__bridge NSEvent *) event locationInWindow].x);
 }
 
 
 int32_t ef_event_mouse_y(EF_Event event) {
-    return floorf([(NSEvent *) event locationInWindow].y);
+    return floorf([(__bridge NSEvent *) event locationInWindow].y);
 }

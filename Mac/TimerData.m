@@ -21,7 +21,7 @@
 
 - (void) invoke: (NSTimer *) timer {
     if(callback) {
-	callback((EF_Timer) timer, context);
+	callback((__bridge EF_Timer) timer, context);
     }
 }
 

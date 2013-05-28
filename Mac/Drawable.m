@@ -64,13 +64,6 @@ extern utf8 *ef_internal_application_name();
 }
 
 
-- (void) release {
-    [window release];
-    [openGLView release];
-    [super release];
-}
-
-
 - (void) setTitle: (NSString *) title {
     [window setTitle: title];
 }
@@ -78,15 +71,15 @@ extern utf8 *ef_internal_application_name();
 
 - (void) draw {
     if(drawCallback) {
-	drawCallback((EF_Drawable) self, drawCallbackContext);
+	drawCallback((__bridge EF_Drawable) self, drawCallbackContext);
     }
 }
 
 
 - (void) keyDown: (NSEvent *) event {
     if(keyDownCallback) {
-	keyDownCallback((EF_Drawable) self,
-			(EF_Event) event,
+	keyDownCallback((__bridge EF_Drawable) self,
+			(__bridge EF_Event) event,
 			keyDownCallbackContext);
     }
 }
@@ -94,8 +87,8 @@ extern utf8 *ef_internal_application_name();
 
 - (void) keyUp: (NSEvent *) event {
     if(keyUpCallback) {
-	keyUpCallback((EF_Drawable) self,
-		      (EF_Event) event,
+	keyUpCallback((__bridge EF_Drawable) self,
+		      (__bridge EF_Event) event,
 		      keyUpCallbackContext);
     }
 }
@@ -103,8 +96,8 @@ extern utf8 *ef_internal_application_name();
 
 - (void) mouseDown: (NSEvent *) event {
     if(mouseDownCallback) {
-	mouseDownCallback((EF_Drawable) self,
-			  (EF_Event) event,
+	mouseDownCallback((__bridge EF_Drawable) self,
+			  (__bridge EF_Event) event,
 			  mouseDownCallbackContext);
     }
 }
@@ -112,8 +105,8 @@ extern utf8 *ef_internal_application_name();
 
 - (void) mouseUp: (NSEvent *) event {
     if(mouseUpCallback) {
-	mouseUpCallback((EF_Drawable) self,
-			(EF_Event) event,
+	mouseUpCallback((__bridge EF_Drawable) self,
+			(__bridge EF_Event) event,
 			mouseUpCallbackContext);
     }
 }
@@ -121,8 +114,8 @@ extern utf8 *ef_internal_application_name();
 
 - (void) mouseMove: (NSEvent *) event {
     if(mouseMoveCallback) {
-	mouseMoveCallback((EF_Drawable) self,
-			  (EF_Event) event,
+	mouseMoveCallback((__bridge EF_Drawable) self,
+			  (__bridge EF_Event) event,
 			  mouseMoveCallbackContext);
     }
 }
@@ -130,8 +123,8 @@ extern utf8 *ef_internal_application_name();
 
 - (void) mouseEnter: (NSEvent *) event {
     if(mouseEnterCallback) {
-	mouseEnterCallback((EF_Drawable) self,
-			   (EF_Event) event,
+	mouseEnterCallback((__bridge EF_Drawable) self,
+			   (__bridge EF_Event) event,
 			   mouseEnterCallbackContext);
     }
 }
@@ -139,8 +132,8 @@ extern utf8 *ef_internal_application_name();
 
 - (void) mouseExit: (NSEvent *) event {
     if(mouseExitCallback) {
-	mouseExitCallback((EF_Drawable) self,
-			  (EF_Event) event,
+	mouseExitCallback((__bridge EF_Drawable) self,
+			  (__bridge EF_Event) event,
 			  mouseExitCallbackContext);
     }
 }

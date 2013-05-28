@@ -20,20 +20,18 @@ EF_Timer ef_time_new_oneshot_timer(int milliseconds,
 				   void (*callback)(EF_Timer timer, void *context),
 				   void *context)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    TimerData *timerData = [[TimerData alloc] initWithCallback: callback
-					      context: context];
-    NSTimer *timer
-	= [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) milliseconds / 1000.0
-		   target: [NSApp delegate]
-		   selector: @selector(timer:)
-		   userInfo: timerData
-		   repeats: NO];
-
-    [pool drain];
-    
-    return (EF_Timer) timer;
+    @autoreleasepool {
+        TimerData *timerData = [[TimerData alloc] initWithCallback: callback
+                                                           context: context];
+        NSTimer *timer
+        = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) milliseconds / 1000.0
+                                           target: [NSApp delegate]
+                                         selector: @selector(timer:)
+                                         userInfo: timerData
+                                          repeats: NO];
+        
+        return (__bridge EF_Timer) timer;
+    }
 }
 
 
@@ -41,32 +39,30 @@ EF_Timer ef_time_new_repeating_timer(int milliseconds,
 				     void (*callback)(EF_Timer timer, void *context),
 				     void *context)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    TimerData *timerData = [[TimerData alloc] initWithCallback: callback
-					      context: context];
-    NSTimer *timer
-	= [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) milliseconds / 1000.0
-		   target: [NSApp delegate]
-		   selector: @selector(timer:)
-		   userInfo: timerData
-		   repeats: YES];
-
-    [pool drain];
-    
-    return (EF_Timer) timer;
+    @autoreleasepool {
+        TimerData *timerData = [[TimerData alloc] initWithCallback: callback
+                                                           context: context];
+        NSTimer *timer
+        = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) milliseconds / 1000.0
+                                           target: [NSApp delegate]
+                                         selector: @selector(timer:)
+                                         userInfo: timerData
+                                          repeats: YES];
+        
+        return (__bridge EF_Timer) timer;
+    }
 }
 
 
 void ef_timer_cancel(EF_Timer timer) {
-    [(NSTimer *) timer invalidate];
+    [(__bridge NSTimer *) timer invalidate];
 }
 
 
 uint64_t ef_time_unix_epoch() {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
-    uint64_t result = floor(interval * 1000.0);
-    [pool drain];
-    return result;
+    @autoreleasepool {
+        NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
+        uint64_t result = floor(interval * 1000.0);
+        return result;
+    }
 }

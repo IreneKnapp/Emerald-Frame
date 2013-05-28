@@ -90,7 +90,7 @@ EF_Error ef_audio_load_sound_memory(uint8_t *data, size_t size, ALuint id) {
 				       0,
 				       &file);
     if(error) {
-	NSLog(@"AudioFileOpenWithCallbacks: OS error %li\n", error);
+	NSLog(@"AudioFileOpenWithCallbacks: OS error %i\n", error);
 	return EF_ERROR_INTERNAL;
     }
     
@@ -154,7 +154,7 @@ static EF_Error ef_internal_audio_load_sound_audiofileid(AudioFileID inFile, ALu
 				 &formatSize,
 				 &inFormat);
     if(error) {
-	NSLog(@"AudioFileGetProperty: OS error %li\n", error);
+	NSLog(@"AudioFileGetProperty: OS error %i\n", error);
 	return EF_ERROR_FILE;
     }
     
@@ -181,7 +181,7 @@ static EF_Error ef_internal_audio_load_sound_audiofileid(AudioFileID inFile, ALu
     error = ExtAudioFileWrapAudioFileID(inFile, false, &inExtFile);
     if(error) {
 	AudioFileClose(inFile);
-	NSLog(@"ExtAudioFileWrapAudioFileID: OS error %li\n", error);
+	NSLog(@"ExtAudioFileWrapAudioFileID: OS error %i\n", error);
 	return EF_ERROR_INTERNAL;
     }
     
@@ -191,7 +191,7 @@ static EF_Error ef_internal_audio_load_sound_audiofileid(AudioFileID inFile, ALu
 				    &memoryFormat);
     if(error) {
 	ExtAudioFileDispose(inExtFile);
-	NSLog(@"ExtAudioFileSetProperty: OS error %li\n", error);
+	NSLog(@"ExtAudioFileSetProperty: OS error %i\n", error);
 	return EF_ERROR_INTERNAL;
     }
 
@@ -203,7 +203,7 @@ static EF_Error ef_internal_audio_load_sound_audiofileid(AudioFileID inFile, ALu
 				    &fileLengthFrames);
     if(error) {
 	ExtAudioFileDispose(inExtFile);
-	NSLog(@"ExtAudioFileGetProperty: OS error %li\n", error);
+	NSLog(@"ExtAudioFileGetProperty: OS error %i\n", error);
 	return EF_ERROR_INTERNAL;
     }
 
@@ -221,7 +221,7 @@ static EF_Error ef_internal_audio_load_sound_audiofileid(AudioFileID inFile, ALu
     if(error) {
 	free(memoryBuffer);
 	ExtAudioFileDispose(inExtFile);
-	NSLog(@"ExtAudioFileRead: OS error %li\n", error);
+	NSLog(@"ExtAudioFileRead: OS error %i\n", error);
 	return EF_ERROR_INTERNAL;
     }
     
